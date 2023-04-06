@@ -20,24 +20,24 @@ export const defaultNavItems: NavItem[] = [
     icon: <BanknotesIcon className="w-5 h-5" />,
   },
   {
-    label: "Supplier List",
-    href: "/SupplierList",
-    icon: <ArchiveBoxIcon className="w-5 h-5" />,
-  },
-  {
-    label: "Inventory",
-    href: "/Inventory",
+    label: "Inventory List",
+    href: "/InventoryList",
     icon: <ClipboardDocumentIcon className="w-5 h-5" />,
   },
   {
-    label: "Manage Orders",
-    href: "/ManageOrders",
-    icon: <HomeIcon className="w-5 h-5" />,
+    label: "Company List",
+    href: "/CompanyList",
+    icon: <ArchiveBoxIcon className="w-5 h-5" />,
   },
   {
     label: "Manage Carts",
     href: "/ManageCarts",
     icon: <ShoppingCartIcon className="w-5 h-5" />,
+  },
+  {
+    label: "Manage Orders",
+    href: "/ManageOrders",
+    icon: <HomeIcon className="w-5 h-5" />,
   },
   {
     label: "Manage Users",

@@ -41,10 +41,12 @@ const Navbar = (props: Props) => {
       <input
         type="text"
         placeholder="Search..."
-        className="bg-white text-black px-4 py-1 w-full md:w-auto md:flex-grow-0 rounded"
+        className="bg-white text-black px-4 py-0.5 md:w-full md:w-auto rounded"
       />
 
       <div className="flex-grow"></div>
+      
+      <div className="hidden lg:block text-md mr-2">Store</div>
 
       <button onClick={handleLogout} className="flex items-center">
         <div className="hidden lg:block text-md mr-2">Logout</div>

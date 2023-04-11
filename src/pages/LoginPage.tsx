@@ -18,30 +18,29 @@ const LoginPage: React.FC = () => {
               <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                 <ul className="list-disc space-y-2">
 
-                  <li className="flex items-start">
-                    <span className="h-6 flex items-center sm:h-7">
-                    Email
+                <li className="flex items-start text-sm">
+                    <span className="h-6 flex items-center sm:h-7 text-friendly-black">
+                     Email
                     </span>
                   </li>
-
                   <div className="relative flex max-w-[600px]">
                     <input
                       type="text"
-                      placeholder="Username"
-                      className="bg-white text-black px-4 outline py-1.5 w-full rounded-md shadow-2xl border-2 border-transparent hover:border-green-500"
+                      placeholder="Enter Email..."
+                      className="bg-hover-white2 text-black px-4  py-1.5 w-full rounded-md hover:shadow-2xl border-2 border-transparent hover:border-green-500"
                     />
                   </div>
 
-                  <li className="flex items-start">
-                    <span className="h-6 flex items-center sm:h-7">
+                  <li className="flex items-start text-sm">
+                    <span className="h-6 flex items-center sm:h-7 text-friendly-black">
                      Password
                     </span>
                   </li>
                   <div className="relative flex max-w-[600px]">
                     <input
                       type="text"
-                      placeholder="Password"
-                      className="bg-white text-black px-4 outline py-1.5 w-full rounded-md shadow-2xl border-2 border-transparent hover:border-green-500"
+                      placeholder="Enter Password..."
+                      className="bg-hover-white2 text-black px-4  py-1.5 w-full rounded-md hover:shadow-2xl border-2 border-transparent hover:border-green-500"
                     />
                   </div>
 

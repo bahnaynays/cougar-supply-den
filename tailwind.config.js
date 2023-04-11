@@ -20,6 +20,8 @@ module.exports = {
           'cougar-dark-red': '#960c22',
           'bright-white': '#ffffff',
           'hover-white': '#eaeded',
+          'hover-white2': '#e7e7e7',
+          'hover-white3': '#7f7e83',
           'friendly-black': '#121212',
           'friendly-grey': '#f2f2f2',
           'friendly-black2': '#919191',

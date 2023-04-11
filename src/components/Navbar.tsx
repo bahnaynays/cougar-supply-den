@@ -106,7 +106,7 @@ const Navbar = (props: Props) => {
             height={36}
             width={36}
             alt="profile image"
-            className="rounded-full"
+            className="rounded-full max-w-64 max-h-64"
           />
 
       <div className="flex flex-col"></div>
@@ -123,7 +123,11 @@ const Navbar = (props: Props) => {
       </div>
 
       <button onClick={handleLogout} className="flex items-center">
-        <div className="hidden lg:block text-md mr-2">Logout</div>
+
+        <Link href="/LoginPage" className="text-bright-white hidden lg:block text-md mr-2">
+            Logout
+        </Link>
+
         <ArrowLeftOnRectangleIcon className="h-5 w-5" />
       </button>
 

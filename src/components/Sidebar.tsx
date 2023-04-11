@@ -10,7 +10,7 @@ import { NavItemsManagement } from "./NavItemsManagement";
 import { NavItemsStockReports } from "./NavItemsStockReports";
 import { NavItemsSubjectLists } from "./NavItemsSubjectLists";
 
-
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 
 // define a NavItem prop
@@ -34,6 +34,9 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
 
   return (
     <>
+                <button className="absolute inset-y-0 right-0 flex items-center px-4">
+              <XMarkIcon className="h-6 w-6 text-gray-500" />
+            </button>
       <div
         className={classNames(
           "fixed inset-0 bg-black transition-opacity duration-200",

@@ -1,7 +1,13 @@
+import classNames from 'classnames';
+import Link from 'next/link';
 import React from 'react';
 
 const WebsiteRepository: React.FC = () => {
   return (
+    <>
+
+
+    
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow-xl rounded-1xl sm:p-10">
@@ -16,16 +22,23 @@ const WebsiteRepository: React.FC = () => {
                 <ul className="list-disc space-y-2">
                   <li className="flex items-start">
                     <span className="h-6 flex items-center sm:h-7">
-                      Currently the repository  for this project is private due to confidential database information regarding student creditentials.
+                      Currently the repository  for this project is private due to confidential database information regarding student creditentials. This section will be public during presentations for educational purposes.
+
                     </span>
+                    
                   </li>
                 </ul>
               </div>
+
             </div>
+            <Link href="https://github.com/caoboyeehaw/my-chatgpt-app2-main" className="text-friendly-black hover:shadow-lg text-sm mt-5 font-bold rounded-lg p-2 hover:bg-bright-white">
+                    Gitub Project Repository
+                </Link>
           </div>
         </div>
       </div>
     </div>
+    </>
   );
 };
 

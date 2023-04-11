@@ -23,10 +23,11 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
   });
   return (
     <div
+      //make it so that the log is also on the sidebar and the ui fades for the whole screen
       className={classNames({
         "flex flex-col justify-between": true, // layout
-        "bg-zinc-800 text-zinc-50": true, // colors
-        "md:w-full md:sticky md:top-16 md:z-0 top-12 z-20 fixed": true, // positioning
+        "bg-zinc-900 text-zinc-50": true, // colors
+        "md:w-full md:sticky md:top-16 md:z-0 top-0 z-20 fixed": true, // positioning
         "md:h-[calc(100vh_-_64px)] h-full w-[256px] ": true, // for height and width
         "transition-transform .3s ease-in-out md:-translate-x-0": true, //animations
         "-translate-x-full ": !open, //hide sidebar to the left when closed
@@ -41,7 +42,7 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
               <Link key={index} href={item.href}>
                 <li
                   className={classNames({
-                    "text-indigo-100 hover:bg-zinc-700 hover:bg-opacity-70 hover:shadow-lg": true, //colors
+                    "text-indigo-100 hover:bg-zinc-800 hover:bg-opacity-70 hover:shadow-lg": true, //colors
                     "flex gap-4 items-center ": true, //layout
                     "transition-colors duration-200": true, //animation
                     "rounded-md p-2 mx-2": true, //self style
@@ -55,7 +56,7 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
         </ul>
       </nav>
       {/* account  */}
-      <div className="border-t-2 border-t-zinc-700 p-4">
+      <div className="border-t-2 border-t-zinc-800 p-4">
         <div className="flex gap-4 items-center">
           <Image
             src={

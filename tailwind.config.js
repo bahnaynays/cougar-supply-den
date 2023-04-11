@@ -14,6 +14,11 @@ module.exports = {
         gridTemplateRows: {
           header: "64px auto", // 👈 for the navbar layout. adds grid-rows-header class
         },
+
+        colors: {
+          'cougar-red': '#960c22',
+        },
+
       },
     },
     variants: {

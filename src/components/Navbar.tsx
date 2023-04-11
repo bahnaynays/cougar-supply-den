@@ -23,9 +23,9 @@ const Navbar = (props: Props) => {
   return (
     <nav
       className={classNames({
-        "bg-zinc-800 text-zinc-100": true, // colors
+        "bg-zinc-900 text-zinc-100": true, // colors
         "flex items-center": true, // layout
-        "w-full fixed z-10 px-4 shadow h-12 shadow-lg": true, //positioning & styling
+        "w-full fixed z-10 px-4 shadow h-16 shadow-lg": true, //positioning & styling
       })}
     >
       <button className="md:hidden" onClick={props.onMenuButtonClick}>
@@ -36,15 +36,16 @@ const Navbar = (props: Props) => {
         <div className="font-bold text-md p-2">Cougar Supply Den</div>
       </button>
 
-      <div className="flex-grow"></div>
+      <div className="flex-grow mx-5"></div>
 
       <input
         type="text"
-        placeholder="Search..."
-        className="bg-white text-black px-4 py-0.5 md:w-full md:w-auto rounded"
+        placeholder="Search Anything"
+        className="bg-white text-black px-4 py-1 md:w-full md:w-auto rounded shadow-2xl"
       />
 
       <div className="flex-grow"></div>
+      <div className="flex-grow mx-5"></div>
       
       <div className="hidden lg:block text-md mr-2">Store</div>
 

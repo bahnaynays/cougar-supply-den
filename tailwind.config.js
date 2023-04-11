@@ -21,6 +21,7 @@ module.exports = {
           'bright-white': '#ffffff',
           'hover-white': '#eaeded',
           'friendly-black': '#121212',
+          'friendly-grey': '#f2f2f2',
         },
 
       },

@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 const Layout = (props: PropsWithChildren) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
-    <div className="grid min-h-screen grid-rows-header bg-bright-white ">
+    <div className="grid min-h-screen grid-rows-header bg-friendly-grey ">
       <div>
         <Navbar onMenuButtonClick={() => setSidebarOpen((prev) => !prev)} />
       </div>

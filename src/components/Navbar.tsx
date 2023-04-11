@@ -25,23 +25,19 @@ const Navbar = (props: Props) => {
       className={classNames({
         "bg-cougar-dark-red text-zinc-100": true, // colors
         "flex items-center": true, // layout
-        "w-full fixed z-10 px-4 shadow h-16 shadow-lg": true, //positioning & styling
+        "w-full fixed z-10 px-4 shadow-2-xl h-16": true, //positioning & styling
       })}
     >
-      <button className="md:hidden" onClick={props.onMenuButtonClick}>
-        <Bars3Icon className="h-6 w-6" />
+      <button className="" onClick={props.onMenuButtonClick}>
+        <Bars3Icon className="h-7 w-7" />
       </button>
       
-      <button onClick={navigateToHomePage} className="focus:outline-none">
-        <div className="font-bold text-md p-2">Cougar Supply Den</div>
-
-        <div className="text=sm">
-          <h1>put the image here</h1>
-          <img>
-          </img>  
+      <button onClick={navigateToHomePage} className="focus:outline-2">
+        <div className="font-bold text-md p-2"></div>
+        <div className="text-sm">
+          {/* Replace 'your-image-url' with the actual image URL */}
+          <img className="w-540 h-135 scale-50 -mt-4 " src="https://i.postimg.cc/4dZLzP3v/cougar-supply-den-full-logo-alpha.png" alt="" />
         </div>
-
-
       </button>
 
       <div className="flex-grow mx-5"></div>
@@ -49,11 +45,11 @@ const Navbar = (props: Props) => {
       <input
         type="text"
         placeholder="Search Anything"
-        className="bg-white text-black px-4 py-1 w-full rounded shadow-2xl"
+        className="bg-white text-black px-4 py-1.5 w-full rounded shadow-2xl"
       />
 
       <div className="flex-grow"></div>
-      <div className="flex-grow mx-5"></div>
+      <div className="flex-grow mx-1"></div>
       
       <div className="hidden lg:block text-md mr-2">Store</div>
 

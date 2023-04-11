@@ -23,7 +23,7 @@ const Navbar = (props: Props) => {
   return (
     <nav
       className={classNames({
-        "bg-zinc-900 text-zinc-100": true, // colors
+        "bg-cougar-dark-red text-zinc-100": true, // colors
         "flex items-center": true, // layout
         "w-full fixed z-10 px-4 shadow h-16 shadow-lg": true, //positioning & styling
       })}
@@ -31,9 +31,17 @@ const Navbar = (props: Props) => {
       <button className="md:hidden" onClick={props.onMenuButtonClick}>
         <Bars3Icon className="h-6 w-6" />
       </button>
-
+      
       <button onClick={navigateToHomePage} className="focus:outline-none">
         <div className="font-bold text-md p-2">Cougar Supply Den</div>
+
+        <div className="text=sm">
+          <h1>put the image here</h1>
+          <img>
+          </img>  
+        </div>
+
+
       </button>
 
       <div className="flex-grow mx-5"></div>
@@ -41,7 +49,7 @@ const Navbar = (props: Props) => {
       <input
         type="text"
         placeholder="Search Anything"
-        className="bg-white text-black px-4 py-1 md:w-full md:w-auto rounded shadow-2xl"
+        className="bg-white text-black px-4 py-1 w-full rounded shadow-2xl"
       />
 
       <div className="flex-grow"></div>

@@ -16,7 +16,11 @@ module.exports = {
         },
 
         colors: {
-          'cougar-red': '#960c22',
+          'cougar-red': '#c8102e',
+          'cougar-dark-red': '#960c22',
+          'bright-white': '#ffffff',
+          'hover-white': '#eaeded',
+          'friendly-black': '#121212',
         },
 
       },

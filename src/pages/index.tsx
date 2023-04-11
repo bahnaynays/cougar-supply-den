@@ -9,23 +9,88 @@ interface HomeProps {
   people: Person[];
 }
 
-const HomePage: NextPage = () => {
+type Product = {
+  id: number;
+  name: string;
+  image: string;
+  price: number;
+  quantity: number;
+};
+
+const fakeProducts: Product[] = [
+  {
+    id: 1,
+    name: 'No. 2 Pencils',
+    image: 'https://via.placeholder.com/150',
+    price: 3.99,
+    quantity: 45,
+  },
+  {
+    id: 2,
+    name: 'Bic Mechanic Pencils',
+    image: 'https://via.placeholder.com/150',
+    price: 6.99,
+    quantity: 32,
+  },
+  {
+    id: 3,
+    name: 'College-Ruled Notebook',
+    image: 'https://via.placeholder.com/150',
+    price: 2.99,
+    quantity: 11,
+  },
+  {
+    id: 4,
+    name: 'Northface Backpack',
+    image: 'https://via.placeholder.com/150',
+    price: 79.99,
+    quantity: 4,
+  },
+  {
+    id: 5,
+    name: 'Tooth Brush',
+    image: 'https://via.placeholder.com/150',
+    price: 1.99,
+    quantity: 32,
+  },
+  {
+    id: 6,
+    name: 'Standard Scantrons',
+    image: 'https://via.placeholder.com/150',
+    price: 0.99,
+    quantity: 442,
+  },
+
+  {
+    id: 7,
+    name: 'Large Umbrella',
+    image: 'https://via.placeholder.com/150',
+    price: 9.99,
+    quantity: 15,
+  },
+];
+
+const IndexPage = () => {
   return (
-    <div className="container">
-      <div className="grid place-content-center min-h-screen">
-        <div className="flex flex-col items-center gap-4">
-          <h1 className="text-4xl my-8">Cougar Supply Den DBMS Content Will Be Located Here</h1>
-        </div>
+    <div className="container mx-auto px-4 py-6">
+      <h1 className="text-2xl font-bold mb-6">Products</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
+        {fakeProducts.map((product) => (
+          <div key={product.id} className="bg-white p-0 rounded-lg hover:shadow-xl">
+            <img
+              className="bg-white rounded-t-lg h-[200px] w-[300px]"
+              src={product.image}
+              alt={product.name}
+            />
+            <h2 className=" mt-2 text-lg font-bold mx-4">{product.name}</h2>
+            <p className="text-gray-600 mx-4">Price: ${product.price}</p>
+            <p className="text-gray-600 mx-4">Quantity: {product.quantity}</p>
+            <p className="text-gray-600 mx-4 mb-4">Details: xyz</p>
+          </div>
+        ))}
       </div>
     </div>
-
-    
   );
 };
 
-
-<div className ="container justify-between">
-  <h1>this is a test</h1>
-</div>
-
-export default HomePage;
+export default IndexPage;

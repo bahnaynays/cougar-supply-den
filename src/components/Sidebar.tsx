@@ -2,8 +2,16 @@ import React, { useRef } from "react";
 import classNames from "classnames";
 import Link from "next/link";
 import Image from "next/image";
-import { defaultNavItems } from "./defaultNavItems";
 import { useOnClickOutside } from "usehooks-ts";
+
+import { defaultNavItems } from "./defaultNavItems";
+
+import { NavItemsManagement } from "./NavItemsManagement";
+import { NavItemsStockReports } from "./NavItemsStockReports";
+import { NavItemsSubjectLists } from "./NavItemsSubjectLists";
+
+
+
 
 // define a NavItem prop
 export type NavItem = {
@@ -17,19 +25,20 @@ type Props = {
   navItems?: NavItem[];
   setOpen(open: boolean): void;
 };
+
 const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, (e) => {
     setOpen(false);
   });
-  
+
   return (
     <>
       <div
         className={classNames(
-          "fixed inset-0 bg-black transition-opacity duration-300",
+          "fixed inset-0 bg-black transition-opacity duration-200",
           {
-            "opacity-50": open,
+            "opacity-70": open,
             "opacity-0 pointer-events-none": !open,
           }
         )}
@@ -67,22 +76,22 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
         </ul>
       </nav>
       {/* account  */}
-      <div className="border-t-2 border-t-zinc-800 p-4">
+      <div className="border-t-2 border-hover-white p-4">
         <div className="flex gap-4 items-center">
-          <Image
-            src={
-              ""
-            }
-            height={36}
-            width={36}
-            alt="profile image"
-            className="rounded-full"
-          />
           <div className="flex flex-col ">
-            <span className="text-friendly-black my-0">Dylan Hoang Cao</span>
-            <Link href="/UserProfile" className="text-indigo-200 text-sm">
-              View Employee Profile
+            <Link href="/ProjectInformation" className="text-friendly-black text-sm font-bold hover:underline hover:text-blue-500">
+              Project Information
             </Link>
+
+            <Link href="/GroupMemberList" className="text-friendly-black text-sm font-bold hover:underline hover:text-blue-500">
+              Group Member List
+            </Link>
+
+            <Link href="/WebsiteRepository" className="text-friendly-black text-sm font-bold hover:underline hover:text-blue-500">
+              Website Repository
+            </Link>
+
+            <span className="text-friendly-black2 my-0 text-sm mt-5 font-bold">@ 2023 COSC3380 Group 10</span>
           </div>
         </div>
       </div>

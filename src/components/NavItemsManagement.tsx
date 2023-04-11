@@ -8,12 +8,16 @@ import {
   ArchiveBoxIcon,
   UsersIcon,
   ClipboardDocumentIcon,
-  BanknotesIcon
+  BanknotesIcon,
+  ChartBarIcon,
+  ChartPieIcon,
+  ShoppingBagIcon,
+  RectangleGroupIcon
 
 } from "@heroicons/react/24/outline";
 import { NavItem } from "./Sidebar";
 
-export const defaultNavItems: NavItem[] = [
+export const NavItemsManagement: NavItem[] = [
   {
     label: "Manage Carts",
     href: "/ManageCarts",

@@ -8,7 +8,11 @@ import {
   ArchiveBoxIcon,
   UsersIcon,
   ClipboardDocumentIcon,
-  BanknotesIcon
+  BanknotesIcon,
+  ChartBarIcon,
+  ChartPieIcon,
+  ShoppingBagIcon,
+  RectangleGroupIcon
 
 } from "@heroicons/react/24/outline";
 import { NavItem } from "./Sidebar";
@@ -17,12 +21,12 @@ export const defaultNavItems: NavItem[] = [
   {
     label: "Sales Reports",
     href: "/SalesReports",
-    icon: <BanknotesIcon className="w-5 h-5" />,
+    icon: <ChartBarIcon className="w-5 h-5" />,
   },
   {
     label: "Stock Reports",
     href: "/StockReports",
-    icon: <BanknotesIcon className="w-5 h-5" />,
+    icon: <ChartPieIcon className="w-5 h-5" />,
   },
   {
     label: "Inventory List",
@@ -32,7 +36,7 @@ export const defaultNavItems: NavItem[] = [
   {
     label: "Company List",
     href: "/CompanyList",
-    icon: <ArchiveBoxIcon className="w-5 h-5" />,
+    icon: <RectangleGroupIcon className="w-5 h-5" />,
   },
   {
     label: "Manage Carts",
@@ -42,7 +46,7 @@ export const defaultNavItems: NavItem[] = [
   {
     label: "Manage Orders",
     href: "/ManageOrders",
-    icon: <HomeIcon className="w-5 h-5" />,
+    icon: <ShoppingBagIcon className="w-5 h-5" />,
   },
   {
     label: "Manage Users",

@@ -7,7 +7,9 @@ const Layout = (props: PropsWithChildren) => {
   return (
     <div className="grid min-h-screen grid-rows-header bg-friendly-grey ">
       <div>
-        <Navbar onMenuButtonClick={() => setSidebarOpen((prev) => !prev)} />
+        <Navbar onMenuButtonClick={() => setSidebarOpen((prev) => !prev)} open={false} setOpen={function (open: boolean): void {
+          throw new Error("Function not implemented.");
+        } } />
       </div>
 
       <div className="grid md:grid-cols-sidebar">

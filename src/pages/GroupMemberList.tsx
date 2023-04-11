@@ -13,7 +13,7 @@ const GroupMemberList: React.FC = () => {
               </div>
             </div>
             <div className="divide-y divide-gray-200">
-              <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+              <div className="py-4 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                 <ul className="list-disc space-y-2">
                   <li className="flex items-start">
                     <span className="h-6 flex items-center sm:h-7">

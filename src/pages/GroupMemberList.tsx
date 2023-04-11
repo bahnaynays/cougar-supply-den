@@ -44,7 +44,7 @@ const GroupMemberList: React.FC = () => {
                   
                   <li className="flex items-start">
                     <span className="h-6 flex items-center sm:h-7">
-                      Member 5: Demian Alexei Barriga Contreras
+                      Member 5: Demian Barriga 
                     </span>
                   </li>
                 </ul>

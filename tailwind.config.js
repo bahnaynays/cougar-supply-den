@@ -26,6 +26,7 @@ module.exports = {
           'friendly-black': '#121212',
           'friendly-grey': '#f2f2f2',
           'friendly-black2': '#919191',
+          'friendly-black3': '#222222',
           'cougar-yellow': '#fff9d9',
           'cougar-gold': '#f1a943',
           'cougar-gold-dark':'#D5963D',

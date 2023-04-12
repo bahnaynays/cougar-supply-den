@@ -1,49 +1,43 @@
-import React from 'react';
-import { Pie } from 'react-chartjs-2';
-
-type StockItem = {
-  name: string;
-  stockAmount: number;
-};
-
-const stockItems: StockItem[] = [
-  { name: 'Item A', stockAmount: 50 },
-  { name: 'Item B', stockAmount: 25 },
-  { name: 'Item C', stockAmount: 30 },
-  { name: 'Item D', stockAmount: 10 },
-];
+import React from "react";
+import { Pie } from "react-chartjs-2";
 
 const StockReports: React.FC = () => {
-  const pieData = {
-    labels: stockItems.map((item) => item.name),
+  // Sample data (replace with your real data)
+  const remainingStocks = [
+    { itemName: "Item A", stock: 10 },
+    { itemName: "Item B", stock: 20 },
+    { itemName: "Item C", stock: 30 },
+    { itemName: "Item D", stock: 40 },
+  ];
+
+  const data = {
+    labels: remainingStocks.map((item) => item.itemName),
     datasets: [
       {
-        data: stockItems.map((item) => item.stockAmount),
-        backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0'],
+        data: remainingStocks.map((item) => item.stock),
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.6)",
+          "rgba(54, 162, 235, 0.6)",
+          "rgba(255, 206, 86, 0.6)",
+          "rgba(75, 192, 192, 0.6)",
+        ],
       },
     ],
   };
 
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+      },
+    },
+  };
+
   return (
     <div>
-      <h1>Stock Reports</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Stock Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {stockItems.map((item, index) => (
-            <tr key={index}>
-              <td>{item.name}</td>
-              <td>{item.stockAmount}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Pie data={pieData} />
+      <h2>Remaining Item Stocks</h2>
+      <Pie data={data} options={options} />
     </div>
   );
 };

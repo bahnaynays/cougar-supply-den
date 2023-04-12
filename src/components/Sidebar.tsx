@@ -25,11 +25,15 @@ type Props = {
   toggleMinimized(): void;
 };
 
+
+
 const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const [minimized, setMinimized] = useState(false);
   useOnClickOutside(ref, (e) => {
     setOpen(false);
+
+    
   });
 
 const toggleMinimized = () => {
@@ -43,30 +47,39 @@ const toggleMinimized = () => {
   toggleMinimized={toggleMinimized}
 />
 
-  return (
-    <>
+return (
+  <>
+    <div
+      className={classNames(
+        "fixed inset-0 bg-black transition-opacity duration-200 z-400",
+        {
+          "opacity-70": open,
+          "opacity-0 pointer-events-none": !open,
+        }
+      )}
+    ></div>
 
+    <div
+      className={classNames({
+        "flex flex-col justify-between shadow-2xl": true,
+        "bg-bright-white text-friendly-black": true,
+        "md:w-full md:sticky top-0 z-20 fixed": true,
+        "md:h-[calc(100vh_-_64px)] h-full lg:w-[256px]": true,
+        "transition-transform .2s ease-in-out md:-translate-x-0": true,
+        "-translate-x-full ": !open,
+      })}
+      ref={ref}
+    >
+      {/* Add "X" icon */}
+      {open && (
+        <div className="absolute top-2 right-[-48px] z-500">
+          <XMarkIcon
+            className="h-10 w-10 text-bright-white cursor-pointer"
+            onClick={() => setOpen(false)}
+          />
+        </div>
+      )}
 
-      <div
-        className={classNames(
-          "fixed inset-0 bg-black transition-opacity duration-200",
-          {
-            "opacity-70": open,
-            "opacity-0 pointer-events-none": !open,
-          }
-        )}
-      ></div>
-      <div
-        className={classNames({
-          "flex flex-col justify-between": true,
-          "bg-bright-white text-friendly-black": true,
-          "md:w-full md:sticky  md:z-0 top-0 z-20 fixed": true,
-          "lg:h-[calc(100vh_-_64px)] md:h-[calc(100vh_-_64px)] h-full lg:w-[256px] ": true,
-          "transition-transform .2s ease-in-out md:-translate-x-0": true,
-          "-translate-x-full ": !open,
-        })}
-        ref={ref}
-      >
       <nav className="md:sticky top-0 md:top-16">
         {/* nav items */}
         <ul className="py-2 flex flex-col gap-2">
@@ -78,7 +91,7 @@ const toggleMinimized = () => {
               "text-friendly-black hover:bg-hover-white hover:bg-opacity-70 hover:shadow-lg": true,
               "flex gap-4 items-center ": true,
               "transition-colors duration-100": true,
-              "rounded-md p-2 mx-2": true,
+              "rounded-md p-2 mx-2 ": true,
             })}
           >
             {item.icon} {!minimized && item.label}
@@ -87,6 +100,8 @@ const toggleMinimized = () => {
             );
           })}
         </ul>
+
+        
       </nav>
       {/* Project details  */}
       <div className="p-2">
@@ -107,9 +122,13 @@ const toggleMinimized = () => {
 
             <span className="text-friendly-black2 my-0 text-md mt-4 mx-2 mb-3 font-bold">@ 2023 Group 10</span>
           </div>
+          
         </div>
+        
       </div>
+      
     </div>
+    
     </>
   );
 };

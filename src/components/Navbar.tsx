@@ -11,6 +11,9 @@ import { Bars3Icon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
 
+
+
+
 export type NavItem = {
   label: string;
   href: string;
@@ -43,7 +46,7 @@ const Navbar = (props: Props) => {
       className={classNames({
         "bg-cougar-dark-red text-zinc-100": true, // colors
         "flex items-center": true, // layout
-        "w-full fixed z-10 shadow-lg h-16": true, //positioning & styling
+        "w-full fixed z-5 shadow-lg h-16": true, //positioning & styling
       })}
     >
       <button className="hover:bg-cougar-dark-red2 py-4 px-6" onClick={props.onMenuButtonClick}>

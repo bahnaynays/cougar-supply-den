@@ -74,11 +74,11 @@ const IndexPage = () => {
   return (
     <div className="container mx-auto px-4 py-10">
       <h1 className="text-2xl font-bold mb-3">Products</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
         {fakeProducts.map((product) => (
-          <div key={product.id} className="bg-white p-0 rounded-lg hover:shadow-xl">
+          <div key={product.id} className="bg-white p-0 rounded outline outline-hover-white hover:shadow-xl">
             <img
-              className="bg-white rounded-t-lg h-[200px] w-[300px]"
+              className="bg-white rounded-t  h-[200px] w-[300px]"
               src={product.image}
               alt={product.name}
             />

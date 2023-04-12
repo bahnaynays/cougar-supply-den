@@ -69,7 +69,7 @@ const Navbar = (props: Props) => {
       <div className="relative ">
         <div className="inline-flex items-stretch max-w-[400px] bg-white rounded shadow-md border-2 border-transparent focus-within:border-orange-500">
           <select
-            className="text-sm bg-hover-white text-black sm:max-w-[8x] max-w-[128px] px-4 py-2 rounded-l appearance-none focus:outline-2 focus:border-orange-500 focus:ring-orange-500"
+            className="text-sm bg-hover-white text-black sm:max-w-[8x] max-w-[128px] px-4 py-2 rounded-l appearance-none focus:outline-none focus:border-orange-500 focus:ring-orange-500 focus:underline-none"
           >
             <option className="text-sm" value="option1">Product</option>
             <option className="text-sm" value="option2">Company</option>
@@ -91,7 +91,6 @@ const Navbar = (props: Props) => {
             <MagnifyingGlassIcon className="text-friendly-black fontbold h-6 w-6 " />
           </button>
         </div>
-        
       </div>
 
       <div className="flex-grow mx-2"></div>

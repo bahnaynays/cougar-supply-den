@@ -1,17 +1,14 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import classNames from "classnames";
 import Link from "next/link";
 import Image from "next/image";
 import { useOnClickOutside } from "usehooks-ts";
-
 import { defaultNavItems } from "./defaultNavItems";
 
 import { NavItemsManagement } from "./NavItemsManagement";
 import { NavItemsStockReports } from "./NavItemsStockReports";
 import { NavItemsSubjectLists } from "./NavItemsSubjectLists";
-
 import { XMarkIcon } from "@heroicons/react/24/outline";
-
 
 // define a NavItem prop
 export type NavItem = {
@@ -19,21 +16,36 @@ export type NavItem = {
   href: string;
   icon: React.ReactNode;
 };
+
 // add NavItem prop to component prop
 type Props = {
   open: boolean;
   navItems?: NavItem[];
   setOpen(open: boolean): void;
+  toggleMinimized(): void;
 };
 
 const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [minimized, setMinimized] = useState(false);
   useOnClickOutside(ref, (e) => {
     setOpen(false);
   });
 
+const toggleMinimized = () => {
+  setMinimized((prevState) => !prevState);
+};
+
+// Then, pass it to the Sidebar component as a prop
+<Sidebar
+  open={open}
+  setOpen={setOpen}
+  toggleMinimized={toggleMinimized}
+/>
+
   return (
     <>
+
 
       <div
         className={classNames(
@@ -60,39 +72,40 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
         <ul className="py-2 flex flex-col gap-2">
           {navItems.map((item, index) => {
             return (
-              <Link key={index} href={item.href}>
-                <li
-                  className={classNames({
-                    "text-friendly-black hover:bg-hover-white hover:bg-opacity-70 hover:shadow-lg": true, //colors
-                    "flex gap-4 items-center ": true, //layout
-                    "transition-colors duration-100": true, //animation
-                    "rounded-md p-2 mx-2": true, //self style
-                  })}
-                >
-                  {item.icon} {item.label}
-                </li>
-              </Link>
+        <Link key={index} href={item.href}>
+          <li
+            className={classNames({
+              "text-friendly-black hover:bg-hover-white hover:bg-opacity-70 hover:shadow-lg": true,
+              "flex gap-4 items-center ": true,
+              "transition-colors duration-100": true,
+              "rounded-md p-2 mx-2": true,
+            })}
+          >
+            {item.icon} {!minimized && item.label}
+          </li>
+        </Link>
             );
           })}
         </ul>
       </nav>
-      {/* account  */}
-      <div className="border-t-2 border-hover-white p-4">
-        <div className="flex gap-4 items-center">
+      {/* Project details  */}
+      <div className="p-2">
+        <div className="border-t-2 border-hover-white mx-2"></div>
+        <div className="flex gap-4 items-center mt-4">
           <div className="flex flex-col ">
-            <Link href="/ProjectInformation" className="text-friendly-black text-sm font-bold hover:underline hover:text-blue-500">
+            <Link href="/ProjectInformation" className="text-friendly-black text-sm font-bold mx-2 hover:underline hover:text-blue-500">
               Project Information
             </Link>
 
-            <Link href="/GroupMemberList" className="text-friendly-black text-sm font-bold hover:underline hover:text-blue-500">
+            <Link href="/GroupMemberList" className="text-friendly-black text-sm font-bold mx-2 hover:underline hover:text-blue-500">
               Group Member List
             </Link>
 
-            <Link href="/WebsiteRepository" className="text-friendly-black text-sm font-bold hover:underline hover:text-blue-500">
+            <Link href="/WebsiteRepository" className="text-friendly-black text-sm font-bold mx-2 hover:underline hover:text-blue-500">
               Website Repository
             </Link>
 
-            <span className="text-friendly-black2 my-0 text-md mt-5 font-bold">@ 2023 Group 10</span>
+            <span className="text-friendly-black2 my-0 text-md mt-4 mx-2 mb-3 font-bold">@ 2023 Group 10</span>
           </div>
         </div>
       </div>
@@ -100,4 +113,5 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
     </>
   );
 };
+
 export default Sidebar;

@@ -13,7 +13,9 @@ const Layout = (props: PropsWithChildren) => {
       </div>
 
       <div className="grid md:grid-cols-sidebar">
-        <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
+        <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} toggleMinimized={function (): void {
+          throw new Error("Function not implemented.");
+        } } />
         {props.children}
       </div>
     </div>

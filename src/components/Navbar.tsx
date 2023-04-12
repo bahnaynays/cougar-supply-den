@@ -60,7 +60,7 @@ const Navbar = (props: Props) => {
         </div>
       </button>
 
-      <Link href="/" className="text-bright-white text-md  hover:bg-cougar-dark-red2 py-5 px-6">
+      <Link href="/" className="text-cougar-yellow font-bold text-md hover:bg-cougar-dark-red2 py-5 px-6">
           Store
       </Link>
 
@@ -118,12 +118,12 @@ const Navbar = (props: Props) => {
         </div>
       </div>
 
-      <button onClick={handleLogout} className="flex items-center bg-cougar-red hover:bg-cougar-dark-red rounded p-1.5 mx-8">
-        <Link href="/LoginPage" className="text-bright-white hidden lg:block text-md mr-2 mx-2">
+      <button onClick={handleLogout} className="flex items-center bg-cougar-gold hover:bg-cougar-gold-dark rounded p-1.5 mx-8">
+        <Link href="/LoginPage" className="text-friendly-black font font-bold hidden lg:block text-md mr-1 mx-2">
             Sign Out
         </Link>
 
-        <ArrowLeftOnRectangleIcon className="h-4 w-4" />
+        <ArrowLeftOnRectangleIcon className="h-5 w-5 text-friendly-black mx-1" />
       </button>
 
     </nav>

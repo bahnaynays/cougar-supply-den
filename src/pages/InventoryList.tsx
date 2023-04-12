@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SalesReports: React.FC = () => {
+const InventoryList: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -8,7 +8,7 @@ const SalesReports: React.FC = () => {
           <div className="max-w-md mx-auto">
             <div className="flex items-center space-x-5">
               <div className="block font-semibold text-xl text-gray-700">
-                <h2 className="leading-relaxed">Sales Report</h2>
+                <h2 className="leading-relaxed">Inventory Lists</h2>
               </div>
             </div>
             <div className="divide-y divide-gray-200">
@@ -16,7 +16,7 @@ const SalesReports: React.FC = () => {
                 <ul className="list-disc space-y-2">
                   <li className="flex items-start">
                     <span className="h-6 flex items-center sm:h-7">
-                      Sales Reports and such will go here.
+                    Inventory List and such will go here.
                     </span>
                   </li>
                 </ul>
@@ -29,4 +29,4 @@ const SalesReports: React.FC = () => {
   );
 };
 
-export default SalesReports;
+export default InventoryList;

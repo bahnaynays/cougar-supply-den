@@ -48,8 +48,8 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
         className={classNames({
           "flex flex-col justify-between": true,
           "bg-bright-white text-friendly-black": true,
-          "md:w-full md:sticky md:top-16 md:z-0 top-0 z-20 fixed": true,
-          "md:h-[calc(100vh_-_64px)] h-full w-[256px] ": true,
+          "md:w-full md:sticky  md:z-0 top-0 z-20 fixed": true,
+          "lg:h-[calc(100vh_-_64px)] md:h-[calc(100vh_-_64px)] h-full lg:w-[256px] ": true,
           "transition-transform .2s ease-in-out md:-translate-x-0": true,
           "-translate-x-full ": !open,
         })}
@@ -92,7 +92,7 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
               Website Repository
             </Link>
 
-            <span className="text-friendly-black2 my-0 text-sm mt-5 font-bold">@ 2023 COSC3380 Group 10</span>
+            <span className="text-friendly-black2 my-0 text-md mt-5 font-bold">@ 2023 Group 10</span>
           </div>
         </div>
       </div>

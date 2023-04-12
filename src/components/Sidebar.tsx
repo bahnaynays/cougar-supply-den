@@ -65,7 +65,7 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
                   className={classNames({
                     "text-friendly-black hover:bg-hover-white hover:bg-opacity-70 hover:shadow-lg": true, //colors
                     "flex gap-4 items-center ": true, //layout
-                    "transition-colors duration-150": true, //animation
+                    "transition-colors duration-100": true, //animation
                     "rounded-md p-2 mx-2": true, //self style
                   })}
                 >

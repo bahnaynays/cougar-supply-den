@@ -1,14 +1,14 @@
 import React from 'react';
 
-const ProjectInformation: React.FC = () => {
+const SalesReports: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-        <div className="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow-xl rounded sm:p-10">
+        <div className="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow-xl rounded-1xl sm:p-10">
           <div className="max-w-md mx-auto">
             <div className="flex items-center space-x-5">
               <div className="block font-semibold text-xl text-gray-700">
-                <h2 className="leading-relaxed">Project Information</h2>
+                <h2 className="leading-relaxed">Sales Report</h2>
               </div>
             </div>
             <div className="divide-y divide-gray-200">
@@ -29,4 +29,4 @@ const ProjectInformation: React.FC = () => {
   );
 };
 
-export default ProjectInformation;
+export default SalesReports;

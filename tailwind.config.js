@@ -18,6 +18,7 @@ module.exports = {
         colors: {
           'cougar-red': '#c8102e',
           'cougar-dark-red': '#960c22',
+          'cougar-dark-red2':'#7c081a',
           'bright-white': '#ffffff',
           'hover-white': '#eaeded',
           'hover-white2': '#e7e7e7',
@@ -25,6 +26,11 @@ module.exports = {
           'friendly-black': '#121212',
           'friendly-grey': '#f2f2f2',
           'friendly-black2': '#919191',
+          'cougar-yellow': '#fff9d9',
+          'cougar-gold': '#f1a943',
+          'cougar-gold-dark':'#D5963D',
+          'cougar-dark-red3':'#700919',
+
         },
 
       },

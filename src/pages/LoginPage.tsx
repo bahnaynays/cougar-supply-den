@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
                     <input
                       type="text"
                       placeholder="Enter Email..."
-                      className="bg-hover-white2 text-black px-4  py-1.5 w-full rounded-md hover:shadow-2xl border-2 border-transparent hover:border-blue-500"
+                      className="bg-hover-white2 text-black px-4 py-1.5 w-full rounded-md hover:shadow-2xl border-2 border-transparent hover:border-blue-500"
                     />
                   </div>
 
@@ -40,7 +40,7 @@ const LoginPage: React.FC = () => {
                     <input
                       type="text"
                       placeholder="Enter Password..."
-                      className="bg-hover-white2 text-black px-4  py-1.5 w-full rounded-md hover:shadow-2xl border-2 border-transparent hover:border-blue-500"
+                      className="bg-hover-white2 text-black px-4 py-1.5 w-full rounded-md hover:shadow-2xl border-2 border-transparent hover:border-blue-500"
                     />
                   </div>
 

@@ -70,7 +70,7 @@ const Navbar = (props: Props) => {
       <div className="flex-grow"></div>
 
       <div className="relative ">
-        <div className="inline-flex items-stretch max-w-[400px] rounded shadow-md border-2 border-transparent focus-within:border-orange-500">
+        <div className="inline-flex items-stretch max-w-[400px] rounded shadow-md border-1 border-transparent focus-within:border-orange-500">
           <select
             className="text-sm bg-hover-white text-black sm:max-w-[8x] max-w-[128px] px-4 py-2 rounded-l appearance-none focus:outline-none focus:border-orange-500 focus:ring-orange-500 focus:underline-none"
           >

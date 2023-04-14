@@ -58,7 +58,7 @@ const Navbar = (props: Props) => {
       <button onClick={navigateToHomePage} className=" hover:bg-cougar-dark-red2 py-3.5 px-4">
         <div className="font-bold text-md py-2"></div>
         <div className="text-sm">
-          {/* Replace with 'your-image-url' with the actual image URL */}
+          {/* Replace with the2 'your-image-url' with the actual image URL */}
           <img className="max-w-[135px] max-h-[36px] -mt-4" src="https://i.postimg.cc/4dZLzP3v/cougar-supply-den-full-logo-alpha.png" alt="" />
         </div>
       </button>

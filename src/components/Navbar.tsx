@@ -70,7 +70,7 @@ const Navbar = (props: Props) => {
       <div className="flex-grow"></div>
 
       <div className="relative ">
-        <div className="inline-flex items-stretch max-w-[400px] bg-white rounded shadow-md border-2 border-transparent focus-within:border-orange-500">
+        <div className="inline-flex items-stretch max-w-[400px] rounded shadow-md border-2 border-transparent focus-within:border-orange-500">
           <select
             className="text-sm bg-hover-white text-black sm:max-w-[8x] max-w-[128px] px-4 py-2 rounded-l appearance-none focus:outline-none focus:border-orange-500 focus:ring-orange-500 focus:underline-none"
           >
@@ -79,9 +79,7 @@ const Navbar = (props: Props) => {
             <option className="text-sm" value="option3">Employee</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-[calc(84%-2.5rem)] flex items-center px-1.5 text-black">
-            <svg className="fill-current h-2 w-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-              <path d="M0 6l10 10 10-10H0zm0 0" />
-            </svg>
+
             
           </div>
           <input

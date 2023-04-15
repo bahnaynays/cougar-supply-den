@@ -124,11 +124,12 @@ return (
       onClick={closeModal}
     >
       <div
-        className="bg-white p-4 rounded"
+        className="bg-white p-4 rounded my-2"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between bg-friendly-black3 rounded p-2">
-          <div className="px-4 text-lg font-semibold text-left text-white  rounded">
+        <div className='rounded-b'>
+        <div className="flex items-center justify-between bg-friendly-black3 rounded-t p-2">
+          <div className="px-4 text-lg font-semibold text-left text-white rounded">
           Edit Product
           </div>
 
@@ -139,49 +140,51 @@ return (
         </div>
           
         </div>
-        <div className="mb-4">
+        <div className="mb-3">
 
 
         </div>
 
         <div className="flex justify-end">
-          <label className="mt-4 mx-3" htmlFor="ProductID">Product ID:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="text" id="ProductID" name="ProductID" defaultValue={selectedProduct.ProductID} readOnly />
+          <label className="mt-4 mx-4" htmlFor="ProductID">Product ID:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="ProductID" name="ProductID" defaultValue={selectedProduct.ProductID} readOnly />
         </div>
         <div className="flex justify-end">
-          <label className="mt-4 mx-3" htmlFor="p_name">Name:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="text" id="p_name" name="p_name" defaultValue={selectedProduct.p_name} />
+          <label className="mt-4 mx-4" htmlFor="p_name">Name:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="p_name" name="p_name" defaultValue={selectedProduct.p_name} />
         </div>
         <div className="flex justify-end">
-          <label className="mt-4 mx-3" htmlFor="Inv_quantity">Quantity:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="number" id="Inv_quantity" name="Inv_quantity" defaultValue={selectedProduct.Inv_quantity} />
+          <label className="mt-4 mx-4" htmlFor="Inv_quantity">Quantity:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Inv_quantity" name="Inv_quantity" defaultValue={selectedProduct.Inv_quantity} />
         </div>
         <div className="flex justify-end">
-          <label className="mt-4 mx-3" htmlFor="prod_type">Type:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="text" id="prod_type" name="prod_type" defaultValue={selectedProduct.prod_type} />
+          <label className="mt-4 mx-4" htmlFor="prod_type">Type:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="prod_type" name="prod_type" defaultValue={selectedProduct.prod_type} />
         </div>
         <div className="flex justify-end">
-          <label className="mt-4 mx-3" htmlFor="p_thresh">Threshold:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="number" id="p_thresh" name="p_thresh" defaultValue={selectedProduct.p_thresh} />
+          <label className="mt-4 mx-4" htmlFor="p_thresh">Threshold:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="p_thresh" name="p_thresh" defaultValue={selectedProduct.p_thresh} />
         </div>
         <div className="flex justify-end">
-          <label className="mt-4 mx-3" htmlFor="date_add">Date Added:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="date" id="date_add" name="date_add" defaultValue={selectedProduct.date_add?.substring(0, 10)} />
+          <label className="mt-4 mx-4" htmlFor="date_add">Date Added:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="date_add" name="date_add" defaultValue={selectedProduct.date_add?.substring(0, 10)} />
         </div>
         <div className="flex justify-end">
-          <label className="mt-4 mx-3" htmlFor="cart_id">Cart ID:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="number" id="cart_id" name="cart_id" defaultValue={selectedProduct.cart_id || ''} />
+          <label className="mt-4 mx-4" htmlFor="cart_id">Cart ID:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cart_id" name="cart_id" defaultValue={selectedProduct.cart_id || ''} />
         </div>
         <div className="flex justify-end">
-          <label className="mt-4 mx-3" htmlFor="supp">Supplier:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="text" id="supp" name="supp" defaultValue={selectedProduct.supp || ''} />
+          <label className="mt-4 mx-4" htmlFor="supp">Supplier:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="supp" name="supp" defaultValue={selectedProduct.supp || ''} />
         </div>
         <div className="flex justify-end">
-          <label className="mt-4 mx-3" htmlFor="cost">Cost:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="number" id="cost" name="cost" defaultValue={selectedProduct.cost || ''} step="0.01" />
+          <label className="mt-4 mx-4" htmlFor="cost">Cost:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cost" name="cost" defaultValue={selectedProduct.cost || ''} step="0.01" />
         </div>
         
-        <div className="flex justify-between">
+        <div className='py-3'></div>
+      </div>
+      <div className="flex justify-between">
         <div className="text-left">
           <button
             className="rounded bg-cougar-red px-4 py-1 text-white font-semibold mt-5 hover:bg-cougar-dark-red"

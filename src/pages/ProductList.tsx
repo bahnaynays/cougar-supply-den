@@ -27,6 +27,22 @@ const ProductList = () => {
     setShowModal(false);
   };
 
+  const handleDeleteClick = async (productId: string) => {
+    try {
+      const response = await fetch(`/api/products/${productId}`, {
+        method: 'DELETE',
+      });
+  
+      if (response.ok) {
+        setProducts(products.filter((product) => product.ProductID !== productId));
+      } else {
+        console.error('Failed to delete product:', productId);
+      }
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
+  };
+
   useEffect(() => {
     fetch('/api/products')
       .then((res) => res.json())
@@ -111,13 +127,13 @@ return (
         className="bg-white p-4 rounded"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between bg-cougar-dark-red rounded p-2">
+        <div className="flex items-center justify-between bg-friendly-black3 rounded p-2">
           <div className="px-4 text-lg font-semibold text-left text-white  rounded">
           Edit Product
           </div>
 
           <div className="text-right">
-          <button className="rounded bg-cougar-dark-red shadow-2xl px-3 py-1 text-white font-semibold hover:bg-cougar-red" onClick={closeModal}>
+          <button className="rounded bg-cougar-gold-dark shadow-2xl px-3 py-1 text-friendly-black font-bold text-xs hover:bg-cougar-gold" onClick={closeModal}>
             Close
           </button>
         </div>
@@ -167,9 +183,17 @@ return (
         
         <div className="flex justify-between">
         <div className="text-left">
-          <button className="rounded bg-cougar-gold px-4 py-1 text-friendly-black font-semibold mt-5 hover:bg-cougar-gold-dark" onClick={closeModal}>
+          <button
+            className="rounded bg-cougar-red px-4 py-1 text-white font-semibold mt-5 hover:bg-cougar-dark-red"
+            onClick={() => {
+              if (selectedProduct) {
+                handleDeleteClick(selectedProduct.ProductID);
+                closeModal();
+              }
+            }}
+          >
             Delete
-          </button>
+        </button>
         </div>
 
         <div className="text-right">

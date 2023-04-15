@@ -37,6 +37,8 @@ const Navbar = (props: Props) => {
     router.push("/");
   };
 
+  
+
   return (
     <nav
       className={classNames({
@@ -88,6 +90,16 @@ const Navbar = (props: Props) => {
       </div>
 
       <div className="flex-grow mx-2"></div>
+        {/*notifications*/}
+        <div className="flex-col">
+          <div className="flex flex-col">
+            <Link href="/Notifcations" className="text-cougar-yellow font-bold text-md hover:bg-cougar-dark-red2 py-5 px-6">
+            Notifcations
+            </Link>
+          </div>
+        </div>
+
+
       
       <div className="border-t-2 border-hover-white p-4 flex">
         <div className="flex gap-1">
@@ -99,16 +111,20 @@ const Navbar = (props: Props) => {
             className="rounded-full max-w-64 max-h-64"
           />
 
+
       <div className="flex flex-col"></div>
- 
+        
       <div className="flex-col">
-      <div className="flex flex-col">
-        <span className="text-friendly-white text-xs font-boldmy-0">Hello, Dylan Cao</span>
-        <Link href="/UserProfile" className="text-cougar-yellow text-sm font-bold hover:underline hover:text-blue-500">
-          Account & Lists
-        </Link>
+        
+
+
+        <div className="flex flex-col">
+          <span className="text-friendly-white text-xs font-boldmy-0">Hello, Dylan Cao</span>
+          <Link href="/UserProfile" className="text-cougar-yellow text-sm font-bold hover:underline hover:text-blue-500">
+            Account & Lists
+          </Link>
+        </div>
       </div>
-    </div>
         </div>
       </div>
 

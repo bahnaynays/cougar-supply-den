@@ -13,6 +13,7 @@ interface Product {
   cost: number | null;
 }
 
+
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -29,7 +30,7 @@ const ProductList = () => {
 
   const handleDeleteClick = async (productId: string) => {
     try {
-      const response = await fetch(`/api/products/${productId}`, {
+      const response = await fetch(`/api/products?productId=${productId}`, {
         method: 'DELETE',
       });
   
@@ -59,7 +60,7 @@ const ProductList = () => {
     };
   
     try {
-      const response = await fetch(`/api/products/${updatedProduct.ProductID}`, {
+      const response = await fetch(`/api/products`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

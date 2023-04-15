@@ -11,9 +11,6 @@ import { Bars3Icon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
 
-
-
-
 export type NavItem = {
   label: string;
   href: string;
@@ -27,7 +24,6 @@ type Props = {
   setOpen(open: boolean): void;
   
 };
-
 
 const Navbar = (props: Props) => {
   const router = useRouter();
@@ -47,13 +43,12 @@ const Navbar = (props: Props) => {
         "bg-cougar-dark-red text-zinc-100": true, // colors
         "flex items-center": true, // layout
         "w-full fixed z-5 shadow-lg h-16": true, //positioning & styling
+        "z-50": true, //z plane
       })}
     >
       <button className="hover:bg-cougar-dark-red2 py-4 px-6" onClick={props.onMenuButtonClick}>
         <Bars3Icon className="h-7 w-7 " />
       </button>
-
-      
 
       <button onClick={navigateToHomePage} className=" hover:bg-cougar-dark-red2 py-3.5 px-4">
         <div className="font-bold text-md py-2"></div>
@@ -70,22 +65,20 @@ const Navbar = (props: Props) => {
       <div className="flex-grow"></div>
 
       <div className="relative ">
-        <div className="inline-flex items-stretch max-w-[400px] rounded shadow-md border-1 border-transparent focus-within:border-orange-500">
+        <div className="inline-flex items-stretch max-w-[400px] rounded shadow-lg border-1 border-transparent focus-within:border-blue-500">
           <select
-            className="text-sm bg-hover-white text-black sm:max-w-[8x] max-w-[128px] px-4 py-2 rounded-l appearance-none focus:outline-none focus:border-orange-500 focus:ring-orange-500 focus:underline-none"
+            className="text-sm bg-hover-white text-black sm:max-w-[8x] max-w-[128px] px-4 py-2 rounded-l appearance-none focus:outline-none focus:border-blue-500 focus:ring-blue-500 focus:underline-none"
           >
             <option className="text-sm" value="option1">Product</option>
             <option className="text-sm" value="option2">Company</option>
             <option className="text-sm" value="option3">Employee</option>
           </select>
-          <div className="pointer-events-none absolute inset-y-0 right-[calc(84%-2.5rem)] flex items-center px-1.5 text-black">
-
-            
-          </div>
+          <div className="pointer-events-none absolute inset-y-0 right-[calc(84%-2.5rem)] flex items-center px-1.5 text-black"></div>
+          
           <input
             type="text"
             placeholder="Search Contents"
-            className="text-black px-4 py-1.5 max-w-[800px] rounded-r focus:border-red-300 focus:ring-red-300 focus:outline-none"
+            className="text-black px-4 py-1.5 max-w-[800px] rounded-r focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
           
           />
           <button className="absolute inset-y-0 right-0 flex items-center px-3 rounded-r bg-cougar-gold hover:bg-cougar-gold-dark">

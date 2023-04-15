@@ -29,8 +29,8 @@ export const defaultNavItems: NavItem[] = [
     icon: <ChartPieIcon className="w-5 h-5" />,
   },
   {
-    label: "Inventory List",
-    href: "/InventoryList",
+    label: "Product List",
+    href: "/ProductList",
     icon: <ClipboardDocumentIcon className="w-5 h-5" />,
   },
   {

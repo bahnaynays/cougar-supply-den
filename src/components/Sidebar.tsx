@@ -49,7 +49,7 @@ const toggleMinimized = () => {
 
 return (
   <>
-    <div
+    <div 
       className={classNames(
         "fixed inset-0 bg-black transition-opacity duration-200 z-400",
         {
@@ -128,7 +128,6 @@ return (
       </div>
       
     </div>
-    
     </>
   );
 };

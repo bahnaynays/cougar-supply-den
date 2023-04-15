@@ -1,0 +1,192 @@
+import { useState, useEffect } from 'react';
+
+
+interface Product {
+  ProductID: string;
+  p_name: string;
+  Inv_quantity: number;
+  prod_type: string;
+  p_thresh: number;
+  date_add: string | null;
+  cart_id: number | null;
+  supp: string | null;
+  cost: number | null;
+}
+
+const ProductList = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const handleEditClick = (product: Product) => {
+    setShowModal(true);
+    setSelectedProduct(product);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  useEffect(() => {
+    fetch('/api/products')
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('Fetched data:', data); // Add this line
+        if (Array.isArray(data)) {
+          setProducts(data);
+        } else {
+          console.error('Invalid data format received:', data);
+        }
+      });
+  }
+  , []);
+
+return (
+  <div className="container mx-auto px-4 mb-4">
+      <h1 className="text-2xl font-semibold mb-10"></h1>
+
+      <div className="relative overflow-x-auto shadow-xl rounded">
+        <table className="w-full text-sm text-left text-gray-400">
+        <caption className="p-5 text-lg font-semibold text-left  text-white bg-cougar-dark-red">
+          Product List
+          <span className="absolute text-sm right-5">
+              ({products.length} {products.length === 1 ? 'row' : 'rows'})
+            </span>
+        <p className="mt-1 text-sm font-normal text-white">List of Products with their IDs Names, Quantities, Types, Thresholds, Data Added, Cart ID, Supplier, and Cost.</p>
+        </caption>
+        <thead className="table-auto w-full text-xs uppercase bg-cougar-red text-gray-200">
+            <tr>
+                <th scope="col" className="px-4 py-2">Product ID</th>
+                <th scope="col" className="px-4 py-2">Name</th>
+                <th scope="col" className="px-4 py-2">Quantity</th>
+                <th scope="col" className="px-4 py-2">Type</th>
+                <th scope="col" className="px-4 py-2">Threshold</th>
+                <th scope="col" className="px-4 py-2">Date Added</th>
+                <th scope="col" className="px-4 py-2">Cart ID</th>
+                <th scope="col" className="px-4 py-2">Supplier</th>
+                <th scope="col" className="px-4 py-2">Cost</th>
+                
+                <td className="px-4 py-2 w-20">
+                  <button className=" text-white px-3 py-1 rounded hover:bg-cougar-dark-red">
+                    Edit
+                  </button>
+                </td>
+                
+            </tr>
+        </thead>
+        <tbody>
+        {products.map((product, index) => (
+              <tr key={product.ProductID} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
+
+              <td className="text-friendly-black px-4 py-2">{product.ProductID}</td>
+              <td className="text-friendly-black px-4 py-2">{product.p_name}</td>
+              <td className="text-friendly-black px-4 py-2">{product.Inv_quantity}</td>
+              <td className="text-friendly-black px-4 py-2">{product.prod_type}</td>
+              <td className="text-friendly-black px-4 py-2">{product.p_thresh}</td>
+              <td className="text-friendly-black px-4 py-2">{product.date_add}</td>
+              <td className="text-friendly-black px-4 py-2">{product.cart_id}</td>
+              <td className="text-friendly-black px-4 py-2">{product.supp}</td>
+              <td className="text-friendly-black px-4 py-2">{product.cost}</td>
+
+              <td className="px-4 py-2">
+              <button
+                className="bg-cougar-gold text-friendly-black px-3 py-1 rounded hover:bg-cougar-gold-dark"
+                onClick={() => handleEditClick(product)}
+              >
+                Edit
+              </button>
+            </td>
+            </tr>
+          ))}
+          </tbody>
+    </table>
+    
+    </div>
+    {showModal && selectedProduct && (
+    <div
+      className="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50"
+      onClick={closeModal}
+    >
+      <div
+        className="bg-white p-4 rounded"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between bg-cougar-dark-red rounded p-2">
+          <div className="px-4 text-lg font-semibold text-left text-white  rounded">
+          Edit Product
+          </div>
+
+          <div className="text-right">
+          <button className="rounded bg-cougar-dark-red shadow-2xl px-3 py-1 text-white font-semibold hover:bg-cougar-red" onClick={closeModal}>
+            Close
+          </button>
+        </div>
+          
+        </div>
+        <div className="mb-4">
+
+
+        </div>
+
+        <div className="flex justify-end">
+          <label className="mt-4 mx-3" htmlFor="ProductID">Product ID:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="text" id="ProductID" name="ProductID" defaultValue={selectedProduct.ProductID} readOnly />
+        </div>
+        <div className="flex justify-end">
+          <label className="mt-4 mx-3" htmlFor="p_name">Name:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="text" id="p_name" name="p_name" defaultValue={selectedProduct.p_name} />
+        </div>
+        <div className="flex justify-end">
+          <label className="mt-4 mx-3" htmlFor="Inv_quantity">Quantity:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="number" id="Inv_quantity" name="Inv_quantity" defaultValue={selectedProduct.Inv_quantity} />
+        </div>
+        <div className="flex justify-end">
+          <label className="mt-4 mx-3" htmlFor="prod_type">Type:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="text" id="prod_type" name="prod_type" defaultValue={selectedProduct.prod_type} />
+        </div>
+        <div className="flex justify-end">
+          <label className="mt-4 mx-3" htmlFor="p_thresh">Threshold:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="number" id="p_thresh" name="p_thresh" defaultValue={selectedProduct.p_thresh} />
+        </div>
+        <div className="flex justify-end">
+          <label className="mt-4 mx-3" htmlFor="date_add">Date Added:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="date" id="date_add" name="date_add" defaultValue={selectedProduct.date_add?.substring(0, 10)} />
+        </div>
+        <div className="flex justify-end">
+          <label className="mt-4 mx-3" htmlFor="cart_id">Cart ID:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="number" id="cart_id" name="cart_id" defaultValue={selectedProduct.cart_id || ''} />
+        </div>
+        <div className="flex justify-end">
+          <label className="mt-4 mx-3" htmlFor="supp">Supplier:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="text" id="supp" name="supp" defaultValue={selectedProduct.supp || ''} />
+        </div>
+        <div className="flex justify-end">
+          <label className="mt-4 mx-3" htmlFor="cost">Cost:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2" type="number" id="cost" name="cost" defaultValue={selectedProduct.cost || ''} step="0.01" />
+        </div>
+        
+        <div className="flex justify-between">
+        <div className="text-left">
+          <button className="rounded bg-cougar-gold px-4 py-1 text-friendly-black font-semibold mt-5 hover:bg-cougar-gold-dark" onClick={closeModal}>
+            Delete
+          </button>
+        </div>
+
+        <div className="text-right">
+          <button className="rounded bg-cougar-teal px-4 py-1 text-white font-semibold mt-5 hover:bg-cougar-dark-teal" onClick={closeModal}>
+            Save
+          </button>
+        </div>
+
+
+      </div>
+
+
+      </div>
+    </div>
+  )}
+</div>
+);
+};
+
+export default ProductList;

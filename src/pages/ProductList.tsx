@@ -13,9 +13,10 @@ interface Product {
   cost: number | null;
 }
 
-
 const ProductList = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
@@ -81,18 +82,20 @@ const ProductList = () => {
   
 
   useEffect(() => {
-    fetch('/api/products')
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('Fetched data:', data); // Add this line
-        if (Array.isArray(data)) {
-          setProducts(data);
-        } else {
-          console.error('Invalid data format received:', data);
-        }
-      });
+    const fetchProducts = async () => {
+      const res = await fetch('/api/products');
+      const data = await res.json();
+      setProducts(data);
+      setLoading(false);
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
-  , []);
+  
 
 return (
   <div className="container mx-auto px-4 mb-4">

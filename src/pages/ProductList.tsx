@@ -43,6 +43,42 @@ const ProductList = () => {
     }
   };
 
+  const handleSaveClick = async () => {
+    if (!selectedProduct) return;
+  
+    const updatedProduct: Product = {
+      ProductID: selectedProduct.ProductID,
+      p_name: (document.getElementById("p_name") as HTMLInputElement).value,
+      Inv_quantity: Number((document.getElementById("Inv_quantity") as HTMLInputElement).value),
+      prod_type: (document.getElementById("prod_type") as HTMLInputElement).value,
+      p_thresh: Number((document.getElementById("p_thresh") as HTMLInputElement).value),
+      date_add: (document.getElementById("date_add") as HTMLInputElement).value,
+      cart_id: Number((document.getElementById("cart_id") as HTMLInputElement).value) || null,
+      supp: (document.getElementById("supp") as HTMLInputElement).value || null,
+      cost: Number((document.getElementById("cost") as HTMLInputElement).value) || null,
+    };
+  
+    try {
+      const response = await fetch(`/api/products/${updatedProduct.ProductID}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedProduct),
+      });
+  
+      if (response.ok) {
+        setProducts(products.map((product) => product.ProductID === updatedProduct.ProductID ? updatedProduct : product));
+        closeModal(); // This line closes the modal after updating the product
+      } else {
+        console.error('Failed to update product:', updatedProduct);
+      }
+    } catch (error) {
+      console.error('Error updating product:', error);
+    }
+  };
+  
+
   useEffect(() => {
     fetch('/api/products')
       .then((res) => res.json())
@@ -65,11 +101,20 @@ return (
         <table className="w-full text-sm text-left text-gray-400">
         <caption className="p-5 text-lg font-semibold text-left  text-white bg-cougar-dark-red">
           Product List
+            <td className="px-4  -py-4 absolute text-sm right-0.5">
+              <button className=" text-white text-sm px-3 py-1 rounded bg-cougar-teal hover:bg-cougar-dark-teal ">
+                      + Add New Product
+              </button>
+          </td>
           <span className="absolute text-sm right-5">
               ({products.length} {products.length === 1 ? 'row' : 'rows'})
             </span>
+        
         <p className="mt-1 text-sm font-normal text-white">List of Products with their IDs Names, Quantities, Types, Thresholds, Data Added, Cart ID, Supplier, and Cost.</p>
+
+       
         </caption>
+        
         <thead className="table-auto w-full text-xs uppercase bg-cougar-red text-gray-200">
             <tr>
                 <th scope="col" className="px-4 py-2">Product ID</th>
@@ -141,8 +186,6 @@ return (
           
         </div>
         <div className="mb-3">
-
-
         </div>
 
         <div className="flex justify-end">
@@ -200,9 +243,15 @@ return (
         </div>
 
         <div className="text-right">
-          <button className="rounded bg-cougar-teal px-4 py-1 text-white font-semibold mt-5 hover:bg-cougar-dark-teal" onClick={closeModal}>
+          <button
+            className="rounded bg-cougar-teal px-4 py-1 text-white font-semibold mt-5 hover:bg-cougar-dark-teal"
+            onClick={() => {
+              handleSaveClick();
+              closeModal();
+            }}
+          >
             Save
-          </button>
+        </button>
         </div>
 
 

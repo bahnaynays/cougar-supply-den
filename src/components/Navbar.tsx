@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import classNames from "classnames";
-
 import { useRouter } from "next/router";
 import { useOnClickOutside } from "usehooks-ts";
 import { defaultNavItems } from "./defaultNavItems";
-
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";

@@ -2,12 +2,6 @@ import { NextPage } from "next";
 import React from "react";
 
 import { GetServerSideProps } from 'next';
-import { Person } from '../interfaces/Person';
-import { getPeople } from '../lib/api';
-
-interface HomeProps {
-  people: Person[];
-}
 
 type Product = {
   id: number;

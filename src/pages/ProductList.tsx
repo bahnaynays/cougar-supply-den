@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import useProducts from './hooks/useProducts';
-import { Product } from '../interfaces/Product';
+import { Product } from '../interfaces/ProductInterface';
 
 const ProductList = () => {
   const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProducts();
@@ -9,13 +9,19 @@ const ProductList = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [newProduct, setNewProduct] = useState<Partial<Product>>({});
 
-  const handleAddClick = () => {
-    setShowAddModal(true);
-  };
 
+  
   const handleEditClick = (product: Product) => {
     setShowModal(true);
     setSelectedProduct(product);
+  };
+
+  const handleAddSaveClick = async () => {
+    if (newProduct) {
+      await createProduct(newProduct);
+      setShowAddModal(false);
+      setNewProduct({});
+    }
   };
 
   const handleSaveClick = () => {
@@ -28,18 +34,16 @@ const ProductList = () => {
     deleteProduct(productId);
   };
 
+  const handleAddClick = () => {
+    setShowAddModal(true);
+  };
+
   const closeModal = () => {
     setShowModal(false);
   };
 
-  const handleAddSaveClick = async () => {
-    if (newProduct) {
-      await createProduct(newProduct);
-      setShowAddModal(false);
-      setNewProduct({});
-    }
-  };
 
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (showAddModal) {
@@ -54,6 +58,7 @@ const ProductList = () => {
 
 return (
   <div className="container mx-auto px-4 mb-4">
+
     <h1 className="text-2xl font-semibold mb-10"></h1>
     <div className="relative overflow-x-auto shadow-xl rounded">
       <table className="w-full text-sm text-left text-gray-400">
@@ -85,18 +90,12 @@ return (
             <th scope="col" className="px-4 py-2">Date Added</th>
             <th scope="col" className="px-4 py-2">Cart ID</th>
             <th scope="col" className="px-4 py-2">Supplier</th>
-            <th scope="col" className="px-4 py-2">Cost</th> 
-
-            {/*this is the edit button*/}
-              <td className="px-4 py-2 w-20">
-                <button className=" text-white px-3 py-1 rounded hover:bg-cougar-dark-red">
-                  Edit
-                </button>
-              </td>
-            </tr>
+            <th scope="col" className="px-4 py-2">Cost</th>
+            <th scope="col" className="px-4 py-2">Actions</th> 
+          </tr>
         </thead>
         <tbody>
-          {products && products.map((product, index) => (
+        {products && products.map((product, index) => (
             <tr key={product.ProductID} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
               <td className="text-friendly-black px-4 py-2">{product.ProductID}</td>
               <td className="text-friendly-black px-4 py-2">{product.p_name}</td>
@@ -145,45 +144,44 @@ return (
       </div>
       <div className="mb-3">
         </div>
-
-        <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="ProductID">Product ID:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="ProductID" name="ProductID" value={newProduct.ProductID || ''} onChange={handleInputChange} />
-        </div>
-        {/*this one is kind of different here*/}
-        <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="p_name">Name:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="p_name" name="p_name" value={newProduct.p_name || ''} onChange={handleInputChange} />
-        </div>
-        <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="Inv_quantity">Quantity:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Inv_quantity" name="Inv_quantity" value={newProduct.Inv_quantity || ''} onChange={handleInputChange} />
-        </div>
-        <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="prod_type">Type:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="prod_type" name="prod_type" value={newProduct.prod_type || ''} onChange={handleInputChange} />
-        </div>
-        <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="p_thresh">Threshold:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="p_thresh" name="p_thresh" value={newProduct.p_thresh || ''} onChange={handleInputChange} />
-        </div>
-        <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="date_add">Date Added:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="date_add" name="date_add" value={newProduct.date_add?.substring(0, 10)} onChange={handleInputChange}/>
-        </div>
-        <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="cart_id">Cart ID:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cart_id" name="cart_id" value={newProduct.cart_id || ''} onChange={handleInputChange} />
-        </div>
-        <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="supp">Supplier:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="supp" name="supp" value={newProduct.supp || ''} onChange={handleInputChange} />
-        </div>
-        <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="cost">Cost:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cost" name="cost" value={newProduct.cost || ''} onChange={handleInputChange} step="0.01" />
-        </div>
         
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="ProductID">Product ID:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="ProductID" name="ProductID" value={newProduct.ProductID || ''} onChange={handleInputChange} />
+          </div>
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="p_name">Name:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="p_name" name="p_name" value={newProduct.p_name || ''} onChange={handleInputChange} />
+          </div>
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="Inv_quantity">Quantity:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Inv_quantity" name="Inv_quantity" value={newProduct.Inv_quantity || ''} onChange={handleInputChange} />
+          </div>
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="prod_type">Type:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="prod_type" name="prod_type" value={newProduct.prod_type || ''} onChange={handleInputChange} />
+          </div>
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="p_thresh">Threshold:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="p_thresh" name="p_thresh" value={newProduct.p_thresh || ''} onChange={handleInputChange} />
+          </div>
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="date_add">Date Added:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="date_add" name="date_add" value={newProduct.date_add?.substring(0, 10)} onChange={handleInputChange}/>
+          </div>
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="cart_id">Cart ID:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cart_id" name="cart_id" value={newProduct.cart_id || ''} onChange={handleInputChange} />
+          </div>
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="supp">Supplier:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="supp" name="supp" value={newProduct.supp || ''} onChange={handleInputChange} />
+          </div>
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="cost">Cost:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cost" name="cost" value={newProduct.cost || ''} onChange={handleInputChange} step="0.01" />
+          </div>
+          
         <div className='py-3'></div>
       </div>
       <div className="flex justify-between">
@@ -210,10 +208,8 @@ return (
           </button>
         </div>
       </div>
-    </div>
-      {/* ... Add modal content with input fields ... */}
-      {/* Replace the defaultValue attributes with value={newProduct.propertyName || ''} and onChange={handleInputChange} */}
       </div>
+    </div>
   )}
 
   {showModal && selectedProduct && (
@@ -243,39 +239,39 @@ return (
 
         <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="ProductID">Product ID:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="ProductID" name="ProductID" defaultValue={selectedProduct.ProductID} readOnly />
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="ProductID" name="ProductID" defaultValue={selectedProduct.ProductID} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="p_name">Name:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="p_name" name="p_name" defaultValue={selectedProduct.p_name} />
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="p_name" name="p_name" defaultValue={selectedProduct.p_name} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="Inv_quantity">Quantity:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Inv_quantity" name="Inv_quantity" defaultValue={selectedProduct.Inv_quantity} />
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Inv_quantity" name="Inv_quantity" defaultValue={selectedProduct.Inv_quantity} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="prod_type">Type:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="prod_type" name="prod_type" defaultValue={selectedProduct.prod_type} />
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="prod_type" name="prod_type" defaultValue={selectedProduct.prod_type} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="p_thresh">Threshold:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="p_thresh" name="p_thresh" defaultValue={selectedProduct.p_thresh} />
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="p_thresh" name="p_thresh" defaultValue={selectedProduct.p_thresh} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="date_add">Date Added:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="date_add" name="date_add" defaultValue={selectedProduct.date_add?.substring(0, 10)} />
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="date_add" name="date_add" defaultValue={selectedProduct.date_add?.substring(0, 10)} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="cart_id">Cart ID:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cart_id" name="cart_id" defaultValue={selectedProduct.cart_id || ''} />
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cart_id" name="cart_id" defaultValue={selectedProduct.cart_id || ''} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="supp">Supplier:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="supp" name="supp" defaultValue={selectedProduct.supp || ''} />
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="supp" name="supp" defaultValue={selectedProduct.supp || ''} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="cost">Cost:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cost" name="cost" defaultValue={selectedProduct.cost || ''} step="0.01" />
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cost" name="cost" defaultValue={selectedProduct.cost || ''} step="0.01" onChange={handleInputChange} />
         </div>
         
         <div className='py-3'></div>

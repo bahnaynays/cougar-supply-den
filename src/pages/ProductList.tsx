@@ -138,7 +138,7 @@ return (
 
         <div className="text-right">
           <button className="rounded bg-cougar-gold-dark shadow-2xl px-3 py-1 text-friendly-black font-bold text-xs hover:bg-cougar-gold" onClick={() => setShowAddModal(false)}>
-            Close
+            Cancel
           </button>
         </div>
       </div>
@@ -229,7 +229,7 @@ return (
 
           <div className="text-right">
           <button className="rounded bg-cougar-gold-dark shadow-2xl px-3 py-1 text-friendly-black font-bold text-xs hover:bg-cougar-gold" onClick={closeModal}>
-            Close
+            Cancel
           </button>
         </div>
           

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import classNames from "classnames";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,6 +8,7 @@ import { defaultNavItems } from "./defaultNavItems";
 import { NavItemsManagement } from "./NavItemsManagement";
 import { NavItemsStockReports } from "./NavItemsStockReports";
 import { NavItemsSubjectLists } from "./NavItemsSubjectLists";
+
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 import { useRouter } from "next/router";
@@ -27,26 +28,7 @@ type Props = {
   toggleMinimized(): void;
 };
 
-const useConditionalOnClickOutside = (ref, handler, condition) => {
-  useEffect(() => {
-    if (!condition) return;
 
-    const listener = (event) => {
-      if (!ref.current || ref.current.contains(event.target)) {
-        return;
-      }
-      handler(event);
-    };
-
-    document.addEventListener("mousedown", listener);
-    document.addEventListener("touchstart", listener);
-
-    return () => {
-      document.removeEventListener("mousedown", listener);
-      document.removeEventListener("touchstart", listener);
-    };
-  }, [ref, handler, condition]);
-};
 
 const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
   const router = useRouter();
@@ -55,18 +37,20 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
 
   const isLoginPage = router.pathname === "/LoginPage";
   const isSignupPage = router.pathname === "/SignupPage";
-  
-  useConditionalOnClickOutside(ref, (e) => {
-    setOpen(false);
-  }, !isLoginPage && !isSignupPage);
 
+  
   if (isLoginPage || isSignupPage) {
     return null;
   }
   
-  const toggleMinimized = () => {
-    setMinimized((prevState) => !prevState);
-  };
+  useOnClickOutside(ref, (e) => {
+    setOpen(false);
+
+  });
+
+const toggleMinimized = () => {
+  setMinimized((prevState) => !prevState);
+};
 
 // Then, pass it to the Sidebar component as a prop
 

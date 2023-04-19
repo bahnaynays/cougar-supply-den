@@ -13,4 +13,6 @@ const withCenteredLayout = (Component: React.ComponentType<any>) => {
   );
 };
 
+withCenteredLayout.displayName = 'withCenteredLayout';
+
 export default withCenteredLayout;

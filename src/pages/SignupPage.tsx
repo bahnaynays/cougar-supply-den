@@ -1,7 +1,19 @@
 import React from 'react';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { useRouter } from 'next/router';
 
 const SignupPage: React.FC = () => {
+  const router = useRouter();
+
+  const redirectToHomePage = () => {
+    router.push('/');
+  };
+
+  const redirectToSignupSuccessPage = () => {
+    router.push('/LoginPage');
+  };
+
+
   return (
     <div className="min-h-screen bg-friendly-grey py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -14,6 +26,7 @@ const SignupPage: React.FC = () => {
             </div>
             <div className="divide-y divide-gray-200">
               <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+              </div>
                 <ul className="list-disc space-y-2">
                   <li className="flex items-start">
                     <span className="h-6 flex items-center sm:h-7">
@@ -112,14 +125,29 @@ const SignupPage: React.FC = () => {
                       className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
                     />
                   </div>
+                  
+                  <div className="flex justify-between items-center pt-4">
 
+                    <button
+                      onClick={redirectToHomePage}
+                      className="bg-cougar-gold text-white px-3 py-1 rounded-md font-semibold hover:bg-cougar-gold-dark"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={redirectToSignupSuccessPage}
+                      className="bg-cougar-teal text-white px-3 py-1 rounded-md font-semibold hover:bg-cougar-dark-teal"
+                    >
+                      Sign Up
+                    </button>
+                </div>
                 </ul>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
   );
 };
 

@@ -42,7 +42,6 @@ const ProductList = () => {
     setShowModal(false);
   };
 
-
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

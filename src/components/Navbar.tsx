@@ -26,6 +26,13 @@ type Props = {
 const Navbar = (props: Props) => {
   const router = useRouter();
 
+  const isLoginPage = router.pathname === "/LoginPage";
+  const isSignupPage = router.pathname === "/SignupPage";
+
+  if (isLoginPage || isSignupPage) {
+    return null;
+  }
+
   const handleLogout = () => {
     // Implement your logout logic here
     console.log("Logging out...");
@@ -69,9 +76,12 @@ const Navbar = (props: Props) => {
         <select
           className="text-sm bg-hover-white text-black sm:max-w-[8x] max-w-[128px] px-4 py-2 rounded-l border-transparent appearance-none focus:outline-none focus:border-blue-500 focus:ring-blue-500 focus:underline-none"
         >
-          <option className="text-sm" value="option1">Product</option>
-          <option className="text-sm" value="option2">Company</option>
-          <option className="text-sm" value="option3">Employee</option>
+          <option className="text-sm" value="option1">Product List</option>
+          <option className="text-sm" value="option2">Company List</option>
+          <option className="text-sm" value="option3">Manage Carts</option>
+          <option className="text-sm" value="option1">Manage Orders</option>
+          <option className="text-sm" value="option2">Manage Users</option>
+
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-[calc(84%-2.5rem)] flex items-center px-1.5 text-black"></div>
         

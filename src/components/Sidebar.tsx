@@ -10,6 +10,8 @@ import { NavItemsStockReports } from "./NavItemsStockReports";
 import { NavItemsSubjectLists } from "./NavItemsSubjectLists";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
+import { useRouter } from "next/router";
+
 // define a NavItem prop
 export type NavItem = {
   label: string;
@@ -28,12 +30,24 @@ type Props = {
 
 
 const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
+  const router = useRouter();
+
+  const isLoginPage = router.pathname === "/LoginPage";
+  const isSignupPage = router.pathname === "/SignupPage";
+
+  
+  if (isLoginPage || isSignupPage) {
+    return null;
+  }
+
   const ref = useRef<HTMLDivElement>(null);
   const [minimized, setMinimized] = useState(false);
   useOnClickOutside(ref, (e) => {
     setOpen(false);
 
-    
+  
+  
+
   });
 
 const toggleMinimized = () => {

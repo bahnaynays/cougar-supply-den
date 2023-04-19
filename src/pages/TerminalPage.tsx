@@ -3,11 +3,11 @@ import classNames from "classnames";
 import Link from "next/link";
 import Image from "next/image";
 import { useOnClickOutside } from "usehooks-ts";
-import { defaultNavItems } from "./defaultNavItems";
+import { defaultNavItems } from "@/components/defaultNavItems";
 
-import { NavItemsManagement } from "./NavItemsManagement";
-import { NavItemsStockReports } from "./NavItemsStockReports";
-import { NavItemsSubjectLists } from "./NavItemsSubjectLists";
+import { NavItemsManagement } from "@/components/NavItemsManagement";
+import { NavItemsStockReports } from "@/components/NavItemsStockReports";
+import { NavItemsSubjectLists } from "@/components/NavItemsSubjectLists";
 
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
@@ -30,40 +30,19 @@ type Props = {
 
 
 
-const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
+const TerminalPage = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
   const [minimized, setMinimized] = useState(false);
 
   const isLoginPage = router.pathname === "/LoginPage";
   const isSignupPage = router.pathname === "/SignupPage";
-  const isTerminalPage = router.pathname === "/TerminalPage";
 
-  useOnClickOutside(ref, (e) => {
-    setOpen(false);
 
-  });
   
-  if (isLoginPage || isSignupPage ||isTerminalPage) {
+  if (isLoginPage || isSignupPage) {
     return null;
   }
-  
-
-
-const toggleMinimized = () => {
-  setMinimized((prevState) => !prevState);
-};
-
-// Then, pass it to the Sidebar component as a prop
-
-/*
-<Sidebar
-  open={open}
-  setOpen={setOpen}
-  toggleMinimized={toggleMinimized}
-/>
-*/
-
 
 return (
   <>
@@ -150,4 +129,4 @@ return (
   );
 };
 
-export default Sidebar;
+export default TerminalPage;

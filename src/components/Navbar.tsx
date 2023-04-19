@@ -29,6 +29,7 @@ const Navbar = (props: Props) => {
   const isLoginPage = router.pathname === "/LoginPage";
   const isSignupPage = router.pathname === "/SignupPage";
 
+
   if (isLoginPage || isSignupPage) {
     return null;
   }
@@ -65,7 +66,7 @@ const Navbar = (props: Props) => {
         </div>
       </button>
 
-      <Link href="/" className="text-cougar-yellow font-bold text-xl hover:bg-cougar-dark-red2 py-4 px-6">
+      <Link href="/TerminalPage" className="text-cougar-yellow font-bold text-xl hover:bg-cougar-dark-red2 py-4 px-6">
           ADMINISTRATOR TERMINAL
       </Link>
 

@@ -10,7 +10,20 @@ const ProductList = () => {
   const [newProduct, setNewProduct] = useState<Partial<Product>>({});
 
 
+  const formatDate = (dateString: string): string => {
+    if (!dateString) {
+      return 'Unspecified Date'; 
+    }
+
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
   
+    return `${year}-${month}-${day}`;
+  };
+
+
   const handleEditClick = (product: Product) => {
     setShowModal(true);
     setSelectedProduct(product);
@@ -30,8 +43,9 @@ const ProductList = () => {
     }
   };
 
-  const handleDeleteClick = (productId: string) => {
+  const handleDeleteClick = (productId: string, product: Product) => {
     deleteProduct(productId);
+    setSelectedProduct(product);
   };
 
   const handleAddClick = () => {
@@ -91,7 +105,8 @@ return (
             <th scope="col" className="px-4 py-2">Cart ID</th>
             <th scope="col" className="px-4 py-2">Supplier</th>
             <th scope="col" className="px-4 py-2">Cost</th>
-            <th scope="col" className="px-4 py-2">Actions</th> 
+            <th scope="col" className="px-4 py-2">Update</th> 
+            <th scope="col" className="px-4 py-2">Delete</th> 
           </tr>
         </thead>
         <tbody>
@@ -102,19 +117,32 @@ return (
               <td className="text-friendly-black px-4 py-2">{product.Inv_quantity}</td>
               <td className="text-friendly-black px-4 py-2">{product.prod_type}</td>
               <td className="text-friendly-black px-4 py-2">{product.p_thresh}</td>
-              <td className="text-friendly-black px-4 py-2">{product.date_add}</td>
+              <td className="text-friendly-black px-4 py-2">{formatDate(product.date_add)}</td>
               <td className="text-friendly-black px-4 py-2">{product.cart_id}</td>
               <td className="text-friendly-black px-4 py-2">{product.supp}</td>
               <td className="text-friendly-black px-4 py-2">{product.cost}</td>
              
               <td className="px-4 py-2">
                 <button
-                  className="bg-cougar-gold text-friendly-black px-3 py-1 rounded hover:bg-cougar-gold-dark"
+                  className="bg-cougar-gold text-friendly-black px-3 font-semibold py-1 rounded hover:bg-cougar-gold-dark"
                   onClick={() => handleEditClick(product)}
                 >
-                  Edit
+                  Update
                 </button>
               </td>
+
+                  <td className="px-4 py-2">
+              <button
+                className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red"
+                onClick={() => {
+                  if (selectedProduct) {
+                    handleDeleteClick(selectedProduct.ProductID, product);
+                  }
+                }}
+              >
+                Delete
+            </button>
+            </td>
             </tr>
           ))}
           </tbody>
@@ -136,11 +164,7 @@ return (
           Add New Product
         </div>
 
-        <div className="text-right">
-          <button className="rounded bg-cougar-gold-dark shadow-2xl px-3 py-1 text-friendly-black font-bold text-xs hover:bg-cougar-gold" onClick={() => setShowAddModal(false)}>
-            Cancel
-          </button>
-        </div>
+        
       </div>
       <div className="mb-3">
         </div>
@@ -185,28 +209,24 @@ return (
         <div className='py-3'></div>
       </div>
       <div className="flex justify-between">
-        <div className="text-left">
-          <button
-            className="rounded bg-cougar-red px-4 py-1 text-white font-semibold mt-5 hover:bg-cougar-dark-red"
-            onClick={() => {
-              if (selectedProduct) {
-                handleDeleteClick(selectedProduct.ProductID);
-                closeModal();
-              }
-            }}
+
+        <div className="text-right">
+          <button className="rounded hover:bg-cougar-dark-red font-semibold px-4 py-1 mt-3 text-white marker:font-semi-bold bg-cougar-red" onClick={() => setShowAddModal(false)}
           >
-            Delete
-        </button>
+            Cancel
+          </button>
         </div>
         
         <div className="text-right">
           <button
-            className="rounded bg-cougar-teal px-4 py-1 text-white font-semibold mt-5 hover:bg-cougar-dark-teal"
+            className="rounded bg-cougar-teal px-4 py-1 text-white font-semibold mt-3 hover:bg-cougar-dark-teal"
             onClick={handleAddSaveClick}
           >
-            Save
+            Update
           </button>
         </div>
+
+        
       </div>
       </div>
     </div>
@@ -277,19 +297,7 @@ return (
         <div className='py-3'></div>
       </div>
       <div className="flex justify-between">
-        <div className="text-left">
-          <button
-            className="rounded bg-cougar-red px-4 py-1 text-white font-semibold mt-5 hover:bg-cougar-dark-red"
-            onClick={() => {
-              if (selectedProduct) {
-                handleDeleteClick(selectedProduct.ProductID);
-                closeModal();
-              }
-            }}
-          >
-            Delete
-        </button>
-        </div>
+        
 
         <div className="text-right">
           <button

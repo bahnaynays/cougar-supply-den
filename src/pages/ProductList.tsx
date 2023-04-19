@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import useProducts from './hooks/useProducts';
 import { Product } from '../interfaces/ProductInterface';
+import { useOnClickOutside } from "usehooks-ts";
 
 const ProductList = () => {
   const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProducts();

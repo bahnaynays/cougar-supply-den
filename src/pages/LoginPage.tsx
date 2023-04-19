@@ -1,9 +1,18 @@
 import React from 'react';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-
-
+import { useRouter } from 'next/router';
 
 const LoginPage: React.FC = () => {
+  const router = useRouter();
+
+  const redirectToHomePage = () => {
+    router.push('/');
+  };
+
+  const redirectToSignupPage = () => {
+    router.push('/SignupPage');
+  };
+
   return (
     <div className="min-h-screen bg-friendly-grey py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -40,13 +49,28 @@ const LoginPage: React.FC = () => {
                 </li>
                 <div className="relative flex max-w-[600px]">
                   <input
-                    type="text"
+                    type="password"
                     placeholder="Enter Password..."
                     className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
                   />
                 </div>
 
                 </ul>
+                <div className="flex justify-between items-center pt-4">
+
+                  <button
+                    onClick={redirectToSignupPage}
+                    className="bg-cougar-gold text-white px-3 py-1 rounded-md font-semibold hover:bg-cougar-gold-dark"
+                  >
+                    Register
+                  </button>
+                  <button
+                    onClick={redirectToHomePage}
+                    className="bg-cougar-teal text-white px-3 py-1 rounded-md font-semibold hover:bg-cougar-dark-teal"
+                  >
+                    Login
+                  </button>
+                </div>
               </div>
             </div>
           </div>

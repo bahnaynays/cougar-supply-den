@@ -1,8 +1,6 @@
 import React from 'react';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
-
-
 const SignupPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-friendly-grey py-6 flex flex-col justify-center sm:py-12">
@@ -11,7 +9,7 @@ const SignupPage: React.FC = () => {
           <div className="max-w-md mx-auto">
             <div className="flex items-center space-x-5">
               <div className="block font-semibold text-xl text-gray-700">
-                <h2 className="leading-relaxed">Login To Cougar Supply Den</h2>
+                <h2 className="leading-relaxed">Sign Up To Cougar Supply Den</h2>
               </div>
             </div>
             <div className="divide-y divide-gray-200">
@@ -19,17 +17,73 @@ const SignupPage: React.FC = () => {
                 <ul className="list-disc space-y-2">
                   <li className="flex items-start">
                     <span className="h-6 flex items-center sm:h-7">
-                    Full Name
+                    First Name
                     </span>
                   </li>
 
                   <div className="relative flex max-w-[600px]">
                     <input
                       type="text"
-                      placeholder="Username"
-                      className="bg-white text-black px-4 outline py-1.5 w-full rounded-md shadow-2xl border-2 border-transparent hover:border-green-500"
+                      placeholder="First Name"
+                      className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
                     />
                   </div>
+
+                  <li className="flex items-start">
+                    <span className="h-6 flex items-center sm:h-7">
+                    Middle Name
+                    </span>
+                  </li>
+
+                  <div className="relative flex max-w-[600px]">
+                    <input
+                      type="text"
+                      placeholder="Middle Name"
+                      className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
+                    />
+                  </div>
+
+                  <li className="flex items-start">
+                    <span className="h-6 flex items-center sm:h-7">
+                    Last Name
+                    </span>
+                  </li>
+
+                  <div className="relative flex max-w-[600px]">
+                    <input
+                      type="text"
+                      placeholder="Last Name"
+                      className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
+                    />
+                  </div>
+
+                  <li className="flex items-start">
+                    <span className="h-6 flex items-center sm:h-7">
+                     Birthdate
+                    </span>
+                  </li>
+                  <div className="relative flex max-w-[600px]">
+                    <input
+                      type="Birthdate"
+                      placeholder="Birthdate"
+                      className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
+                    />
+                  </div>
+
+                  <li className="flex items-start">
+                    <span className="h-6 flex items-center sm:h-7">
+                    Phone Number
+                    </span>
+                  </li>
+
+                  <div className="relative flex max-w-[600px]">
+                    <input
+                      type="tel"
+                      placeholder="Phone Number"
+                      className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
+                    />
+                  </div>
+
 
                   <li className="flex items-start">
                     <span className="h-6 flex items-center sm:h-7">
@@ -39,11 +93,12 @@ const SignupPage: React.FC = () => {
 
                   <div className="relative flex max-w-[600px]">
                     <input
-                      type="text"
-                      placeholder="Username"
-                      className="bg-white text-black px-4 outline py-1.5 w-full rounded-md shadow-2xl border-2 border-transparent hover:border-green-500"
+                      type="email"
+                      placeholder="Email"
+                      className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
                     />
                   </div>
+
 
                   <li className="flex items-start">
                     <span className="h-6 flex items-center sm:h-7">
@@ -52,9 +107,9 @@ const SignupPage: React.FC = () => {
                   </li>
                   <div className="relative flex max-w-[600px]">
                     <input
-                      type="text"
+                      type="password"
                       placeholder="Password"
-                      className="bg-white text-black px-4 outline py-1.5 w-full rounded-md shadow-2xl border-2 border-transparent hover:border-green-500"
+                      className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
                     />
                   </div>
 

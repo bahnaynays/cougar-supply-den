@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getConnection } from '@/../db';
+import { v4 as uuidv4 } from 'uuid';
+
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const pool = await getConnection();
@@ -18,28 +20,31 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
   } else if (req.method === 'POST') {
     const productData = req.body;
+    const productId = uuidv4();
 
     try {
-      await pool.request()
-        .input('p_name', productData.p_name)
-        .input('Inv_quantity', productData.Inv_quantity)
-        .input('prod_type', productData.prod_type)
-        .input('p_thresh', productData.p_thresh)
-        .input('date_add', productData.date_add)
-        .input('cart_id', productData.cart_id)
-        .input('supp', productData.supp)
-        .input('cost', productData.cost)
-        .query(`
-          INSERT INTO [dbo].[PRODUCT] (p_name, Inv_quantity, prod_type, p_thresh, date_add, cart_id, supp, cost)
-          VALUES (@p_name, @Inv_quantity, @prod_type, @p_thresh, @date_add, @cart_id, @supp, @cost)
-        `);
+    await pool.request()
+      .input('ProductID', productId) // Add the generated UUID as a parameter
+      .input('p_name', productData.p_name)
+      .input('Inv_quantity', productData.Inv_quantity)
+      .input('prod_type', productData.prod_type)
+      .input('p_thresh', productData.p_thresh)
+      .input('date_add', productData.date_add)
+      .input('cart_id', productData.cart_id)
+      .input('supp', productData.supp)
+      .input('cost', productData.cost)
+      .query(`
+        INSERT INTO [dbo].[PRODUCT] (ProductID, p_name, Inv_quantity, prod_type, p_thresh, date_add, cart_id, supp, cost)
+        VALUES (@ProductID, @p_name, @Inv_quantity, @prod_type, @p_thresh, @date_add, @cart_id, @supp, @cost)
+      `);
 
-      console.log('POST response being sent');
-      res.status(201).json({ message: 'Product created successfully' });
-    } catch (error) {
-      console.error('Error creating product:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
-    }
+    console.log('POST response being sent');
+    res.status(201).json({ message: 'Product created successfully' });
+  } catch (error) {
+    console.error('Error creating product:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+  
   } else if (req.method === 'PUT') {
     const productId = req.query.productId;
     const productData = req.body;

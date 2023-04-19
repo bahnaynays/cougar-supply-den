@@ -64,20 +64,20 @@ return (
       <table className="w-full text-sm text-left text-gray-400">
         <caption className="p-5 text-lg font-semibold text-left  text-white bg-cougar-dark-red">
           Product List
-            <td className="px-4  -py-4 absolute text-sm right-0.5">
+            <div className="px-4  -py-4 absolute text-sm right-0.5">
             <button
               className="text-white text-sm px-3 py-1 rounded bg-cougar-teal hover:bg-cougar-dark-teal"
               onClick={handleAddClick}
             >
               + Add New Product
             </button>
-          </td>
+          </div>
           <span className="absolute text-sm right-5">
             ({products?.length ?? 0} {products?.length === 1 ? 'row' : 'rows'})
           </span>
-          <p className="mt-1 text-sm font-normal text-white">
+          <div className="mt-1 text-sm font-normal text-white">
             List of Products with their IDs Names, Quantities, Types, Thresholds, Data Added, Cart ID, Supplier, and Cost.
-          </p>
+          </div>
         </caption>
         
         <thead className="table-auto w-full text-xs uppercase bg-cougar-red text-gray-200">

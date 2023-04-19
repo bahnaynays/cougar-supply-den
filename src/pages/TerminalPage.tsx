@@ -1,132 +1,54 @@
-import React, { useRef, useState } from "react";
-import classNames from "classnames";
-import Link from "next/link";
-import Image from "next/image";
-import { useOnClickOutside } from "usehooks-ts";
-import { defaultNavItems } from "@/components/defaultNavItems";
-
-import { NavItemsManagement } from "@/components/NavItemsManagement";
-import { NavItemsStockReports } from "@/components/NavItemsStockReports";
-import { NavItemsSubjectLists } from "@/components/NavItemsSubjectLists";
-
-import { XMarkIcon } from "@heroicons/react/24/outline";
-
-import { useRouter } from "next/router";
-
-// define a NavItem prop
-export type NavItem = {
-  label: string;
-  href: string;
-  icon: React.ReactNode;
-};
-
-// add NavItem prop to component prop
-type Props = {
-  open: boolean;
-  navItems?: NavItem[];
-  setOpen(open: boolean): void;
-  toggleMinimized(): void;
-};
+import classNames from 'classnames';
+import Link from 'next/link';
+import React from 'react';
 
 
-
-const TerminalPage = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
-  const router = useRouter();
-  const ref = useRef<HTMLDivElement>(null);
-  const [minimized, setMinimized] = useState(false);
-
-  const isLoginPage = router.pathname === "/LoginPage";
-  const isSignupPage = router.pathname === "/SignupPage";
+import withCenteredLayout from "@/components/withCenteredLayout";
 
 
-  
-  if (isLoginPage || isSignupPage) {
-    return null;
-  }
-
-return (
-  <>
-    <div 
-      className={classNames(
-        "fixed inset-0 bg-black transition-opacity duration-200 z-400",
-        {
-          "opacity-70": open,
-          "opacity-0 pointer-events-none": !open,
-        }
-      )}
-    ></div>
-
-    <div
-      className={classNames({
-        "flex flex-col justify-between shadow-2xl": true,
-        "bg-bright-white text-friendly-black": true,
-        "md:w-full md:sticky top-0 z-20 fixed": true,
-        "md:h-[calc(100vh_-_64px)] h-full lg:w-[256px]": true,
-        "transition-transform .2s ease-in-out md:-translate-x-0": true,
-        "-translate-x-full ": !open,
-      })}
-      ref={ref}
-    >
-      {/* Add "X" icon */}
-      {open && (
-        <div className="absolute top-2 right-[-48px] z-500">
-          <XMarkIcon
-            className="h-10 w-10 text-bright-white cursor-pointer"
-            onClick={() => setOpen(false)}
-          />
-        </div>
-      )}
-
-      <nav className="md:sticky top-0 md:top-16">
-        {/* nav items */}
-        <ul className="py-2 flex flex-col gap-2">
-          {navItems.map((item, index) => {
-            return (
-        <Link key={index} href={item.href}>
-          <li
-            className={classNames({
-              "text-friendly-black hover:bg-hover-white hover:bg-opacity-70 hover:shadow-lg": true,
-              "flex gap-4 items-center ": true,
-              "transition-colors duration-100": true,
-              "rounded-md p-2 mx-2 ": true,
-            })}
-          >
-            {item.icon} {!minimized && item.label}
-          </li>
-        </Link>
-            );
-          })}
-        </ul>
-
-        
-      </nav>
-      {/* Project details  */}
-      <div className="p-2">
-        <div className="border-t-2 border-hover-white mx-2"></div>
-        <div className="flex gap-4 items-center mt-4">
-          <div className="flex flex-col ">
-            <Link href="/ProjectInformation" className="text-friendly-black text-sm font-bold mx-2 hover:underline hover:text-blue-500">
-              Project Information
-            </Link>
-
-            <Link href="/GroupMemberList" className="text-friendly-black text-sm font-bold mx-2 hover:underline hover:text-blue-500">
-              Group Member List
-            </Link>
-
-            <Link href="/WebsiteRepository" className="text-friendly-black text-sm font-bold mx-2 hover:underline hover:text-blue-500">
-              Website Repository
-            </Link>
-
-            <span className="text-friendly-black2 my-0 text-md mt-4 mx-2 mb-3 font-bold">@ 2023 Group 10</span>
+const TerminalPage: React.FC = () => {
+  return (
+    <>
+      <div className="min-h-screen bg-friendly-grey py-6 flex flex-col justify-center sm:py-12">
+        <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+          <div className="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow-xl rounded-1xl sm:px-10 sm:py-15">
+            <div className="max-w-md mx-auto">
+              <div className="flex items-center space-x-5">
+                <div className="block font-semibold text-xl text-gray-700">
+                  <h2 className="leading-relaxed">Website Repository</h2>
+                </div>
+              </div>
+              <div className="divide-y divide-gray-200">
+                <div className="py-4 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                  <ul className="list-disc space-y-2">
+                    <li className="flex items-start">
+                      <span className="h-15 flex items-center">
+                        Currently the repository for this project is private due
+                        to confidential database information regarding student
+                        creditentials. This section will be public during
+                        presentations for educational purposes.
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            {/* Modify styling here */}
+            <div className="flex justify-end mb-4">
+              <a
+                href="https://github.com/caoboyeehaw/my-chatgpt-app2-main"
+                className="text-bright-white hover:shadow-lg text-sm mt-5 font-bold rounded-lg p-2 hover:bg-blue-500 bg-friendly-black3"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Product List
+              </a>
+            </div>
           </div>
-          
         </div>
-        
       </div>
-      
-    </div>
     </>
   );
 };
 
-export default TerminalPage;
+export default withCenteredLayout(TerminalPage);

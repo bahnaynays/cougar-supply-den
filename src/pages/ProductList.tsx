@@ -132,10 +132,10 @@ return (
                 </button>
               </td>
 
-                  <td className="px-4 py-2">
-              <button
-                className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red"
-                onClick={() => {
+              <td className="px-4 py-2">
+                <button
+                  className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red"
+                  onClick={() => {
                   if (selectedProduct) {
                     handleDeleteClick(selectedProduct.ProductID, product);
                   }
@@ -223,7 +223,7 @@ return (
             className="rounded bg-cougar-teal px-4 py-1 text-white font-semibold mt-3 hover:bg-cougar-dark-teal"
             onClick={handleAddSaveClick}
           >
-            Update
+            Create
           </button>
         </div>
 
@@ -248,11 +248,7 @@ return (
           Edit Product
           </div>
 
-          <div className="text-right">
-          <button className="rounded bg-cougar-gold-dark shadow-2xl px-3 py-1 text-friendly-black font-bold text-xs hover:bg-cougar-gold" onClick={closeModal}>
-            Cancel
-          </button>
-        </div>
+
           
         </div>
         <div className="mb-3">
@@ -300,15 +296,19 @@ return (
       <div className="flex justify-between">
         
 
+      <div className="text-right">
+          <button className="rounded hover:bg-cougar-dark-red font-semibold px-4 py-1 mt-3 text-white marker:font-semi-bold bg-cougar-red" onClick={closeModal}
+          >
+            Cancel
+          </button>
+        </div>
+        
         <div className="text-right">
           <button
-            className="rounded bg-cougar-teal px-4 py-1 text-white font-semibold mt-5 hover:bg-cougar-dark-teal"
-            onClick={() => {
-              handleSaveClick();
-              closeModal();
-            }}
+            className="rounded bg-cougar-gold px-4 py-1 text-friendly-black2 font-semibold mt-3 hover:bg-cougar-gold-dark"
+            onClick={handleAddSaveClick}
           >
-            Save
+            Update
           </button>
         </div>
 

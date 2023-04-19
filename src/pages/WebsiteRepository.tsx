@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import Link from 'next/link';
 import React from 'react';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 const WebsiteRepository: React.FC = () => {
   return (
@@ -27,11 +28,12 @@ const WebsiteRepository: React.FC = () => {
             <div className="flex justify-end mt-6">
               <a
                 href="https://github.com/caoboyeehaw/my-chatgpt-app2-main"
-                className="text-bright-white hover:shadow-lg text-sm mt-5 font-bold rounded-lg p-2 hover:bg-blue-500 bg-friendly-black3"
+                className="text-bright-white hover:shadow-lg text-sm mt-5 font-bold rounded-lg p-2 hover:bg-blue-500 bg-friendly-black3 flex items-center"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Product List
+                <FontAwesomeIcon icon={faGithub} className="mr-2" size="lg" />
+                Github Repository
               </a>
             </div>
           </div>

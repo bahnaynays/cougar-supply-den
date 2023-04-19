@@ -26,7 +26,7 @@ export const NavItemsManagement: NavItem[] = [
   {
     label: "Manage Orders",
     href: "/ManageOrders",
-    icon: <HomeIcon className="w-5 h-5" />,
+    icon: <ShoppingBagIcon className="w-5 h-5" />,
   },
   {
     label: "Manage Users",

@@ -3,6 +3,7 @@ import useProducts from './hooks/useProducts';
 import { Product } from '../interfaces/ProductInterface';
 import { useOnClickOutside } from "usehooks-ts";
 
+
 const ProductList = () => {
   const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProducts();
   const [showAddModal, setShowAddModal] = useState(false);
@@ -10,6 +11,7 @@ const ProductList = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [newProduct, setNewProduct] = useState<Partial<Product>>({});
 
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const formatDate = (dateString: string): string => {
     if (!dateString) {
@@ -24,14 +26,30 @@ const ProductList = () => {
     return `${year}-${month}-${day}`;
   };
 
+  
+  const validateProduct = (product: Partial<Product>): boolean => {
+    const requiredFields = ["ProductID", "p_name", "Inv_quantity", "prod_type", "p_thresh", "date_add", "cart_id", "supp", "cost"];
+    for (const field of requiredFields) {
+      if (!product[field]) {
+        setErrorMessage(`Please fill in the ${field} field.`);
+        return false;
+      }
+    }
+    setErrorMessage("");
+    return true;
+  };
+
+  
 
   const handleEditClick = (product: Product) => {
+    console.log('handleEditClick Method being executed');
     setShowModal(true);
     setSelectedProduct(product);
   };
 
   const handleAddSaveClick = async () => {
-    if (newProduct) {
+    console.log('handleAddSaveClick Method being executed');
+    if (newProduct && validateProduct(newProduct)) {
       await createProduct(newProduct);
       setShowAddModal(false);
       setNewProduct({});
@@ -39,8 +57,9 @@ const ProductList = () => {
   };
 
   const handleSaveClick = () => {
-    if (selectedProduct) {
+    if (selectedProduct && validateProduct(selectedProduct)) {
       updateProduct(selectedProduct);
+      closeModal();
     }
   };
 
@@ -72,7 +91,7 @@ const ProductList = () => {
 
 return (
   <div className="container mx-auto px-4 mb-4">
-    
+     
 
     <h1 className="text-2xl font-semibold mb-10"></h1>
     <div className="relative overflow-x-auto shadow-xl rounded">
@@ -99,8 +118,9 @@ return (
           <tr>
             <th scope="col" className="px-4 py-2">Product ID</th>
             <th scope="col" className="px-4 py-2">Name</th>
-            <th scope="col" className="px-4 py-2">Quantity</th>
+
             <th scope="col" className="px-4 py-2">Type</th>
+            <th scope="col" className="px-4 py-2">Quantity</th>
             <th scope="col" className="px-4 py-2">Threshold</th>
             <th scope="col" className="px-4 py-2">Date Added</th>
             <th scope="col" className="px-4 py-2">Cart ID</th>
@@ -115,8 +135,9 @@ return (
             <tr key={product.ProductID} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
               <td className="text-friendly-black px-4 py-2">{product.ProductID}</td>
               <td className="text-friendly-black px-4 py-2">{product.p_name}</td>
-              <td className="text-friendly-black px-4 py-2">{product.Inv_quantity}</td>
               <td className="text-friendly-black px-4 py-2">{product.prod_type}</td>
+              <td className="text-friendly-black px-4 py-2">{product.Inv_quantity}</td>
+
               <td className="text-friendly-black px-4 py-2">{product.p_thresh}</td>
               <td className="text-friendly-black px-4 py-2">{formatDate(product.date_add)}</td>
               <td className="text-friendly-black px-4 py-2">{product.cart_id}</td>
@@ -152,7 +173,7 @@ return (
     
   {showAddModal && (
     <div
-      className="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50"
+      className="fixed inset-0 flex items-center justify-center z-4 p-4 bg-black bg-opacity-50"
       onClick={() => setShowAddModal(false)}
     >
       <div
@@ -179,12 +200,12 @@ return (
             <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="p_name" name="p_name" value={newProduct.p_name || ''} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="Inv_quantity">Quantity:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Inv_quantity" name="Inv_quantity" value={newProduct.Inv_quantity || ''} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="prod_type">Type:</label>
             <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="prod_type" name="prod_type" value={newProduct.prod_type || ''} onChange={handleInputChange} />
+          </div>
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="Inv_quantity">Quantity:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Inv_quantity" name="Inv_quantity" value={newProduct.Inv_quantity || ''} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="p_thresh">Threshold:</label>
@@ -209,7 +230,16 @@ return (
           
         <div className='py-3'></div>
       </div>
+        {errorMessage && (
+          <div
+            className={`bg-cougar-gold text-white px-4 z-0 py-2 rounded font-semibold mb-4 ${errorMessage ? 'flashy-error' : ''}`}
+            style={{ zIndex: 1000 }}
+          >
+        {errorMessage}
+        </div>
+        )}
       <div className="flex justify-between">
+        
 
         <div className="text-right">
           <button className="rounded hover:bg-cougar-dark-red font-semibold px-4 py-1 mt-3 text-white marker:font-semi-bold bg-cougar-red" onClick={() => setShowAddModal(false)}
@@ -226,6 +256,8 @@ return (
             Create
           </button>
         </div>
+
+        
 
         
       </div>
@@ -304,9 +336,10 @@ return (
         </div>
         
         <div className="text-right">
+          
           <button
-            className="rounded bg-cougar-gold px-4 py-1 text-friendly-black2 font-semibold mt-3 hover:bg-cougar-gold-dark"
-            onClick={handleAddSaveClick}
+            className="rounded bg-cougar-gold px-4 py-1 text-friendly-black3 font-semibold mt-3 hover:bg-cougar-gold-dark"
+            onClick={handleSaveClick}
           >
             Update
           </button>

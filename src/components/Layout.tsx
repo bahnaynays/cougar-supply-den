@@ -2,6 +2,12 @@ import React, { PropsWithChildren, useState } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
+
+interface LayoutProps {
+  useLayout: boolean;
+}
+
+
 const Layout = (props: PropsWithChildren) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
@@ -23,3 +29,5 @@ const Layout = (props: PropsWithChildren) => {
 };
 
 export default Layout;
+
+

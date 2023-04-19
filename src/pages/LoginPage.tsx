@@ -75,7 +75,7 @@ const LoginPage: React.FC = () => {
 
                 </div>
                 <div onClick={redirectToHomePage} className="flex flex-row items-center text-sm">
-                  <h1>Return to the store as a </h1>
+                  <h1>Return to store as a </h1>
                     <Link href="/UserProfile" className="text-blue-500 ml-1 hover:text-blue-300">
                       Visitor
                     </Link>

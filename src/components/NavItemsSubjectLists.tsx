@@ -19,13 +19,14 @@ import { NavItem } from "./Sidebar";
 
 export const NavItemsSubjectLists: NavItem[] = [
   {
-    label: "Inventory List",
-    href: "/InventoryList",
+    label: "Product List",
+    href: "/ProductList",
     icon: <ClipboardDocumentIcon className="w-5 h-5" />,
   },
   {
     label: "Company List",
     href: "/CompanyList",
-    icon: <ArchiveBoxIcon className="w-5 h-5" />,
+    icon: <RectangleGroupIcon className="w-5 h-5" />,
   },
 ];
+

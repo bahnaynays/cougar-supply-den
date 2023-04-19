@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useOnClickOutside } from "usehooks-ts";
 import { defaultNavItems } from "./defaultNavItems";
 
+
+
 import { NavItemsManagement } from "./NavItemsManagement";
 import { NavItemsStockReports } from "./NavItemsStockReports";
 import { NavItemsSubjectLists } from "./NavItemsSubjectLists";
@@ -100,10 +102,12 @@ return (
 
       <nav className="md:sticky top-0 md:top-16">
         {/* nav items */}
-        <ul className="py-2 flex flex-col gap-2">
+        <ul className="py-2 flex flex-col gap-2 font-semibold">
+          
+          {/*
           {navItems.map((item, index) => {
             return (
-        <Link key={index} href={item.href}>
+          <Link key={index} href={item.href}>
           <li
             className={classNames({
               "text-friendly-black hover:bg-hover-white hover:bg-opacity-70 hover:shadow-lg": true,
@@ -117,6 +121,77 @@ return (
         </Link>
             );
           })}
+
+
+          import { NavItemsManagement } from "./NavItemsManagement";
+          import { NavItemsStockReports } from "./NavItemsStockReports";
+          import { NavItemsSubjectLists } from "./NavItemsSubjectLists";
+
+          */}
+          <div className="font-bold px-4 py-1 text-lg bg-cougar-dark-red text-cougar-yellow rounded-r-full float-left" style={{ marginRight: "10px" }}>
+            PERFORMANCE
+          </div>
+          {NavItemsStockReports.map((item, index) => {
+            return (
+          <Link key={index} href={item.href}>
+          <li
+            className={classNames({
+              "text-friendly-black hover:bg-hover-white hover:bg-opacity-70 hover:shadow-lg": true,
+              "flex gap-4 items-center ": true,
+              "transition-colors duration-100": true,
+              "rounded-md p-2 mx-2 ": true,
+            })}
+          >
+            {item.icon} {!minimized && item.label}
+          </li>
+        </Link>
+            );
+          })}
+
+          <div className="font-bold px-4 py-1 text-lg bg-cougar-dark-red text-cougar-yellow rounded-r-full float-left" style={{ marginRight: "10px" }}>
+            SUPPLY CHAIN
+          </div>
+          {NavItemsSubjectLists.map((item, index) => {
+            return (
+          <Link key={index} href={item.href}>
+          <li
+            className={classNames({
+              "text-friendly-black hover:bg-hover-white hover:bg-opacity-70 hover:shadow-lg": true,
+              "flex gap-4 items-center ": true,
+              "transition-colors duration-100": true,
+              "rounded-md p-2 mx-2 ": true,
+            })}
+          >
+            {item.icon} {!minimized && item.label}
+          </li>
+        </Link>
+            );
+          })}
+
+          <div className="font-bold px-4 py-1 text-lg bg-cougar-dark-red text-cougar-yellow rounded-r-full float-left" style={{ marginRight: "10px" }}>
+            MANAGEMENT
+          </div>
+          {NavItemsManagement.map((item, index) => {
+            return (
+          <Link key={index} href={item.href}>
+          <li
+            className={classNames({
+              "text-friendly-black hover:bg-hover-white hover:bg-opacity-70 hover:shadow-lg": true,
+              "flex gap-4 items-center ": true,
+              "transition-colors duration-100": true,
+              "rounded-md p-2 mx-2 ": true,
+            })}
+          >
+            {item.icon} {!minimized && item.label}
+          </li>
+        </Link>
+            );
+          })}
+
+
+          
+          
+
         </ul>
 
         
@@ -126,19 +201,19 @@ return (
         <div className="border-t-2 border-hover-white mx-2"></div>
         <div className="flex gap-4 items-center mt-4">
           <div className="flex flex-col ">
-            <Link href="/ProjectInformation" className="text-friendly-black text-sm font-bold mx-2 hover:underline hover:text-blue-500">
+            <Link href="/ProjectInformation" className="text-friendly-black text-sm font-semibold mx-2 px-3 hover:underline hover:text-blue-500">
               Project Information
             </Link>
 
-            <Link href="/GroupMemberList" className="text-friendly-black text-sm font-bold mx-2 hover:underline hover:text-blue-500">
+            <Link href="/GroupMemberList" className="text-friendly-black text-sm font-semibold mx-2 px-3 hover:underline hover:text-blue-500">
               Group Member List
             </Link>
 
-            <Link href="/WebsiteRepository" className="text-friendly-black text-sm font-bold mx-2 hover:underline hover:text-blue-500">
+            <Link href="/WebsiteRepository" className="text-friendly-black text-sm font-semibold mx-2 px-3 hover:underline hover:text-blue-500">
               Website Repository
             </Link>
 
-            <span className="text-friendly-black2 my-0 text-md mt-4 mx-2 mb-3 font-bold">@ 2023 Group 10</span>
+            <span className="text-friendly-black2 my-0 text-lg mt-4 mx-2 mb-3 px-3 font-semibold">@ 2023 Group 10</span>
           </div>
           
         </div>

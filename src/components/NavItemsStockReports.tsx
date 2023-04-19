@@ -21,11 +21,12 @@ export const NavItemsStockReports: NavItem[] = [
   {
     label: "Sales Reports",
     href: "/SalesReports",
-    icon: <BanknotesIcon className="w-5 h-5" />,
+    icon: <ChartBarIcon className="w-5 h-5" />,
   },
   {
     label: "Stock Reports",
     href: "/StockReports",
-    icon: <BanknotesIcon className="w-5 h-5" />,
+    icon: <ChartPieIcon className="w-5 h-5" />,
   },
 ];
+

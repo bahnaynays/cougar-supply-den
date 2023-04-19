@@ -1,6 +1,7 @@
 import React from 'react';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useRouter } from 'next/router';
+import Link from "next/link";
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
@@ -73,20 +74,20 @@ const LoginPage: React.FC = () => {
 
 
                 </div>
-                {/*sussy*/}
-                  <button
-                    onClick={redirectToHomePage}
-                    className=" text-white px-3 py-1 rounded-md font-semibold hover:underline-blue-500"
-                  >
-                    Return To Store As Guest
-                  </button>
-
+                <div onClick={redirectToHomePage} className="flex flex-row items-center text-sm">
+                  <h1>Return to the store as a </h1>
+                    <Link href="/UserProfile" className="text-blue-500 ml-1 hover:text-blue-300">
+                      Visitor
+                    </Link>
+                  <h1>.</h1>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
   );
 };
 

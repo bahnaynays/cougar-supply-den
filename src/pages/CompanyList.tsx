@@ -16,7 +16,7 @@ const CompanyList: React.FC = () => {
                 <ul className="list-disc space-y-2">
                   <li className="flex items-start">
                     <span className="h-6 flex items-center sm:h-7">
-                    Company List and such will go here.
+                    Company List and such will go here
                     </span>
                   </li>
                 </ul>

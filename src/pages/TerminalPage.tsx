@@ -51,4 +51,5 @@ const TerminalPage: React.FC = () => {
   );
 };
 
+
 export default withCenteredLayout(TerminalPage);

@@ -14,7 +14,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-friendly-grey py-6 flex flex-col justify-center sm:py-12">
+    <div className="min-h-screen bg-friendly-grey py-6 flex flex-col  justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow-xl rounded-1xl sm:p-10">
           <div className="max-w-md mx-auto">
@@ -66,11 +66,21 @@ const LoginPage: React.FC = () => {
                   </button>
                   <button
                     onClick={redirectToHomePage}
-                    className="bg-cougar-teal text-white px-3 py-1 rounded-md font-semibold hover:bg-cougar-dark-teal"
+                    className="bg-cougar-teal text-white px-3 py-1 rounded-md font-semibold hover:text-blue-500"
                   >
                     Login
                   </button>
+
+
                 </div>
+                {/*sussy*/}
+                  <button
+                    onClick={redirectToHomePage}
+                    className=" text-white px-3 py-1 rounded-md font-semibold hover:underline-blue-500"
+                  >
+                    Return To Store As Guest
+                  </button>
+
               </div>
             </div>
           </div>

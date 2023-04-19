@@ -55,11 +55,15 @@ const toggleMinimized = () => {
 };
 
 // Then, pass it to the Sidebar component as a prop
+
+/*
 <Sidebar
   open={open}
   setOpen={setOpen}
   toggleMinimized={toggleMinimized}
 />
+*/
+
 
 return (
   <>

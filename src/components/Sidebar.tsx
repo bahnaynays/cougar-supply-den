@@ -27,33 +27,26 @@ type Props = {
   toggleMinimized(): void;
 };
 
-
-
 const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
   const [minimized, setMinimized] = useState(false);
+  
+  useOnClickOutside(ref, (e) => {
+    setOpen(false);
+  });
 
   const isLoginPage = router.pathname === "/LoginPage";
   const isSignupPage = router.pathname === "/SignupPage";
 
-  
   if (isLoginPage || isSignupPage) {
     return null;
   }
+
+  const toggleMinimized = () => {
+    setMinimized((prevState) => !prevState);
+  };
   
-  useOnClickOutside(ref, (e) => {
-    setOpen(false);
-
-
-
-    
-  });
-
-const toggleMinimized = () => {
-  setMinimized((prevState) => !prevState);
-};
-
 // Then, pass it to the Sidebar component as a prop
 
 /*

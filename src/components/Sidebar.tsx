@@ -31,6 +31,8 @@ type Props = {
 
 const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
   const router = useRouter();
+  const ref = useRef<HTMLDivElement>(null);
+  const [minimized, setMinimized] = useState(false);
 
   const isLoginPage = router.pathname === "/LoginPage";
   const isSignupPage = router.pathname === "/SignupPage";
@@ -39,15 +41,13 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
   if (isLoginPage || isSignupPage) {
     return null;
   }
-
-  const ref = useRef<HTMLDivElement>(null);
-  const [minimized, setMinimized] = useState(false);
+  
   useOnClickOutside(ref, (e) => {
     setOpen(false);
 
-  
-  
 
+
+    
   });
 
 const toggleMinimized = () => {

@@ -32,7 +32,7 @@ const ProductList: React.FC = () => {
 
   
   const validateProduct = (product: Partial<Product>): boolean => {
-    const requiredFields = ["ProductID", "p_name", "Inv_quantity", "prod_type", "p_thresh", "date_add", "cart_id", "supp", "cost"];
+    const requiredFields = ["ProductID", "p_name", "Inv_quantity", "prod_type", "date_add", "supp", "cost"];
     for (const field of requiredFields) {
       if (!product[field]) {
         setErrorMessage(`Please fill in the ${field} field.`);
@@ -68,7 +68,10 @@ const ProductList: React.FC = () => {
   };
 
   const handleSaveClick = () => {
+    console.log("LOLOLOLOL", selectedProduct);
+
     if (selectedProduct && validateProduct(selectedProduct)) {
+      console.log("Selected product before updating:", selectedProduct);
       updateProduct(selectedProduct);
       closeModal();
       setSelectedProduct(null);
@@ -76,6 +79,7 @@ const ProductList: React.FC = () => {
   };
 
   const handleDeleteClick = async (ProductID: string, product: Product) => {
+    console.log("delete test");
     setSelectedProduct(product);
     deleteProduct(ProductID);
     deleteProduct(product);
@@ -89,6 +93,7 @@ const ProductList: React.FC = () => {
   const closeModal = () => {
     setShowModal(false);
   };
+  
 
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,9 +116,9 @@ const ProductList: React.FC = () => {
 
 return (
   <div className="container mx-auto px-4 mb-4">
+  
      
-
-    <h1 className="text-2xl font-semibold mb-10"></h1>
+  <h1 className="text-2xl font-semibold mb-10"></h1>
     <div className="relative overflow-x-auto shadow-xl rounded">
       <table className="w-full text-sm text-left text-gray-400">
         <caption className="p-5 text-lg font-semibold text-left  text-white bg-cougar-dark-red">
@@ -130,7 +135,7 @@ return (
             ({products?.length ?? 0} {products?.length === 1 ? 'row' : 'rows'})
           </span>
           <div className="mt-1 text-sm font-normal text-white">
-            List of Products with their IDs Names, Quantities, Types, Thresholds, Data Added, Cart ID, Supplier, and Cost.
+            List of Products with their IDs Names, Types, Quantities, Date Added, Supplier, and their specific Cost.
           </div>
         </caption>
         
@@ -141,9 +146,9 @@ return (
 
             <th scope="col" className="px-4 py-2">Type</th>
             <th scope="col" className="px-4 py-2">Quantity</th>
-            <th scope="col" className="px-4 py-2">Threshold</th>
+
             <th scope="col" className="px-4 py-2">Date Added</th>
-            <th scope="col" className="px-4 py-2">Cart ID</th>
+
             <th scope="col" className="px-4 py-2">Supplier</th>
             <th scope="col" className="px-4 py-2">Cost</th>
             <th scope="col" className="px-4 py-2">Update</th> 
@@ -158,9 +163,9 @@ return (
               <td className="text-friendly-black px-4 py-2">{product.prod_type}</td>
               <td className="text-friendly-black px-4 py-2">{product.Inv_quantity}</td>
 
-              <td className="text-friendly-black px-4 py-2">{product.p_thresh}</td>
+
               <td className="text-friendly-black px-4 py-2">{formatDate(product.date_add)}</td>
-              <td className="text-friendly-black px-4 py-2">{product.cart_id}</td>
+
               <td className="text-friendly-black px-4 py-2">{product.supp}</td>
               <td className="text-friendly-black px-4 py-2">{product.cost}</td>
              
@@ -229,16 +234,8 @@ return (
             <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Inv_quantity" name="Inv_quantity" value={newProduct.Inv_quantity || ''} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="p_thresh">Threshold:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="p_thresh" name="p_thresh" value={newProduct.p_thresh || ''} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="date_add">Date Added:</label>
             <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="date_add" name="date_add" value={newProduct.date_add?.substring(0, 10)} onChange={handleInputChange}/>
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="cart_id">Cart ID:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cart_id" name="cart_id" value={newProduct.cart_id || ''} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="supp">Supplier:</label>
@@ -280,7 +277,7 @@ return (
 
         
 
-        
+
       </div>
       </div>
     </div>
@@ -302,7 +299,7 @@ return (
           </div>
 
 
-          
+
         </div>
         <div className="mb-3">
         </div>
@@ -324,16 +321,8 @@ return (
           <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="prod_type" name="prod_type" defaultValue={selectedProduct.prod_type} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="p_thresh">Threshold:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="p_thresh" name="p_thresh" defaultValue={selectedProduct.p_thresh} onChange={handleInputChange} />
-        </div>
-        <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="date_add">Date Added:</label>
           <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="date_add" name="date_add" defaultValue={selectedProduct.date_add?.substring(0, 10)} onChange={handleInputChange} />
-        </div>
-        <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="cart_id">Cart ID:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cart_id" name="cart_id" defaultValue={selectedProduct.cart_id || ''} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="supp">Supplier:</label>

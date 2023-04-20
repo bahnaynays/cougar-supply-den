@@ -71,7 +71,7 @@ return (
   <>
     <div 
       className={classNames(
-        "fixed inset-0 bg-black transition-opacity duration-200 z-400",
+        "fixed inset-0 bg-black transition-opacity duration-200",
         {
           "opacity-70": open,
           "opacity-0 pointer-events-none": !open,
@@ -136,7 +136,7 @@ return (
           <Link key={index} href={item.href}>
           <li
             className={classNames({
-              "text-friendly-black hover:bg-hover-white hover:bg-opacity-70 hover:shadow-lg": true,
+              "text-friendly-black hover:bg-hover-white hover:bg-opacity-30 hover:shadow-xl": true,
               "flex gap-4 items-center ": true,
               "transition-colors duration-100": true,
               "rounded-md p-2 mx-2 ": true,
@@ -156,7 +156,7 @@ return (
           <Link key={index} href={item.href}>
           <li
             className={classNames({
-              "text-friendly-black hover:bg-hover-white hover:bg-opacity-70 hover:shadow-lg": true,
+              "text-friendly-black hover:bg-hover-white hover:bg-opacity-30 hover:shadow-xl": true,
               "flex gap-4 items-center ": true,
               "transition-colors duration-100": true,
               "rounded-md p-2 mx-2 ": true,
@@ -176,7 +176,7 @@ return (
           <Link key={index} href={item.href}>
           <li
             className={classNames({
-              "text-friendly-black hover:bg-hover-white hover:bg-opacity-70 hover:shadow-lg": true,
+              "text-friendly-black hover:bg-hover-white hover:bg-opacity-30 hover:shadow-xl": true,
               "flex gap-4 items-center ": true,
               "transition-colors duration-100": true,
               "rounded-md p-2 mx-2 ": true,
@@ -213,7 +213,7 @@ return (
               Website Repository
             </Link>
 
-            <span className="text-friendly-black2 my-0 text-lg mt-4 mx-2 mb-3 px-3 font-semibold">@ 2023 Group 10</span>
+            <span className="text-friendly-black2 my-0 text-md mt-4 mx-2 mb-3 px-3 font-semibold">@ 2023 Group 10</span>
           </div>
           
         </div>

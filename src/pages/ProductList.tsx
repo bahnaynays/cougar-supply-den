@@ -1,17 +1,21 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useProducts from './hooks/useProducts';
 import { Product } from '../interfaces/ProductInterface';
-import { useOnClickOutside } from "usehooks-ts";
+import { useOnClickOutside } from 'usehooks-ts';
 
-
-const ProductList = () => {
+const ProductList: React.FC = () => {
   const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProducts();
+
   const [showAddModal, setShowAddModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [newProduct, setNewProduct] = useState<Partial<Product>>({});
 
   const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
 
   const formatDate = (dateString: string): string => {
     if (!dateString) {
@@ -41,14 +45,21 @@ const ProductList = () => {
 
   
 
+
+
+  const falseClick = (product: Product) => {
+    setSelectedProduct(product);
+
+  };
+
+
   const handleEditClick = (product: Product) => {
-    console.log('handleEditClick Method being executed');
     setShowModal(true);
     setSelectedProduct(product);
   };
 
+
   const handleAddSaveClick = async () => {
-    console.log('handleAddSaveClick Method being executed');
     if (newProduct && validateProduct(newProduct)) {
       await createProduct(newProduct);
       setShowAddModal(false);
@@ -60,12 +71,15 @@ const ProductList = () => {
     if (selectedProduct && validateProduct(selectedProduct)) {
       updateProduct(selectedProduct);
       closeModal();
+      setSelectedProduct(null);
     }
   };
 
-  const handleDeleteClick = (productId: string, product: Product) => {
-    deleteProduct(productId);
+  const handleDeleteClick = async (ProductID: string, product: Product) => {
     setSelectedProduct(product);
+    deleteProduct(ProductID);
+    deleteProduct(product);
+
   };
 
   const handleAddClick = () => {
@@ -88,6 +102,12 @@ const ProductList = () => {
       });
     }
   };
+
+  useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
+
+
 
 return (
   <div className="container mx-auto px-4 mb-4">
@@ -157,6 +177,7 @@ return (
                 <button
                   className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red"
                   onClick={() => {
+                    
                   if (selectedProduct) {
                     handleDeleteClick(selectedProduct.ProductID, product);
                   }

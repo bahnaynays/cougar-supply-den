@@ -96,8 +96,17 @@ const Navbar = (props: Props) => {
         </button>
       </div>
     </div>
+    <div className="flex-grow mx-2"></div>
+    <div className="mx-2"></div>
+        {/*notifications*/}
+        <div className="flex-col">
+          <div className="flex flex-col">
+            <Link href="/" className="text-cougar-yellow font-bold text-md hover:bg-cougar-dark-red2 py-5 px-6">
+            Store View
+            </Link>
+          </div>
+        </div>
 
-      <div className="flex-grow mx-2"></div>
         {/*notifications*/}
         <div className="flex-col">
           <div className="flex flex-col">
@@ -106,6 +115,8 @@ const Navbar = (props: Props) => {
             </Link>
           </div>
         </div>
+
+
 
 
       

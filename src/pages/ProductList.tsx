@@ -4,17 +4,13 @@ import { Product } from '../interfaces/ProductInterface';
 import { useOnClickOutside } from 'usehooks-ts';
 
 const ProductList: React.FC = () => {
-  const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProducts();
+  const {products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProducts();
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
-
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [newProduct, setNewProduct] = useState<Partial<Product>>({});
-
   const [errorMessage, setErrorMessage] = useState<string>("");
-
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
 
   const formatDate = (dateString: string): string => {
@@ -30,7 +26,7 @@ const ProductList: React.FC = () => {
     return `${year}-${month}-${day}`;
   };
 
-  
+
   const validateProduct = (product: Partial<Product>): boolean => {
     const requiredFields = ["ProductID", "p_name", "Inv_quantity", "prod_type", "date_add", "supp", "cost"];
     for (const field of requiredFields) {
@@ -42,9 +38,6 @@ const ProductList: React.FC = () => {
     setErrorMessage("");
     return true;
   };
-
-  
-
 
 
   const falseClick = (product: Product) => {
@@ -67,14 +60,12 @@ const ProductList: React.FC = () => {
     }
   };
 
-  const handleSaveClick = () => {
-    console.log("LOLOLOLOL", selectedProduct);
-
+  const handleSaveClick = async () => {
     if (selectedProduct && validateProduct(selectedProduct)) {
       console.log("Selected product before updating:", selectedProduct);
-      updateProduct(selectedProduct);
+      const updatedProduct = await updateProduct(selectedProduct);
       closeModal();
-      setSelectedProduct(null);
+      setSelectedProduct(updatedProduct);
     }
   };
 
@@ -93,7 +84,7 @@ const ProductList: React.FC = () => {
   const closeModal = () => {
     setShowModal(false);
   };
-  
+
 
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

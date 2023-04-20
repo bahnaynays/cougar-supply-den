@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getConnection } from '@/../db';
 
+
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const pool = await getConnection();
 
@@ -42,12 +43,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
   
 } else if (req.method === 'PUT') {
-  const productId = req.query.productId;
+  const ProductID = req.query.ProductID;
   const productData = req.body;
-
+  
   try {
     await pool.request()
-      .input('productId', productId)
+      .input('ProductID', ProductID)
       .input('p_name', productData.p_name)
       .input('Inv_quantity', productData.Inv_quantity)
       .input('prod_type', productData.prod_type)
@@ -62,12 +63,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             date_add = @date_add,
             supp = @supp,
             cost = @cost
-        WHERE ProductID = @productId
+        WHERE ProductID = @ProductID
       `);
-
+  
     console.log('PUT response being sent');
-
-    //tester here
     console.log('productData:', productData);
     
     return res.status(200).json({ message: 'Product updated successfully' });
@@ -75,6 +74,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     console.error('Error updating product:', error);
     return res.status(500).json({ message: 'Internal Server Error' });
   }
+
+
+  
 
 } else if (req.method === 'DELETE') {
   const productId = req.query.productId;

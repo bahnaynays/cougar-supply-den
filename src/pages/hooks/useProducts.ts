@@ -1,4 +1,6 @@
 import useSWR, { mutate } from 'swr';
+import { Product } from '@/interfaces/ProductInterface';
+import axios from 'axios';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -8,16 +10,16 @@ export default function useProducts() {
   const isLoading = !data && !error;
   const isError = error;
 
-  const updateProduct = async (updatedProduct) => {
-    await fetch('/api/products', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedProduct),
-    });
-
-    mutate('/api/products');
+  const updateProduct = async (selectedProduct: Product) => {
+    try {
+      const response = await axios.put(`/api/products?ProductID=${selectedProduct.ProductID}`, selectedProduct);
+      const updatedProduct = response.data;
+      mutate('/api/products');
+      return updatedProduct;
+    } catch (error) {
+      console.error('Error updating product:', error);
+      throw error.response.data;
+    }
   };
 
   const createProduct = async (newProduct) => {

@@ -32,75 +32,62 @@ const TerminalPage: React.FC = () => {
             </div>
             {/* Modify styling here */}
             <div className="flex justify-end mb-4">
-              <a
-                href="/SalesReports"
+              <div
                 className="text-friendly-black3 hover:shadow-lg text-sm mt-5 font-bold rounded px-10 py-10 hover:bg-cougar-gold-dark bg-cougar-gold"
-                rel="noopener noreferrer"
               >
-                Sales Reports
-              </a>
+                <Link href="/SalesReports">Sales Reports</Link>
+              </div>
             </div>
 
             <div className="flex justify-end mb-4">
-              <a
-                href="/StockReports"
+              <div
                 className="text-friendly-black3 hover:shadow-lg text-sm mt-5 font-bold rounded px-10 py-10 hover:bg-cougar-gold-dark bg-cougar-gold"
-                rel="noopener noreferrer"
               >
-                Stock Reports
-              </a>
+                <Link href="/StockReports">Stock Reports</Link>
+              </div>
             </div>
 
             <div className="flex justify-end mb-4">
-              <a
-                href="/ProductList"
+              <div
                 className="text-friendly-black3 hover:shadow-lg text-sm mt-5 font-bold rounded px-10 py-10 hover:bg-cougar-gold-dark bg-cougar-gold"
-                rel="noopener noreferrer"
               >
-                Product List
-              </a>
+                <Link href="/ProductList">Product List</Link>
+              </div>
+            </div>
+
+
+            <div className="flex justify-end mb-4">
+              <div
+                className="text-friendly-black3 hover:shadow-lg text-sm mt-5 font-bold rounded px-10 py-10 hover:bg-cougar-gold-dark bg-cougar-gold"
+              >
+                <Link href="/CompanyList">Company List</Link>
+              </div>
             </div>
 
             <div className="flex justify-end mb-4">
-              <a
-                href="/CompanyList"
+              <div
                 className="text-friendly-black3 hover:shadow-lg text-sm mt-5 font-bold rounded px-10 py-10 hover:bg-cougar-gold-dark bg-cougar-gold"
-                rel="noopener noreferrer"
               >
-                Company List
-              </a>
+                <Link href="/ManageList">Manage List</Link>
+              </div>
             </div>
 
-            <div className="flex justify-end mb-4">
-              <a
-                href="/ManageCarts"
-                className="text-friendly-black3 hover:shadow-lg text-sm mt-5 font-bold rounded px-10 py-10 hover:bg-cougar-gold-dark bg-cougar-gold"
-                rel="noopener noreferrer"
-              >
-                Manage Carts
-              </a>
-            </div>
 
             <div className="flex justify-end mb-4">
-              <a
-                href="/ManageOrders"
+              <div
                 className="text-friendly-black3 hover:shadow-lg text-sm mt-5 font-bold rounded px-10 py-10 hover:bg-cougar-gold-dark bg-cougar-gold"
-                target="_blank"
-                rel="noopener noreferrer"
               >
-                Manage Orders
-              </a>
+                <Link href="/ManageOrder">Manage Order</Link>
+              </div>
             </div>
             
+
             <div className="flex justify-end mb-4">
-              <a
-                href="/ManageUsers"
+              <div
                 className="text-friendly-black3 hover:shadow-lg text-sm mt-5 font-bold rounded px-10 py-10 hover:bg-cougar-gold-dark bg-cougar-gold"
-                target="_blank"
-                rel="noopener noreferrer"
               >
-                Manage Users
-              </a>
+                <Link href="/ManageUsers">Manage Users</Link>
+              </div>
             </div>
 
 

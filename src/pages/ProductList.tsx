@@ -153,8 +153,8 @@ return (
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(products) && products.map((product: Product, index: number) => (
-            <tr key={product.ProductID} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
+        {products && products.map((product: Product, index: number) => (
+          <tr key={product.ProductID} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
 
               <td className="text-friendly-black px-4 py-2">{product.ProductID}</td>
               <td className="text-friendly-black px-4 py-2">{product.p_name}</td>

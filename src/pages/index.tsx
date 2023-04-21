@@ -46,7 +46,6 @@ const useProductsHook = () => {
 
     mutate('/api/products');
   };
-
   return {
     products: data,
     isLoading,

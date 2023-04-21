@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Users } from '../interfaces/UsersInterface';
+import { useAuth } from "../context/AuthContext";
 import { useOnClickOutside } from 'usehooks-ts';
 import axios from 'axios';
 import useSWR, { mutate } from 'swr';
@@ -60,6 +61,7 @@ const LoginPage: React.FC = () => {
     };
   };
 
+
   const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHook();
 
   const [showAddModal, setShowAddModal] = useState(false);
@@ -68,6 +70,10 @@ const LoginPage: React.FC = () => {
   const [newProduct, setNewProduct] = useState<Partial<Users>>({});
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [filteredProducts, setFilteredProducts] = useState<Users[]>(products);
+  
+
+  //const { login } = useAuth();
+  const { user, setUser } = useAuth();
 
   const formatDate = (dateString: string): string => {
     if (!dateString) {
@@ -159,6 +165,7 @@ const LoginPage: React.FC = () => {
   };
 */
 
+  /*old valid checker 2.0 that just ball checks to see if they are entering any of the user values on the table
 const redirectToHomePageValidUser = () => {
   if (newProduct && validateProduct(newProduct)) {
     if (isLoginValid(newProduct.email, newProduct.pw, products)) {
@@ -168,7 +175,33 @@ const redirectToHomePageValidUser = () => {
     }
   }
 };
+*/
 
+  /*old valid checker 2.0 that just ball checks to see if they are entering any of the user values on the tableonst redirectToHomePageValidUser = () => {
+  if (newProduct && validateProduct(newProduct)) {
+    try {
+      login(newProduct.email, newProduct.pw, products);
+      router.push("/");
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+  }
+};
+*/
+
+const redirectToHomePageValidUser = () => {
+  if (newProduct && validateProduct(newProduct)) {
+    if (isLoginValid(newProduct.email, newProduct.pw, products)) {
+
+      // Find the authenticated user and set it in the AuthContext
+      const authenticatedUser = products.find(user => user.email === newProduct.email && user.pw === newProduct.pw);
+      setUser(authenticatedUser);
+      router.push("/");
+    } else {
+      setErrorMessage("Invalid email or password");
+    }
+  }
+};
 
 
 

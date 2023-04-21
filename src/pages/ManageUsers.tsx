@@ -190,7 +190,7 @@ return (
             ({products?.length ?? 0} {products?.length === 1 ? 'row' : 'rows'})
           </span>
           <div className="mt-1 text-sm font-normal text-white">
-            List of Users and their Full Name, Last Name, Date of Birth, Email Adress, Phone Number, Password, userType, and Picture URLs.
+            List of Users with their Full Name, Last Name, Date of Birth, Email Adress, Phone Number, Password, userType, and Picture URLs.
           </div>
         </caption>
         

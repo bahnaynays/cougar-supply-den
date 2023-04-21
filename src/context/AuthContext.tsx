@@ -1,4 +1,3 @@
-// AuthContext.tsx
 import { createContext, useContext, useState } from "react";
 import { Users } from "../interfaces/UsersInterface";
 

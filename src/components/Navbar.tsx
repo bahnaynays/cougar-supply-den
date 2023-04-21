@@ -59,7 +59,7 @@ const Navbar = (props: Props) => {
       case "option4":
         router.push("/ManageOrders");
         break;
-      case "option4":
+      case "option3":
         router.push("/ManageUsers");
         break;
       default:

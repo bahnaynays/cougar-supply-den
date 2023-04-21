@@ -84,7 +84,7 @@ const SupplierList: React.FC = () => {
   const validateProduct = (product: Partial<Supplier>): boolean => {
 
     
-    const requiredFields = ["user_id", "f_name", "l_name", "dob", "email", "phone_num", "pw", "userType", "url_link"];
+    const requiredFields = ["Sup_id", "Sup_name"];
     for (const field of requiredFields) {
       if (!product[field]) {
         setErrorMessage(`Please fill in the ${field} field.`);
@@ -173,71 +173,65 @@ return (
     {isLoading && <div>Loading...</div>}
     {isError && <div>Error loading suppliers</div>}
      
-  <h1 className="text-2xl font-semibold mb-10"></h1>
-    <div className="relative overflow-x-auto shadow-xl rounded">
-      <table className="w-full text-sm text-left text-gray-400">
-        <caption className="p-5 text-lg font-semibold text-left  text-white bg-cougar-dark-red">
-          Supplier List
-            <div className="px-4  -py-4 absolute text-sm right-0.5">
-            <button
-              className="text-white text-sm px-3 py-1 rounded bg-cougar-teal hover:bg-cougar-dark-teal"
-              onClick={handleAddClick}
-            >
-              + Add New Supplier
-            </button>
-          </div>
-          <span className="absolute text-sm right-5">
-            ({products?.length ?? 0} {products?.length === 1 ? 'row' : 'rows'})
-          </span>
-          <div className="mt-1 text-sm font-normal text-white">
-            List of Suppliers
-          </div>
-        </caption>
-        
-        <thead className="table-auto w-full text-xs uppercase bg-cougar-red text-gray-200">
-          <tr>
-            <th scope="col" className="px-4 py-2">Supplier Name</th>
-            
+    <h1 className="text-2xl font-semibold mb-10"></h1>
+<div className="relative overflow-x-auto shadow-xl rounded">
+  <table className="w-full text-sm text-left text-gray-400">
+    <caption className="p-5 text-lg font-semibold text-left text-white bg-cougar-dark-red">
+      Supplier List
+      <div className="px-4 -py-4 absolute text-sm right-0.5">
+        <button
+          className="text-white text-sm px-3 py-1 rounded bg-cougar-teal hover:bg-cougar-dark-teal"
+          onClick={handleAddClick}
+        >
+          + Add New Supplier
+        </button>
+      </div>
+      <span className="absolute text-sm right-5">
+        ({products?.length ?? 0} {products?.length === 1 ? 'row' : 'rows'})
+      </span>
+      <div className="mt-1 text-sm font-normal text-white">List of Suppliers with their Supplier ID and Names.</div>
+    </caption>
 
-            <th scope="col" className="px-4 py-2">Update</th> 
-            <th scope="col" className="px-4 py-2">Delete</th> 
+    <thead className="table-auto w-full text-xs uppercase bg-cougar-red text-gray-200">
+      <tr>
+        <th scope="col" className="px-4 py-2">Supplier ID</th>
+        <th scope="col" className="px-4 py-2 w-full">Supplier Name</th>
 
-          </tr>
-        </thead>
-        <tbody>
-        {products && products.map((product: Supplier, index: number) => (
-          <tr key={product.Sup_id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
-
-              <td className="text-friendly-black px-4 py-2">{product.Sup_id}</td>
-
-             
-              <td className="px-4 py-2">
-                <button
-                  className="bg-cougar-gold text-friendly-black px-3 font-semibold py-1 rounded hover:bg-cougar-gold-dark"
-                  onClick={() => handleEditClick(product)}
-                >
-                  Update
-                </button>
-              </td>
-
-              <td className="px-4 py-2">
-                <button
-                  className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red"
-                  onClick={() => {
-                    
-                  if (selectedProduct) {
-                    handleDeleteClick(selectedProduct.Sup_id, product);
-                  }
-                }}
-              >
-                Delete
-            </button>
-            </td>
-            </tr>
-          ))}
-          </tbody>
-      </table>
-    </div>
+        <th scope="col" className="px-4 py-2">Update</th>
+        <th scope="col" className="px-4 py-2">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+  {products &&
+    products.map((product: Supplier, index: number) => (
+      <tr key={product.Sup_id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
+        <td className="text-friendly-black px-4 py-2">{product.Sup_id}</td>
+        <td className="text-friendly-black px-4 py-2">{product.Sup_name}</td>
+        <td className="px-4 py-2">
+          <button
+            className="bg-cougar-gold text-friendly-black px-3 font-semibold py-1 rounded hover:bg-cougar-gold-dark"
+            onClick={() => handleEditClick(product)}
+          >
+            Update
+          </button>
+        </td>
+        <td className="px-4 py-2">
+          <button
+            className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red"
+            onClick={() => {
+              if (selectedProduct) {
+                handleDeleteClick(selectedProduct.Sup_id, product);
+              }
+            }}
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    ))}
+</tbody>
+  </table>
+</div>
     
   {showAddModal && (
     <div
@@ -251,7 +245,7 @@ return (
         <div className='rounded-b'>
         <div className="flex items-center justify-between bg-friendly-black3 rounded-t p-2">
         <div className="px-4 text-lg font-semibold text-left text-white rounded">
-          Add New User
+          Add New Supplier
         </div>
 
         
@@ -260,8 +254,13 @@ return (
         </div>
         
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="Sup_id">Supplier Name:</label>
+            <label className="mt-4 mx-4" htmlFor="Sup_id">Supplier ID:</label>
             <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Sup_id" name="Sup_id" value={newProduct.Sup_id || ''} onChange={handleInputChange} />
+          </div>
+
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="Sup_name">Supplier Name:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Sup_name" name="Sup_name" value={newProduct.Sup_name || ''} onChange={handleInputChange} />
           </div>
           
         <div className='py-3'></div>
@@ -323,8 +322,13 @@ return (
         </div>
 
         <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="Sup_id">Supplier Name:</label>
+            <label className="mt-4 mx-4" htmlFor="Sup_id">Supplier ID:</label>
             <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Sup_id" name="Sup_id" value={selectedProduct.Sup_id} onChange={handleInputChange} />
+          </div>
+
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="Sup_name">Supplier Name:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Sup_name" name="Sup_name" value={selectedProduct.Sup_name} onChange={handleInputChange} />
           </div>
           
         

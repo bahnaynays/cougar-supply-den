@@ -370,11 +370,11 @@ return (
         </div>
         <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="supp">Supplier:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="supp" name="supp" defaultValue={selectedProduct.supp || ''} onChange={handleInputChange} />
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="supp" name="supp" defaultValue={selectedProduct.supp} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="cost">Cost:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cost" name="cost" defaultValue={selectedProduct.cost || ''} step="0.01" onChange={handleInputChange} />
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cost" name="cost" defaultValue={selectedProduct.cost} step="0.01" onChange={handleInputChange} />
         </div>
         
         <div className='py-3'></div>

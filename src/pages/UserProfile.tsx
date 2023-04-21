@@ -5,8 +5,16 @@ import axios from 'axios';
 import useSWR, { mutate } from 'swr';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
+import { useAuth  } from "../context/AuthContext";
 
 const UserProfile: React.FC = () => {
+  const { user } = useAuth();
+  const [editedProduct, setEditedProduct] = useState<Partial<Users>>({});
+
+  useEffect(() => {
+    setSelectedProduct(user);
+    setEditedProduct(user);
+  }, [user]);
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -120,17 +128,16 @@ const UserProfile: React.FC = () => {
 
 
   const handleSaveClick = async () => {
-    if (selectedProduct && validateProduct(selectedProduct)) {
-
-      const updatedProduct = await updateProduct(selectedProduct);
+    if (editedProduct && validateProduct(editedProduct)) {
+      const updatedProduct = await updateProduct({ ...selectedProduct, ...editedProduct });
       closeModal();
       setSelectedProduct(updatedProduct);
-    }
 
+      user && Object.assign(user, updatedProduct);
+    }
   };
 
 
-  
   const router = useRouter();
 
   const redirectToSignupSuccessPage = async () => {
@@ -171,11 +178,13 @@ const UserProfile: React.FC = () => {
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
-      setNewProduct((prevState) => ({ ...prevState, [name]: value }));
+  
+    setEditedProduct((prevState) => {
+      return { ...prevState, [name]: value };
+    });
+  
     if (selectedProduct) {
       setSelectedProduct((prevState) => {
-        if (!prevState) return null;
         return { ...prevState, [name]: value };
       });
     }
@@ -184,8 +193,6 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
-
-
 
 
   return (
@@ -232,7 +239,7 @@ const UserProfile: React.FC = () => {
                       name="f_name" 
                       
                       className="bg-gray-200 rounded hover:shadow-lg px-4 py-1  border-2 focus:outline-none border-transparent focus:border-blue-500" 
-                      defaultValue={selectedProduct?.f_name} onChange={handleInputChange}
+                      value={selectedProduct?.f_name || ''} onChange={handleInputChange}
                     />
                   </div>
 
@@ -248,7 +255,8 @@ const UserProfile: React.FC = () => {
                         type="text"
                         id="l_name" 
                         name="l_name" 
-                        defaultValue={selectedProduct?.l_name} onChange={handleInputChange} 
+                        value={selectedProduct?.l_name || ''} 
+                        onChange={handleInputChange} 
                         className="bg-gray-200 rounded hover:shadow-lg px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500" 
                       />
                   </div>
@@ -265,7 +273,7 @@ const UserProfile: React.FC = () => {
                         type="date"
                         id="dob" 
                         name="dob" 
-                        defaultValue={selectedProduct?.dob.substring(0, 10)} onChange={handleInputChange}
+                        value={selectedProduct?.dob?.substring(0, 10) || ''} onChange={handleInputChange}
                         className="bg-gray-200 text-gray-500 focus:text-friendly-black3 rounded hover:shadow-lg px-4 w-full py-1 border-2 focus:outline-none border-transparent focus:border-blue-500" 
                       />
                   </div>
@@ -282,7 +290,7 @@ const UserProfile: React.FC = () => {
                         type="text"
                         id="phone_num" 
                         name="phone_num" 
-                        defaultValue={selectedProduct?.phone_num} onChange={handleInputChange} 
+                        value={selectedProduct?.phone_num || ''} onChange={handleInputChange} 
                         className="bg-gray-200 rounded hover:shadow-lg px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500" 
                       />
                   </div>
@@ -300,7 +308,7 @@ const UserProfile: React.FC = () => {
                         type="text"
                         id="email" 
                         name="email" 
-                        defaultValue={selectedProduct?.email} onChange={handleInputChange} 
+                        value={selectedProduct?.email || ''} onChange={handleInputChange} 
                         className="bg-gray-200 rounded hover:shadow-lg px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500" 
                       />
                   </div>
@@ -318,7 +326,8 @@ const UserProfile: React.FC = () => {
                         type="text"
                         id="pw" 
                         name="pw" 
-                        defaultValue={selectedProduct?.pw} onChange={handleInputChange} 
+                        value={selectedProduct?.pw || ''} 
+                        onChange={handleInputChange} 
                         className="bg-gray-200 rounded hover:shadow-lg px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500" 
                       />
                   </div>
@@ -335,7 +344,7 @@ const UserProfile: React.FC = () => {
                         type="text"
                         id="userType" 
                         name="userType" 
-                        defaultValue={selectedProduct?.userType} onChange={handleInputChange} 
+                        value={selectedProduct?.userType || ''} onChange={handleInputChange} 
                         className="bg-gray-200 rounded hover:shadow-lg px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500" 
                       />
                   </div>
@@ -352,7 +361,7 @@ const UserProfile: React.FC = () => {
                         type="text"
                         id="user_id" 
                         name="user_id" 
-                        defaultValue={selectedProduct?.user_id} onChange={handleInputChange} 
+                        value={selectedProduct?.user_id || ''} onChange={handleInputChange} 
                         className="bg-gray-200 rounded hover:shadow-lg px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500" 
                       />
                   </div>

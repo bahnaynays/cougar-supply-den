@@ -361,14 +361,14 @@ const SignupPage: React.FC = () => {
 
                     <button
                       onClick={redirectToHomePage}
-                      className="bg-cougar-gold text-white px-3 py-1 rounded-md font-semibold hover:bg-cougar-gold-dark"
+                      className="bg-cougar-gold text-friendly-black3 text-sm px-3 py-1 rounded-md font-semibold hover:bg-cougar-gold-dark"
                     >
                       Cancel
                     </button>
                     <button
                       onClick={redirectToSignupSuccessPage}
 
-                      className="bg-cougar-teal text-white px-3 py-1 rounded-md font-semibold hover:bg-cougar-dark-teal"
+                      className="bg-cougar-teal text-white px-3 text-sm py-1 rounded-md font-semibold hover:bg-cougar-dark-teal"
                     >
                       Sign Up
                     </button>

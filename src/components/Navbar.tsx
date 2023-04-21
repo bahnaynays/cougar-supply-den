@@ -51,7 +51,7 @@ const Navbar = (props: Props) => {
         "bg-cougar-dark-red text-zinc-100": true, // colors
         "flex items-center": true, // layout
         "w-full fixed  shadow-lg h-16": true, //positioning & styling
-        "z-400": true, //z plane
+        "z-50": true, //z plane
       })}
     >
       <button className="hover:bg-cougar-dark-red2 py-4 px-6" onClick={props.onMenuButtonClick}>

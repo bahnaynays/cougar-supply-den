@@ -56,7 +56,7 @@ return (
   <>
     <div 
       className={classNames(
-        "fixed inset-0 bg-black transition-opacity duration-200 z-20",
+        "fixed inset-0 bg-black transition-opacity duration-200 z-30",
         {
           "opacity-70": open,
           "opacity-0 pointer-events-none": !open,
@@ -66,9 +66,12 @@ return (
 
     <div
       className={classNames({
-        "flex flex-col justify-between shadow-2xl z-20": true,
+        "flex flex-col justify-between shadow-2xl z-40": true,
         "bg-bright-white text-friendly-black": true,
+
+        //"top-0 2xl:top-0 fixed": true,
         " md:sticky top-0 2xl:top-0  fixed": true,
+
         "md:h-[calc(100vh_-_64px)] h-full lg:w-[256px]": true,
         "transition-transform .2s ease-in-out md:-translate-x-0": true,
         "-translate-x-full ": !open,

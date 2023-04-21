@@ -43,6 +43,29 @@ const Navbar = (props: Props) => {
     router.push("/");
   };
 
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOption = event.target.value;
+  
+    switch (selectedOption) {
+      case "option1":
+        router.push("/ProductList");
+        break;
+      case "option2":
+        router.push("/SupplierList");
+        break;
+      case "option5":
+        router.push("/ManageCarts");
+        break;
+      case "option4":
+        router.push("/ManageOrders");
+        break;
+      case "option4":
+        router.push("/ManageUsers");
+        break;
+      default:
+        break;
+    }
+  };
   
 
   return (
@@ -50,7 +73,7 @@ const Navbar = (props: Props) => {
       className={classNames({
         "bg-cougar-dark-red text-zinc-100": true, // colors
         "flex items-center": true, // layout
-        "w-full fixed  shadow-lg h-16": true, //positioning & styling
+        "w-full fixed  shadow-xl h-16": true, //positioning & styling
         "z-50": true, //z plane
       })}
     >
@@ -80,14 +103,15 @@ const Navbar = (props: Props) => {
 
       <div className="relative ">
       <div className="inline-flex items-stretch max-w-[400px] rounded shadow-lg border-1 border-transparent focus-within:border-blue-500">
-        <select
+      <select
           className="text-sm bg-hover-white text-black sm:max-w-[8x] max-w-[128px] px-4 py-2 rounded-l border-transparent appearance-none focus:outline-none focus:border-blue-500 focus:ring-blue-500 focus:underline-none"
+          onChange={handleSelectChange}
         >
           <option className="text-sm" value="option1">Product List</option>
-          <option className="text-sm" value="option2">Company List</option>
-          <option className="text-sm" value="option3">Manage Carts</option>
-          <option className="text-sm" value="option1">Manage Orders</option>
-          <option className="text-sm" value="option2">Manage Users</option>
+          <option className="text-sm" value="option2">Supplier List</option>
+          <option className="text-sm" value="option3">Manage Users</option>
+          <option className="text-sm" value="option4">Manage Carts</option>
+          <option className="text-sm" value="option5">Manage Orders</option>
 
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-[calc(84%-2.5rem)] flex items-center px-1.5 text-black"></div>

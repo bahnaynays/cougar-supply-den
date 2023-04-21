@@ -4,6 +4,7 @@ import { useOnClickOutside } from 'usehooks-ts';
 import axios from 'axios';
 import useSWR, { mutate } from 'swr';
 
+
 const ProductList: React.FC = () => {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

@@ -4,7 +4,7 @@ import { Product } from '../interfaces/ProductInterface';
 import { useOnClickOutside } from 'usehooks-ts';
 
 const ProductList: React.FC = () => {
-  const {products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProducts();
+  const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProducts();
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -85,6 +85,11 @@ const ProductList: React.FC = () => {
     setShowModal(false);
   };
 
+  useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
+
+
 
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,7 +112,8 @@ const ProductList: React.FC = () => {
 
 return (
   <div className="container mx-auto px-4 mb-4">
-  
+    {isLoading && <div>Loading...</div>}
+    {isError && <div>Error loading products</div>}
      
   <h1 className="text-2xl font-semibold mb-10"></h1>
     <div className="relative overflow-x-auto shadow-xl rounded">

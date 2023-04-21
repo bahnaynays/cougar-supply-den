@@ -1,94 +1,93 @@
 import { NextPage } from "next";
 import React from "react";
 import Image from 'next/image';
+import { Product } from '../interfaces/ProductInterface';
 
-import { GetServerSideProps } from 'next';
+import { useOnClickOutside } from 'usehooks-ts';
+import axios from 'axios';
+import useSWR, { mutate } from 'swr';
 
-type Product = {
-  id: number;
-  name: string;
-  image: string;
-  price: number;
-  quantity: number;
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+const useProductsHook = () => {
+  const { data, error } = useSWR('/api/products', fetcher);
+
+  const isLoading = !data && !error;
+  const isError = error;
+
+  const updateProduct = async (selectedProduct: Product) => {
+    try {
+      const response = await axios.put(`/api/products?ProductID=${selectedProduct.ProductID}`, selectedProduct);
+      const updatedProduct = response.data;
+      mutate('/api/products');
+      return updatedProduct;
+    } catch (error) {
+      console.error('Error updating product:', error);
+      throw error.response.data;
+    }
+  };
+
+  const createProduct = async (newProduct) => {
+    await fetch('/api/products', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newProduct),
+    });
+
+    mutate('/api/products');
+  };
+
+  const deleteProduct = async (productId) => {
+    await fetch(`/api/products?productId=${productId}`, {
+      method: 'DELETE',
+    });
+
+    mutate('/api/products');
+  };
+
+  return {
+    products: data,
+    isLoading,
+    isError,
+    updateProduct,
+    deleteProduct,
+    createProduct,
+  };
 };
 
-const fakeProducts: Product[] = [
-  {
-    id: 1,
-    name: 'No. 2 Pencils',
-    image: 'https://via.placeholder.com/150',
-    price: 3.99,
-    quantity: 45,
-  },
-  {
-    id: 2,
-    name: 'Bic Mechanic Pencils',
-    image: 'https://via.placeholder.com/150',
-    price: 6.99,
-    quantity: 32,
-  },
-  {
-    id: 3,
-    name: 'College-Ruled Notebook',
-    image: 'https://via.placeholder.com/150',
-    price: 2.99,
-    quantity: 11,
-  },
-  {
-    id: 4,
-    name: 'Northface Backpack',
-    image: 'https://via.placeholder.com/150',
-    price: 79.99,
-    quantity: 4,
-  },
-  {
-    id: 5,
-    name: 'Tooth Brush',
-    image: 'https://via.placeholder.com/150',
-    price: 1.99,
-    quantity: 32,
-  },
-  {
-    id: 6,
-    name: 'Standard Scantrons',
-    image: 'https://via.placeholder.com/150',
-    price: 0.99,
-    quantity: 442,
-  },
 
-  {
-    id: 7,
-    name: 'Large Umbrella',
-    image: 'https://via.placeholder.com/150',
-    price: 9.99,
-    quantity: 15,
-  },
-];
+const IndexPage: NextPage = () => {
+  const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHook();
 
-const IndexPage = () => {
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading products.</p>;
+
+
   return (
     <div className="container mx-auto px-4 py-10">
       <h1 className="text-2xl font-bold mb-3">Products</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
-        {fakeProducts.map((product) => (
-          <div key={product.id} className="bg-white p-0 rounded outline outline-hover-white hover:shadow-xl">
+        {products.map((product) => (
+          <div key={product.ProductID} className="bg-white p-0 rounded outline outline-hover-white hover:shadow-xl">
             <Image
-              src={product.image}
-              alt={product.name}
+              src={'https://via.placeholder.com/150'}
+              alt={product.p_name}
               width={300} // Specify the width
               height={200} // Specify the height
               className="rounded-t" // Add your custom className
               layout="fixed" // Optional: You can use other layouts as well
             />
-            <h2 className=" mt-2 text-lg font-bold mx-4">{product.name}</h2>
-            <p className="text-gray-600 mx-4">Price: ${product.price}</p>
-            <p className="text-gray-600 mx-4">Quantity: {product.quantity}</p>
+            <h2 className=" mt-2 text-lg font-bold mx-4">{product.p_name}</h2>
+            <p className="text-gray-600 mx-4">Price: ${product.cost}</p>
+            <p className="text-gray-600 mx-4">Quantity: {product.Inv_quantity}</p>
             <p className="text-gray-600 mx-4 mb-4">Details: xyz</p>
           </div>
         ))}
+        </div>
       </div>
-    </div>
-  );
-};
-
-export default IndexPage;
+    );
+  };
+  
+  export default IndexPage;

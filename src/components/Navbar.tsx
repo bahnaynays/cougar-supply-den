@@ -62,7 +62,13 @@ const Navbar = (props: Props) => {
         <div className="font-bold text-md py-2"></div>
         <div className="text-sm">
           {/* Replace with the 'your-image-url' with the actual image URL */}
-          <img className="max-w-[135px] max-h-[36px] -mt-4" src="https://i.postimg.cc/4dZLzP3v/cougar-supply-den-full-logo-alpha.png" alt="" />
+          <Image
+          className="max-w-[135px] max-h-[36px] -mt-4"
+          src="https://i.postimg.cc/4dZLzP3v/cougar-supply-den-full-logo-alpha.png"
+          alt=""
+          width={135}
+          height={36}
+        />
         </div>
       </button>
 
@@ -116,7 +122,7 @@ const Navbar = (props: Props) => {
           </div>
         </div>
 
-
+      
 
 
       

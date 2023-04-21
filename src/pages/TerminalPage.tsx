@@ -54,7 +54,7 @@ const TerminalPage: React.FC = () => {
               <div
                 className="text-friendly-black3 hover:shadow-lg text-sm mt-5 font-bold rounded px-10 py-10 hover:bg-cougar-gold-dark bg-cougar-gold"
               >
-                <Link href="/CompanyList">Company List</Link>
+                <Link href="/SupplierList">Supplier List</Link>
               </div>
             </div>
 

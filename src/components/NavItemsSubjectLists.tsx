@@ -24,8 +24,8 @@ export const NavItemsSubjectLists: NavItem[] = [
     icon: <ClipboardDocumentIcon className="w-5 h-5" />,
   },
   {
-    label: "Company List",
-    href: "/CompanyList",
+    label: "Supplier List",
+    href: "/SupplierList",
     icon: <RectangleGroupIcon className="w-5 h-5" />,
   },
 ];

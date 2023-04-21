@@ -128,13 +128,13 @@ const Navbar = (props: Props) => {
       
       <div className="border-t-2 border-hover-white p-4 flex">
         <div className="flex gap-1">
-          <img
-            src={"https://i.postimg.cc/1RLDzMft/Fg-Q063-XUUAADf-Zg.png"}
-            height={38}
-            width={38}
-            alt="profile image"
-            className="rounded-full max-w-64 max-h-64"
-          />
+        <Image
+          src="https://i.postimg.cc/1RLDzMft/Fg-Q063-XUUAADf-Zg.png"
+          height={38}
+          width={38}
+          alt="profile image"
+          className="rounded-full max-w-64 max-h-64"
+      />
 
 
       <div className="flex flex-col"></div>

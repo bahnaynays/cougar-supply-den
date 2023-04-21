@@ -6,6 +6,6 @@ export interface Users {
     email: string;
     phone_num: string | null;
     pw: string | null;
-    userType: number;
+    userType: string;
     url_link: string | null;
   }

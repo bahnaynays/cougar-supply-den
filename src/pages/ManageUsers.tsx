@@ -118,17 +118,19 @@ const ManageUsers: React.FC = () => {
 
   const handleSaveClick = async () => {
     if (selectedProduct && validateProduct(selectedProduct)) {
-      console.log("Selected product before updating:", selectedProduct);
+
       const updatedProduct = await updateProduct(selectedProduct);
       closeModal();
       setSelectedProduct(updatedProduct);
     }
+
   };
 
-  const handleDeleteClick = async (userId: string) => {
-    console.log("delete test");
-    //setSelectedProduct(userId);
-    deleteProduct(userId);
+
+
+  const handleDeleteClick = async (ProductID: string, product: Users) => {
+    setSelectedProduct(product);
+    deleteProduct(ProductID);
   };
 
   const handleAddClick = () => {
@@ -241,7 +243,7 @@ return (
                   onClick={() => {
                     
                   if (selectedProduct) {
-                    handleDeleteClick(selectedProduct.user_id);
+                    handleDeleteClick(selectedProduct.user_id, product);
                   }
                 }}
               >
@@ -275,42 +277,42 @@ return (
         </div>
         
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="User ID">User ID:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="User ID" name="User ID" value={newProduct.user_id || ''} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="user_id">User ID:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="user_id" name="user_id" value={newProduct.user_id || ''} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="First Name">First Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="First Name" name="First Name" value={newProduct.f_name || ''} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="f_name">First Name:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="f_name" name="f_name" value={newProduct.f_name || ''} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="Last Name">Last Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Last Name" name="Last Name" value={newProduct.l_name || ''} onChange={handleInputChange} />
-          </div>
-
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="Date of Birth">Date of Birth:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="Date of Birth" name="Date of Birth" value={newProduct.dob?.substring(0, 10)} onChange={handleInputChange}/>
+            <label className="mt-4 mx-4" htmlFor="l_name">Last Name:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="l_name" name="l_name" value={newProduct.l_name || ''} onChange={handleInputChange} />
           </div>
 
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="Inv_quantity">Email:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Email" name="Email" value={newProduct.email || ''} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="dob">Date of Birth:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="dob" name="dob" value={newProduct.dob?.substring(0, 10)} onChange={handleInputChange}/>
+          </div>
+
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="email">Email:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="email" name="email" value={newProduct.email || ''} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="Phone Number">Phone Number:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Phone Number" name="Phone Number" value={newProduct.phone_num || ''} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="phone_num">Phone Number:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="phone_num" name="phone_num" value={newProduct.phone_num || ''} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="Password">Password:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Password" name="Password" value={newProduct.pw || ''} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="pw">Password:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="pw" name="pw" value={newProduct.pw || ''} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="User Type">User Type:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="User Type" name="User Type" value={newProduct.userType || ''} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="userType">User Type:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="userType" name="userType" value={newProduct.userType || ''} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="User Type">Url Link:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Url Link" name="Url Link" value={newProduct.url_link || ''} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="url_link">Url Link:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="url_link" name="url_link" value={newProduct.url_link || ''} onChange={handleInputChange} />
           </div>
           
         <div className='py-3'></div>
@@ -368,46 +370,44 @@ return (
 
 
         </div>
-        <div className="mb-3">
+      <div className="mb-3">
         </div>
 
         <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="User ID">User ID:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="User ID" name="User ID" value={selectedProduct.user_id} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="user_id">User ID:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="user_id" name="user_id" value={selectedProduct.user_id} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="First Name">First Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="First Name" name="First Name" value={selectedProduct.f_name} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="f_name">First Name:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="f_name" name="f_name" value={selectedProduct.f_name} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="Last Name">Last Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Last Name" name="Last Name" value={selectedProduct.l_name} onChange={handleInputChange} />
-          </div>
-
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="Date of Birth">Date of Birth:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="Date of Birth" name="Date of Birth" value={selectedProduct.dob?.substring(0, 10)} onChange={handleInputChange}/>
-          </div>
-
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="Inv_quantity">Email:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Email" name="Email" value={selectedProduct.email} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="l_name">Last Name:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="l_name" name="l_name" value={selectedProduct.l_name} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="Phone Number">Phone Number:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Phone Number" name="Phone Number" value={selectedProduct.phone_num} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="dob">Date of Birth:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="dob" name="dob" value={selectedProduct.dob?.substring(0, 10)} onChange={handleInputChange}/>
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="Password">Password:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Password" name="Password" value={selectedProduct.pw} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="email">Email:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="email" name="email" value={selectedProduct.email} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="User Type">User Type:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="User Type" name="User Type" value={selectedProduct.userType} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="phone_num">Phone Number:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="phone_num" name="phone_num" value={selectedProduct.phone_num} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="User Type">Url Link:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Url Link" name="Url Link" value={selectedProduct.url_link} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="pw">Password:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="pw" name="pw" value={selectedProduct.pw} onChange={handleInputChange} />
+          </div>
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="userType">User Type:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="userType" name="userType" value={selectedProduct.userType} onChange={handleInputChange} />
+          </div>
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="url_link">Url Link:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="url_link" name="url_link" value={selectedProduct.url_link} onChange={handleInputChange} />
           </div>
         
         <div className='py-3'></div>

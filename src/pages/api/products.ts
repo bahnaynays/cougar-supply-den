@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getConnection } from '@/../db';
-
+import { v4 as uuidv4 } from 'uuid';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const pool = await getConnection();
@@ -23,7 +23,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     
     try {
     await pool.request()
-      .input('ProductID', productData.ProductID)
+      .input('ProductID', uuidv4()) 
       .input('p_name', productData.p_name)
       .input('Inv_quantity', productData.Inv_quantity)
       .input('prod_type', productData.prod_type)

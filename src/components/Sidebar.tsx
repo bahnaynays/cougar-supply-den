@@ -3,9 +3,6 @@ import classNames from "classnames";
 import Link from "next/link";
 import Image from "next/image";
 import { useOnClickOutside } from "usehooks-ts";
-import { defaultNavItems } from "./defaultNavItems";
-
-
 
 import { NavItemsManagement } from "./NavItemsManagement";
 import { NavItemsStockReports } from "./NavItemsStockReports";
@@ -31,8 +28,7 @@ type Props = {
 };
 
 
-
-const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
+const Sidebar = ({ open, navItems = [...NavItemsManagement, ...NavItemsSubjectLists, ...NavItemsStockReports], setOpen }: Props) => {
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
   const [minimized, setMinimized] = useState(false);
@@ -56,22 +52,11 @@ const toggleMinimized = () => {
   setMinimized((prevState) => !prevState);
 };
 
-// Then, pass it to the Sidebar component as a prop
-
-/*
-<Sidebar
-  open={open}
-  setOpen={setOpen}
-  toggleMinimized={toggleMinimized}
-/>
-*/
-
-
 return (
   <>
     <div 
       className={classNames(
-        "fixed inset-0 bg-black transition-opacity duration-200",
+        "fixed inset-0 bg-black transition-opacity duration-200 z-20",
         {
           "opacity-70": open,
           "opacity-0 pointer-events-none": !open,
@@ -81,18 +66,19 @@ return (
 
     <div
       className={classNames({
-        "flex flex-col justify-between shadow-2xl": true,
+        "flex flex-col justify-between shadow-2xl z-20": true,
         "bg-bright-white text-friendly-black": true,
-        "md:w-full md:sticky top-0 z-20 fixed": true,
+        " md:sticky top-0 2xl:top-0  fixed": true,
         "md:h-[calc(100vh_-_64px)] h-full lg:w-[256px]": true,
         "transition-transform .2s ease-in-out md:-translate-x-0": true,
         "-translate-x-full ": !open,
+
       })}
       ref={ref}
     >
       {/* Add "X" icon */}
       {open && (
-        <div className="absolute top-2 right-[-48px] z-500">
+        <div className="absolute top-2 right-[-48px] z-50">
           <XMarkIcon
             className="h-10 w-10 text-bright-white cursor-pointer"
             onClick={() => setOpen(false)}
@@ -100,34 +86,10 @@ return (
         </div>
       )}
 
-      <nav className="md:sticky top-0 md:top-16">
+      <nav className="md:sticky top-0 md:top-16 ">
         {/* nav items */}
         <ul className="py-2 flex flex-col gap-2 font-semibold">
           
-          {/*
-          {navItems.map((item, index) => {
-            return (
-          <Link key={index} href={item.href}>
-          <li
-            className={classNames({
-              "text-friendly-black hover:bg-hover-white hover:bg-opacity-70 hover:shadow-lg": true,
-              "flex gap-4 items-center ": true,
-              "transition-colors duration-100": true,
-              "rounded-md p-2 mx-2 ": true,
-            })}
-          >
-            {item.icon} {!minimized && item.label}
-          </li>
-        </Link>
-            );
-          })}
-
-
-          import { NavItemsManagement } from "./NavItemsManagement";
-          import { NavItemsStockReports } from "./NavItemsStockReports";
-          import { NavItemsSubjectLists } from "./NavItemsSubjectLists";
-
-          */}
           <div className="font-bold px-4 py-1 text-lg bg-cougar-dark-red text-cougar-yellow rounded-r-full float-left" style={{ marginRight: "10px" }}>
             PERFORMANCE
           </div>
@@ -189,12 +151,9 @@ return (
           })}
 
 
-          
-          
-
         </ul>
-
         
+
       </nav>
       {/* Project details  */}
       <div className="p-2">

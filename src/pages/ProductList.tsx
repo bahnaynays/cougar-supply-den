@@ -73,8 +73,6 @@ const ProductList: React.FC = () => {
     console.log("delete test");
     setSelectedProduct(product);
     deleteProduct(ProductID);
-    deleteProduct(product);
-
   };
 
   const handleAddClick = () => {
@@ -153,8 +151,9 @@ return (
           </tr>
         </thead>
         <tbody>
-        {products && products.map((product, index) => (
-            <tr key={product.ProductID} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
+        {products && products.map((product: Product, index: number) => (
+          <tr key={product.ProductID} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
+
               <td className="text-friendly-black px-4 py-2">{product.ProductID}</td>
               <td className="text-friendly-black px-4 py-2">{product.p_name}</td>
               <td className="text-friendly-black px-4 py-2">{product.prod_type}</td>
@@ -196,7 +195,7 @@ return (
     
   {showAddModal && (
     <div
-      className="fixed inset-0 flex items-center justify-center z-4 p-4 bg-black bg-opacity-50"
+      className="fixed inset-0 flex items-center justify-center z-50 p-4 bg-black bg-opacity-50"
       onClick={() => setShowAddModal(false)}
     >
       <div
@@ -282,7 +281,7 @@ return (
 
   {showModal && selectedProduct && (
     <div
-      className="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50"
+      className="fixed inset-0 flex items-center justify-center z-50 p-4 bg-black bg-opacity-50"
       onClick={closeModal}
     >
       <div

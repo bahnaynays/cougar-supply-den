@@ -4,7 +4,7 @@ import Image from "next/image";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { useOnClickOutside } from "usehooks-ts";
-import { defaultNavItems } from "./defaultNavItems";
+
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
@@ -50,8 +50,8 @@ const Navbar = (props: Props) => {
       className={classNames({
         "bg-cougar-dark-red text-zinc-100": true, // colors
         "flex items-center": true, // layout
-        "w-full fixed z-5 shadow-lg h-16": true, //positioning & styling
-        "z-50": true, //z plane
+        "w-full fixed  shadow-lg h-16": true, //positioning & styling
+        "z-400": true, //z plane
       })}
     >
       <button className="hover:bg-cougar-dark-red2 py-4 px-6" onClick={props.onMenuButtonClick}>
@@ -153,12 +153,12 @@ const Navbar = (props: Props) => {
         </div>
       </div>
 
-      <button onClick={handleLogout} className="flex items-center bg-cougar-gold hover:bg-cougar-gold-dark rounded p-1.5 mx-8">
+      <button onClick={handleLogout} className="flex items-center bg-cougar-gold hover:bg-cougar-gold-dark rounded p-1 mx-8">
         <Link href="/LoginPage" className="text-friendly-black font font-bold hidden lg:block text-md mr-1 mx-2">
             Sign Out
         </Link>
 
-        <ArrowLeftOnRectangleIcon className="h-5 w-5 text-friendly-black mx-1" />
+        <ArrowLeftOnRectangleIcon className="h-4 w-4 text-friendly-black mx-1 font-semibold" />
       </button>
 
     </nav>

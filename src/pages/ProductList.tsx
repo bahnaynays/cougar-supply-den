@@ -4,6 +4,15 @@ import { Product } from '../interfaces/ProductInterface';
 import { useOnClickOutside } from 'usehooks-ts';
 
 const ProductList: React.FC = () => {
+
+  interface UseProductsReturnType {
+    products: Product[];
+    isLoading: boolean;
+    isError: boolean;
+    updateProduct: (product: Product) => Promise<Product>;
+    deleteProduct: (id: string) => void;
+    createProduct: (product: Partial<Product>) => Promise<void>;
+  }
   const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProducts();
 
   const [showAddModal, setShowAddModal] = useState(false);

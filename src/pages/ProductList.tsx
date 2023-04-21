@@ -5,14 +5,7 @@ import { useOnClickOutside } from 'usehooks-ts';
 
 const ProductList: React.FC = () => {
 
-  interface UseProductsReturnType {
-    products: Product[];
-    isLoading: boolean;
-    isError: boolean;
-    updateProduct: (product: Product) => Promise<Product>;
-    deleteProduct: (id: string) => void;
-    createProduct: (product: Partial<Product>) => Promise<void>;
-  }
+
   const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProducts();
 
   const [showAddModal, setShowAddModal] = useState(false);
@@ -160,8 +153,8 @@ return (
           </tr>
         </thead>
         <tbody>
-        {products && products.map((product: Product, index: number) => (
-          <tr key={product.ProductID} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
+          {Array.isArray(products) && products.map((product: Product, index: number) => (
+            <tr key={product.ProductID} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
 
               <td className="text-friendly-black px-4 py-2">{product.ProductID}</td>
               <td className="text-friendly-black px-4 py-2">{product.p_name}</td>

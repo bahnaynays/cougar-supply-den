@@ -150,7 +150,7 @@ const ManageUsers: React.FC = () => {
     const { name, value } = e.target;
     if (showAddModal) {
       setNewProduct((prevState) => ({ ...prevState, [name]: value }));
-    } else if (showModal && selectedProduct) {
+    } else if (selectedProduct) {
       setSelectedProduct((prevState) => {
         if (!prevState) return null;
         return { ...prevState, [name]: value };
@@ -395,7 +395,7 @@ return (
           </div>
           <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="Phone Number">Phone Number:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Phone Number" name="Phone Number" value={selectedProduct.phone_num} onChange={handleInputChange} />
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Phone Number" name="Phone Number" value={selectedProduct.phone_num} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="Password">Password:</label>

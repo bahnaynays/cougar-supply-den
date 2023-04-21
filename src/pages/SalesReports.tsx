@@ -171,7 +171,7 @@ const SalesReports: React.FC = () => {
             <div className="flex items-center space-x-5">
               <div className="block font-semibold text-xl text-gray-700">
                 <h2 className="leading-relaxed">Sales Report</h2>
-                <PerformanceMetricChart products={filteredProducts} />
+                {filteredProducts && <PerformanceMetricChart products={filteredProducts} />}
               </div>
             </div>
             <div className="divide-y divide-gray-200">

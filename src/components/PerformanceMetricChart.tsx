@@ -12,10 +12,13 @@ import {
 import { Product } from '../interfaces/ProductInterface';
 
 interface PerformanceMetricChartProps {
-  products: Product[];
+  products?: Product[];
 }
 
-const PerformanceMetricChart: React.FC<PerformanceMetricChartProps> = ({ products }) => {
+const PerformanceMetricChart: React.FC<PerformanceMetricChartProps> = ({
+  products = [],
+}) => {
+  
   // Process the products data for the chart here
   // For examples, you can create an array containing the number of products per product type
 

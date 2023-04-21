@@ -18,7 +18,7 @@ interface PerformanceMetricChartProps {
 const PerformanceMetricChart: React.FC<PerformanceMetricChartProps> = ({
   products = [],
 }) => {
-  
+
   // Process the products data for the chart here
   // For examples, you can create an array containing the number of products per product type
 
@@ -44,7 +44,7 @@ const PerformanceMetricChart: React.FC<PerformanceMetricChartProps> = ({
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="count" fill="#8884d8" />
+        <Bar dataKey="count" fill="#05b48c" />
       </BarChart>
     </ResponsiveContainer>
   );

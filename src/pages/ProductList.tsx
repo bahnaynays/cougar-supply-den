@@ -4,8 +4,6 @@ import { Product } from '../interfaces/ProductInterface';
 import { useOnClickOutside } from 'usehooks-ts';
 
 const ProductList: React.FC = () => {
-
-
   const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProducts();
 
   const [showAddModal, setShowAddModal] = useState(false);

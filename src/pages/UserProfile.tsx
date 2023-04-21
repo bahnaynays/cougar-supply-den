@@ -1,9 +1,19 @@
 import React from 'react';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-
-
+import { useRouter } from 'next/router';
 
 const UserProfile: React.FC = () => {
+  const router = useRouter();
+
+  const redirectToHomePage = () => {
+    router.push('/');
+  };
+
+  const redirectToSignupSuccessPage = () => {
+    router.push('/LoginPage');
+  };
+
+
   return (
     <div className="min-h-screen bg-friendly-grey py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -14,51 +24,108 @@ const UserProfile: React.FC = () => {
                 <h2 className="leading-relaxed">Account Information</h2>
               </div>
             </div>
-            <div className="divide-y divide-gray-200">
-              <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+            <div className="divide-y divide-gray-200 py-5">
+  
                 <ul className="list-disc space-y-2">
+                  <li className="flex items-start">
+                    <span className="h-6 flex items-center sm:h-7">
+                    First Name
+                    </span>
+                  </li>
 
-                <li className="flex items-start text-sm">
-                  <span className="h-6 flex items-center sm:h-3 text-friendly-black">
+                  <div className="relative flex max-w-[600px]">
+                    <input
+                      type="text"
+                      placeholder="First Name"
+                      className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
+                    />
+                  </div>
+
+                  <li className="flex items-start">
+                    <span className="h-6 flex items-center sm:h-7">
+                    Middle Name
+                    </span>
+                  </li>
+
+                  <div className="relative flex max-w-[600px]">
+                    <input
+                      type="text"
+                      placeholder="Middle Name"
+                      className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
+                    />
+                  </div>
+
+                  <li className="flex items-start">
+                    <span className="h-6 flex items-center sm:h-7">
+                    Last Name
+                    </span>
+                  </li>
+
+                  <div className="relative flex max-w-[600px]">
+                    <input
+                      type="text"
+                      placeholder="Last Name"
+                      className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
+                    />
+                  </div>
+
+                  <li className="flex items-start">
+                    <span className="h-6 flex items-center sm:h-7">
+                     Birthdate
+                    </span>
+                  </li>
+                  <div className="relative flex max-w-[600px]">
+                    <input
+                      type="Birthdate"
+                      placeholder="Birthdate"
+                      className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
+                    />
+                  </div>
+
+                  <li className="flex items-start">
+                    <span className="h-6 flex items-center sm:h-7">
+                    Phone Number
+                    </span>
+                  </li>
+
+                  <div className="relative flex max-w-[600px]">
+                    <input
+                      type="tel"
+                      placeholder="Phone Number"
+                      className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
+                    />
+                  </div>
+
+
+
+                  <li className="flex items-start">
+                    <span className="h-6 flex items-center sm:h-7">
                     Email
-                  </span>
-                </li>
-                <div className="relative flex max-w-[600px]">
-                  <input
-                    type="text"
-                    placeholder="Enter Email..."
-                    className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
-                  />
-                </div>
+                    </span>
+                  </li>
 
-                <div className="p-1"></div>
+                  <div className="relative flex max-w-[600px]">
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
+                    />
+                  </div>
 
-                <li className="flex items-start text-sm">
-                  <span className="h-6 flex items-center sm:h-3 text-friendly-black">
-                    Password
-                  </span>
-                </li>
-                <div className="relative flex max-w-[600px]">
-                  <input
-                    type="text"
-                    placeholder="Enter Password..."
-                    className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
-                  />
-                </div>
-                <div className="p-1"></div>
 
-                <li className="flex items-start text-sm">
-                  <span className="h-6 flex items-center sm:h-3 text-friendly-black">
-                    Date of Birth
-                  </span>
-                </li>
-                <div className="relative flex max-w-[600px]">
-                  <input
-                    type="text"
-                    placeholder="Enter Date of Birth..."
-                    className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
-                  />
-                </div>
+                  <li className="flex items-start">
+                    <span className="h-6 flex items-center sm:h-7">
+                     Password
+                    </span>
+                  </li>
+                  <div className="relative flex max-w-[600px]">
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      className="bg-hover-white2 text-black px-4 py-1 w-full rounded-md hover:shadow-lg border-2 focus:outline-none border-transparent focus:border-blue-500"
+                    />
+                  </div>
+                  
 
                 </ul>
               </div>
@@ -66,7 +133,7 @@ const UserProfile: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+
   );
 };
 

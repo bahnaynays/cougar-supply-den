@@ -1,3 +1,5 @@
+/*
+
 import useSWR, { mutate } from 'swr';
 import { Product } from '@/interfaces/ProductInterface';
 import axios from 'axios';
@@ -51,3 +53,4 @@ export default function useProducts() {
     createProduct,
   };
 }
+*/

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users } from '../interfaces/UsersInterface';
+import { Supplier } from '../interfaces/SupplierInterface';
 import { useOnClickOutside } from 'usehooks-ts';
 import axios from 'axios';
 import useSWR, { mutate } from 'swr';
@@ -10,16 +10,16 @@ const SupplierList: React.FC = () => {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
   const useProductsHook = () => {
-    const { data, error } = useSWR('/api/users', fetcher);
+    const { data, error } = useSWR('/api/suppliers', fetcher);
 
     const isLoading = !data && !error;
     const isError = error;
 
-    const updateProduct = async (selectedProduct: Users) => {
+    const updateProduct = async (selectedProduct: Supplier) => {
       try {
-        const response = await axios.put(`/api/users?user_id=${selectedProduct.user_id}`, selectedProduct);
+        const response = await axios.put(`/api/suppliers?Sup_id=${selectedProduct.Sup_id}`, selectedProduct);
         const updatedProduct = response.data;
-        mutate('/api/users');
+        mutate('/api/supplier');
         return updatedProduct;
       } catch (error) {
         console.error('Error updating product:', error);
@@ -28,7 +28,7 @@ const SupplierList: React.FC = () => {
     };
 
     const createProduct = async (newProduct) => {
-      await fetch('/api/users', {
+      await fetch('/api/suppliers', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,16 +36,16 @@ const SupplierList: React.FC = () => {
         body: JSON.stringify(newProduct),
       });
 
-      mutate('/api/users');
+      mutate('/api/suppliers');
     };
 
     //NOTE: The await fetch for this one is kind of sus, since its selectedProduct.user_id instead of user_id
-    const deleteProduct = async (user_id) => {
-      await fetch(`/api/users?user_id=${user_id}`, {
+    const deleteProduct = async (Sup_id) => {
+      await fetch(`/api/suppliers?Sup_id=${Sup_id}`, {
         method: 'DELETE',
       });
 
-      mutate('/api/users');
+      mutate('/api/suppliers');
     };
 
     return {
@@ -62,10 +62,10 @@ const SupplierList: React.FC = () => {
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Users | null>(null);
-  const [newProduct, setNewProduct] = useState<Partial<Users>>({});
+  const [selectedProduct, setSelectedProduct] = useState<Supplier | null>(null);
+  const [newProduct, setNewProduct] = useState<Partial<Supplier>>({});
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [filteredProducts, setFilteredProducts] = useState<Users[]>(products);
+  const [filteredProducts, setFilteredProducts] = useState<Supplier[]>(products);
 
   const formatDate = (dateString: string): string => {
     if (!dateString) {
@@ -81,7 +81,7 @@ const SupplierList: React.FC = () => {
   };
 
 
-  const validateProduct = (product: Partial<Users>): boolean => {
+  const validateProduct = (product: Partial<Supplier>): boolean => {
 
     
     const requiredFields = ["user_id", "f_name", "l_name", "dob", "email", "phone_num", "pw", "userType", "url_link"];
@@ -96,13 +96,13 @@ const SupplierList: React.FC = () => {
   };
 
 
-  const falseClick = (product: Users) => {
+  const falseClick = (product: Supplier) => {
     setSelectedProduct(product);
 
   };
 
 
-  const handleEditClick = (product: Users) => {
+  const handleEditClick = (product: Supplier) => {
     setShowModal(true);
     setSelectedProduct(product);
   };
@@ -128,7 +128,7 @@ const SupplierList: React.FC = () => {
 
 
 
-  const handleDeleteClick = async (userId: string, product: Users) => {
+  const handleDeleteClick = async (userId: string, product: Supplier) => {
     setSelectedProduct(product);
     deleteProduct(userId);
   };
@@ -171,7 +171,7 @@ return (
   <div className="container mx-auto px-4 mb-4">
     
     {isLoading && <div>Loading...</div>}
-    {isError && <div>Error loading users</div>}
+    {isError && <div>Error loading suppliers</div>}
      
   <h1 className="text-2xl font-semibold mb-10"></h1>
     <div className="relative overflow-x-auto shadow-xl rounded">
@@ -190,21 +190,14 @@ return (
             ({products?.length ?? 0} {products?.length === 1 ? 'row' : 'rows'})
           </span>
           <div className="mt-1 text-sm font-normal text-white">
-            List of Users and their Full Name, Last Name, Date of Birth, Email Adress, Phone Number, Password, userType, and Picture URLs.
+            List of Suppliers
           </div>
         </caption>
         
         <thead className="table-auto w-full text-xs uppercase bg-cougar-red text-gray-200">
           <tr>
-            <th scope="col" className="px-4 py-2">User ID</th>
-            <th scope="col" className="px-4 py-2">First Name</th>
-            <th scope="col" className="px-4 py-2">Last Name</th>
-            <th scope="col" className="px-4 py-2">Date of Birth</th>
-            <th scope="col" className="px-4 py-2">Email Address</th>
-            <th scope="col" className="px-4 py-2">Phone Number</th>
-            <th scope="col" className="px-4 py-2">Password</th>
-            <th scope="col" className="px-4 py-2">User Type</th>
-            <th scope="col" className="px-4 py-2">Url Link</th> 
+            <th scope="col" className="px-4 py-2">Supplier Name</th>
+            
 
             <th scope="col" className="px-4 py-2">Update</th> 
             <th scope="col" className="px-4 py-2">Delete</th> 
@@ -212,21 +205,11 @@ return (
           </tr>
         </thead>
         <tbody>
-        {products && products.map((product: Users, index: number) => (
-          <tr key={product.user_id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
+        {products && products.map((product: Supplier, index: number) => (
+          <tr key={product.Sup_id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
 
-              <td className="text-friendly-black px-4 py-2">{product.user_id}</td>
-              <td className="text-friendly-black px-4 py-2">{product.f_name}</td>
-              <td className="text-friendly-black px-4 py-2">{product.l_name}</td>
+              <td className="text-friendly-black px-4 py-2">{product.Sup_id}</td>
 
-
-              <td className="text-friendly-black px-4 py-2">{formatDate(product.dob)}</td>
-              <td className="text-friendly-black px-4 py-2">{product.email}</td>
-
-              <td className="text-friendly-black px-4 py-2">{product.phone_num}</td>
-              <td className="text-friendly-black px-4 py-2">{product.pw}</td>
-              <td className="text-friendly-black px-4 py-2">{product.userType}</td>
-              <td className="text-friendly-black px-4 py-2">{product.url_link}</td>
              
               <td className="px-4 py-2">
                 <button
@@ -243,7 +226,7 @@ return (
                   onClick={() => {
                     
                   if (selectedProduct) {
-                    handleDeleteClick(selectedProduct.user_id, product);
+                    handleDeleteClick(selectedProduct.Sup_id, product);
                   }
                 }}
               >
@@ -277,42 +260,8 @@ return (
         </div>
         
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="user_id">User ID:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="user_id" name="user_id" value={newProduct.user_id || ''} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="f_name">First Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="f_name" name="f_name" value={newProduct.f_name || ''} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="l_name">Last Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="l_name" name="l_name" value={newProduct.l_name || ''} onChange={handleInputChange} />
-          </div>
-
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="dob">Date of Birth:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="dob" name="dob" value={newProduct.dob?.substring(0, 10)} onChange={handleInputChange}/>
-          </div>
-
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="email">Email:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="email" name="email" value={newProduct.email || ''} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="phone_num">Phone Number:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="phone_num" name="phone_num" value={newProduct.phone_num || ''} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="pw">Password:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="pw" name="pw" value={newProduct.pw || ''} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="userType">User Type:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="userType" name="userType" value={newProduct.userType || ''} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="url_link">Url Link:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="url_link" name="url_link" value={newProduct.url_link || ''} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="Sup_id">Supplier Name:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Sup_id" name="Sup_id" value={newProduct.Sup_id || ''} onChange={handleInputChange} />
           </div>
           
         <div className='py-3'></div>
@@ -374,41 +323,10 @@ return (
         </div>
 
         <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="user_id">User ID:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="user_id" name="user_id" value={selectedProduct.user_id} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="Sup_id">Supplier Name:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Sup_id" name="Sup_id" value={selectedProduct.Sup_id} onChange={handleInputChange} />
           </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="f_name">First Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="f_name" name="f_name" value={selectedProduct.f_name} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="l_name">Last Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="l_name" name="l_name" value={selectedProduct.l_name} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="dob">Date of Birth:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="dob" name="dob" value={selectedProduct.dob?.substring(0, 10)} onChange={handleInputChange}/>
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="email">Email:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="email" name="email" value={selectedProduct.email} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="phone_num">Phone Number:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="phone_num" name="phone_num" value={selectedProduct.phone_num} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="pw">Password:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="pw" name="pw" value={selectedProduct.pw} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="userType">User Type:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="userType" name="userType" value={selectedProduct.userType} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="url_link">Url Link:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="url_link" name="url_link" value={selectedProduct.url_link} onChange={handleInputChange} />
-          </div>
+          
         
         <div className='py-3'></div>
       </div>

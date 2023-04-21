@@ -45,12 +45,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   
   
 } else if (req.method === 'PUT') {
-    const userId = req.query.userId;
+    const user_id = req.query.user_id;
     const userData = req.body;
 
     try {
       await pool.request()
-        .input('userId', userId)
+        .input('user_id', user_id)
         .input('f_name', userData.f_name)
         .input('l_name', userData.l_name)
         .input('dob', userData.dob)
@@ -69,7 +69,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
               pw = @pw,
               userType = @userType,
               url_link = @url_link
-          WHERE user_id = @userId
+          WHERE user_id = @user_id
         `);
 
       console.log('PUT response being sent');
@@ -79,14 +79,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       res.status(500).json({ message: 'Internal Server Error' });
     }
 } else if (req.method === 'DELETE') {
-    const userId = req.query.userId;
+    const user_id = req.query.user_id;
   
     try {
       await pool.request()
-        .input('userId', userId)
+        .input('user_id', user_id)
         .query(`
           DELETE FROM [dbo].[USERS]
-          WHERE user_id = @userId
+          WHERE user_id = @user_id
         `);
   
       console.log('DELETE response being sent');

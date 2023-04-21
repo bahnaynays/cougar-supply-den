@@ -139,8 +139,6 @@ const ProductList: React.FC = () => {
     setFilteredProducts(products);
   }, [products]);
 
-
-
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -153,11 +151,9 @@ const ProductList: React.FC = () => {
       });
     }
   };
-
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
-
 
 
 return (

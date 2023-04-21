@@ -128,11 +128,11 @@ const ManageUsers: React.FC = () => {
 
 
 
-  const handleDeleteClick = async (ProductID: string, product: Users) => {
+  const handleDeleteClick = async (userId: string, product: Users) => {
     setSelectedProduct(product);
-    deleteProduct(ProductID);
+    deleteProduct(userId);
   };
-
+  
   const handleAddClick = () => {
     setShowAddModal(true);
   };
@@ -141,11 +141,11 @@ const ManageUsers: React.FC = () => {
     setShowModal(false);
   };
 
+
+
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
-
-
 
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

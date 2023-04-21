@@ -4,25 +4,7 @@ import { useOnClickOutside } from 'usehooks-ts';
 import axios from 'axios';
 import useSWR, { mutate } from 'swr';
 import { v4 as uuidv4 } from 'uuid';
-/*
-interface reference
 
-export interface Users {
-    user_id: number;
-    f_name: string;
-    l_name: string;
-    dob: string;
-    email: string;
-    phone_num: string | null;
-    pw: string | null;
-    userType: number;
-    url_link: string | null;
-  }
-
-
-
-
-*/
 
 const ManageUsers: React.FC = () => {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -59,7 +41,7 @@ const ManageUsers: React.FC = () => {
 
     //NOTE: The await fetch for this one is kind of sus, since its selectedProduct.user_id instead of user_id
     const deleteProduct = async (user_id) => {
-      await fetch(`/api/users?user_id=${selectedProduct.user_id}`, {
+      await fetch(`/api/users?user_id=${user_id}`, {
         method: 'DELETE',
       });
 
@@ -100,7 +82,9 @@ const ManageUsers: React.FC = () => {
 
 
   const validateProduct = (product: Partial<Users>): boolean => {
-    const requiredFields = ["ProductID", "p_name", "Inv_quantity", "prod_type", "date_add", "supp", "cost"];
+
+    
+    const requiredFields = ["user_id", "f_name", "l_name", "dob", "email", "phone_num", "pw", "userType", "url_link"];
     for (const field of requiredFields) {
       if (!product[field]) {
         setErrorMessage(`Please fill in the ${field} field.`);
@@ -141,10 +125,10 @@ const ManageUsers: React.FC = () => {
     }
   };
 
-  const handleDeleteClick = async (ProductID: string, product: Users) => {
+  const handleDeleteClick = async (userId: string) => {
     console.log("delete test");
-    setSelectedProduct(product);
-    deleteProduct(ProductID);
+    //setSelectedProduct(userId);
+    deleteProduct(userId);
   };
 
   const handleAddClick = () => {
@@ -181,9 +165,11 @@ const ManageUsers: React.FC = () => {
 
 
 return (
+  
   <div className="container mx-auto px-4 mb-4">
+    
     {isLoading && <div>Loading...</div>}
-    {isError && <div>Error loading products</div>}
+    {isError && <div>Error loading users</div>}
      
   <h1 className="text-2xl font-semibold mb-10"></h1>
     <div className="relative overflow-x-auto shadow-xl rounded">
@@ -255,7 +241,7 @@ return (
                   onClick={() => {
                     
                   if (selectedProduct) {
-                    handleDeleteClick(selectedProduct.user_id, product);
+                    handleDeleteClick(selectedProduct.user_id);
                   }
                 }}
               >
@@ -280,7 +266,7 @@ return (
         <div className='rounded-b'>
         <div className="flex items-center justify-between bg-friendly-black3 rounded-t p-2">
         <div className="px-4 text-lg font-semibold text-left text-white rounded">
-          Add New Product
+          Add New User
         </div>
 
         
@@ -376,7 +362,7 @@ return (
         <div className='rounded-b'>
         <div className="flex items-center justify-between bg-friendly-black3 rounded-t p-2">
           <div className="px-4 text-lg font-semibold text-left text-white rounded">
-          Edit Product
+          Edit User
           </div>
 
 
@@ -387,15 +373,15 @@ return (
 
         <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="User ID">User ID:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="User ID" name="User ID" value={selectedProduct.user_id || ''} onChange={handleInputChange} />
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="User ID" name="User ID" value={selectedProduct.user_id} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="First Name">First Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="First Name" name="First Name" value={selectedProduct.f_name || ''} onChange={handleInputChange} />
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="First Name" name="First Name" value={selectedProduct.f_name} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="Last Name">Last Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Last Name" name="Last Name" value={selectedProduct.l_name || ''} onChange={handleInputChange} />
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Last Name" name="Last Name" value={selectedProduct.l_name} onChange={handleInputChange} />
           </div>
 
           <div className="flex justify-end">
@@ -405,23 +391,23 @@ return (
 
           <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="Inv_quantity">Email:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Email" name="Email" value={selectedProduct.email || ''} onChange={handleInputChange} />
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Email" name="Email" value={selectedProduct.email} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="Phone Number">Phone Number:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Phone Number" name="Phone Number" value={selectedProduct.phone_num || ''} onChange={handleInputChange} />
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Phone Number" name="Phone Number" value={selectedProduct.phone_num} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="Password">Password:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Password" name="Password" value={selectedProduct.pw || ''} onChange={handleInputChange} />
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Password" name="Password" value={selectedProduct.pw} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="User Type">User Type:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="User Type" name="User Type" value={selectedProduct.userType || ''} onChange={handleInputChange} />
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="User Type" name="User Type" value={selectedProduct.userType} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="User Type">Url Link:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Url Link" name="Url Link" value={selectedProduct.url_link || ''} onChange={handleInputChange} />
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Url Link" name="Url Link" value={selectedProduct.url_link} onChange={handleInputChange} />
           </div>
         
         <div className='py-3'></div>

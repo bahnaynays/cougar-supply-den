@@ -17,7 +17,7 @@ interface PerformanceMetricChartProps {
 
 const PerformanceMetricChart: React.FC<PerformanceMetricChartProps> = ({ products }) => {
   // Process the products data for the chart here
-  // For example, you can create an array containing the number of products per product type
+  // For examples, you can create an array containing the number of products per product type
 
   const productTypeCounts = products.reduce((acc, product) => {
     if (!acc[product.prod_type]) {

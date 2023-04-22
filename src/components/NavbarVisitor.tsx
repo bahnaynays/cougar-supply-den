@@ -93,9 +93,9 @@ const VisitorNavbar = (props: Props) => {
         <input
           type="text"
           placeholder="Search Contents"
-          className="text-black px-4 py-1.5 max-w-[800px] rounded border-transparent focus:border-blue-500 focus:ring-0 focus:outline-none"
+          className="text-black px-4 py-1.5 max-w-[800px] rounded-l border-transparent focus:border-blue-500 focus:ring-0 focus:outline-none"
         />
-        <button className="absolute inset-y-0 right-0 flex items-center px-3 rounded-r bg-cougar-gold hover:bg-cougar-gold-dark">
+        <button className="inset-y-0 flex items-center px-3 rounded-r bg-cougar-gold hover:bg-cougar-gold-dark">
           <MagnifyingGlassIcon className="text-friendly-black fontbold h-6 w-6 " />
         </button>
         
@@ -104,21 +104,9 @@ const VisitorNavbar = (props: Props) => {
 
     <div className="mx-2"></div>
       <div className="p-4 flex">
-        <div className="flex gap-1">
-
-
-
-      <div className="flex flex-col"></div>
-        
-      <div className="flex-col">
-        
-
-
-
-      </div>
-        </div>
+ 
         <div className="flex justify-end">
-            <button onClick={handleLogout} className="flex items-center bg-cougar-teal hover:bg-cougar-dark-teal rounded p-1 md:p-2 ml-4 mr-2">
+            <button onClick={handleLogout} className="flex items-center bg-cougar-teal hover:bg-cougar-dark-teal rounded p-1 md:p-2 ">
                 <Link href="/LoginPage" className="text-white font-bold hidden lg:block text-sm md:text-md mx-2">
                     Log In
                 </Link>

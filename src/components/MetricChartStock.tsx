@@ -11,11 +11,11 @@ import {
 } from 'recharts';
 import { Product } from '../interfaces/ProductInterface';
 
-interface PerformanceMetricChartProps {
+interface MetricChartStock {
   products?: Product[];
 }
 
-const PerformanceMetricChart: React.FC<PerformanceMetricChartProps> = ({
+const PerformanceMetricChart: React.FC<MetricChartStock> = ({
   products = [],
 }) => {
 
@@ -23,16 +23,16 @@ const PerformanceMetricChart: React.FC<PerformanceMetricChartProps> = ({
   // For examples, you can create an array containing the number of products per product type
 
   const productTypeCounts = products.reduce((acc, product) => {
-    if (!acc[product.prod_type]) {
-      acc[product.prod_type] = 1;
+    if (!acc[product.Inv_quantity]) {
+      acc[product.Inv_quantity] = 1;
     } else {
-      acc[product.prod_type] += 1;
+      acc[product.Inv_quantity] += 1;
     }
     return acc;
   }, {});
 
   const chartData = Object.entries(productTypeCounts).map(([key, value]) => ({
-    prod_type: key,
+    Inv_quantity: key,
     count: value,
   }));
 
@@ -40,7 +40,7 @@ const PerformanceMetricChart: React.FC<PerformanceMetricChartProps> = ({
     <ResponsiveContainer width="100%" height={400}>
       <BarChart data={chartData}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="prod_type" />
+        <XAxis dataKey="Inv_quantity" />
         <YAxis />
         <Tooltip />
         <Legend />

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from "react";
+import React, { PropsWithChildren, useState, useEffect } from "react";
 import AdminNavbar from "./NavbarAdmin";
 import CustomerNavbar from "./NavbarCustomer";
 import VisitorNavbar from "./NavbarVisitor";
@@ -11,6 +11,21 @@ interface LayoutProps {
 }
 
 const Layout = (props: PropsWithChildren) => {
+const [renderContent, setRenderContent] = useState(false);
+
+
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setRenderContent(true);
+  }, 1000);
+
+  return () => {
+    clearTimeout(timer);
+  };
+}, []);
+
+
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const auth = useAuth();
 

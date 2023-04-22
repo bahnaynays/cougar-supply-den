@@ -35,8 +35,10 @@ const AdminNavbar = (props: Props) => {
   }
 
   const handleLogout = () => {
-    // Implement your logout logic here
     console.log("Logging out...");
+  
+    // Refresh the page
+    location.reload();
   };
 
   const navigateToHomePage = () => {
@@ -47,6 +49,9 @@ const AdminNavbar = (props: Props) => {
     const selectedOption = event.target.value;
   
     switch (selectedOption) {
+      case "option0":
+        router.push("/");
+        break;
       case "option1":
         router.push("/ProductList");
         break;
@@ -116,6 +121,7 @@ const AdminNavbar = (props: Props) => {
           className="text-sm bg-hover-white text-black sm:max-w-[8x] max-w-[128px] px-4 py-2 rounded-l border-transparent appearance-none focus:outline-none focus:border-blue-500 focus:ring-blue-500 focus:underline-none"
           onChange={handleSelectChange}
         >
+          <option className="text-sm" value="option0">Store Products</option>
           <option className="text-sm" value="option1">Product List</option>
           <option className="text-sm" value="option2">Supplier List</option>
           <option className="text-sm" value="option3">Manage Users</option>
@@ -187,7 +193,7 @@ const AdminNavbar = (props: Props) => {
       </div>
 
       <button onClick={handleLogout} className="flex items-center bg-cougar-gold hover:bg-cougar-gold-dark rounded p-1 md:p-2 mx-8">
-        <Link href="/LoginPage" className="text-friendly-black font-bold hidden lg:block text-xs md:text-md mr-1 mx-2">
+        <Link href="/" className="text-friendly-black font-bold hidden lg:block text-xs md:text-md mx-1.5">
           Sign Out
         </Link>
         

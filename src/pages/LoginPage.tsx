@@ -70,6 +70,7 @@ const LoginPage: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Users | null>(null);
   const [newProduct, setNewProduct] = useState<Partial<Users>>({});
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [successMessage, setsuccessMessage] = useState<string>("");
   const [filteredProducts, setFilteredProducts] = useState<Users[]>(products);
   
 
@@ -91,9 +92,6 @@ const LoginPage: React.FC = () => {
 
 
   const validateProduct = (product: Partial<Users>): boolean => {
-
-    
-    //const requiredFields = ["f_name", "l_name", "dob", "email", "phone_num", "pw", "userType"];
     const requiredFields = ["email", "pw"];
     for (const field of requiredFields) {
       if (!product[field]) {
@@ -102,6 +100,18 @@ const LoginPage: React.FC = () => {
       }
     }
     setErrorMessage("");
+    return true;
+  };
+
+  const validateSuccess = (product: Partial<Users>): boolean => {
+    const requiredFields = ["email", "pw"];
+    for (const field of requiredFields) {
+      if (product[field]) {
+        setsuccessMessage(`Login Successful for ${field}!`);
+        return false;
+      }
+    }
+    setsuccessMessage("");
     return true;
   };
 
@@ -140,7 +150,7 @@ const LoginPage: React.FC = () => {
   const isLoginValid = (email: string, password: string, users: Users[]): boolean => {
     return users.some(user => user.email === email && user.pw === password);
   };
-  
+
   const router = useRouter();
 
   const redirectToSignupSuccessPage = async () => {
@@ -155,51 +165,21 @@ const LoginPage: React.FC = () => {
 
   const redirectToHomePageVisitor = () => {
 
-    router.push('/LoginPage');
+    router.push('/');
   };
 
-  /*old free valid checker wherei t just lets anyone in
-  const redirectToHomePageValidUser = () => {
-    if (newProduct && validateProduct(newProduct)) {
-      router.push('/');
-    }
-  };
-*/
+const redirectToHomePageValidUser = async () => {
 
-  /*old valid checker 2.0 that just ball checks to see if they are entering any of the user values on the table
-const redirectToHomePageValidUser = () => {
   if (newProduct && validateProduct(newProduct)) {
-    if (isLoginValid(newProduct.email, newProduct.pw, products)) {
-      router.push('/');
-    } else {
+    if (!isLoginValid(newProduct.email, newProduct.pw, products)) {
       setErrorMessage("Invalid email or password");
-    }
-  }
-};
-*/
-
-  /*old valid checker 2.0 that just ball checks to see if they are entering any of the user values on the tableonst redirectToHomePageValidUser = () => {
-  if (newProduct && validateProduct(newProduct)) {
-    try {
-      login(newProduct.email, newProduct.pw, products);
-      router.push("/");
-    } catch (error) {
-      setErrorMessage(error.message);
-    }
-  }
-};
-*/
-
-const redirectToHomePageValidUser = () => {
-  if (newProduct && validateProduct(newProduct)) {
-    if (isLoginValid(newProduct.email, newProduct.pw, products)) {
-
-      // Find the authenticated user and set it in the AuthContext
-      const authenticatedUser = products.find(user => user.email === newProduct.email && user.pw === newProduct.pw);
+    } else {
+      const authenticatedUser = products.find(
+        (user) => user.email === newProduct.email && user.pw === newProduct.pw
+        
+      );
       setUser(authenticatedUser);
       router.push("/");
-    } else {
-      setErrorMessage("Invalid email or password");
     }
   }
 };
@@ -261,14 +241,23 @@ const redirectToHomePageValidUser = () => {
                 <h2 className="leading-relaxed">User Login</h2>
               </div>
             </div>
-            {errorMessage && (
-                    <div
-                      className={`bg-cougar-gold text-white px-4 z-0 py-2 rounded text-sm font-semibold ${errorMessage ? 'flashy-error' : ''}`}
-                      style={{ zIndex: 1000 }}
-                    >
-                  {errorMessage}
-                  </div>
-                  )}
+              {errorMessage && (
+                <div
+                  className={`bg-cougar-gold text-white px-4 z-0 py-2 rounded text-sm font-semibold ${errorMessage ? 'flashy-error' : ''}`}
+                  style={{ zIndex: 1000 }}
+                >
+              {errorMessage}
+                </div>
+              )}
+
+              {successMessage && (
+                <div
+                  className={`bg-cougar-gold text-white px-4 z-0 py-2 rounded text-sm font-semibold ${successMessage ? 'flashy-success' : ''}`}
+                  style={{ zIndex: 1000 }}
+                >
+              {successMessage}
+                </div>
+              )}
             <div>
               <div className="py-8 text-base leading-6  text-gray-700 sm:text-lg sm:leading-7">
                 <ul className="list-disc space-y-2">

@@ -3,7 +3,7 @@ import { Product } from '../interfaces/ProductInterface';
 import { useOnClickOutside } from 'usehooks-ts';
 import axios from 'axios';
 import useSWR, { mutate } from 'swr';
-import PerformanceMetricChart from '@/components/PerformanceMetricChart';
+import MetricChartSales from '@/components/MetricChartSales';
 
 
 const SalesReports: React.FC = () => {
@@ -157,12 +157,6 @@ const SalesReports: React.FC = () => {
   }, [products]);
 
 
-
-
-
-
-
-
   return (
     <div className="min-h-screen bg-friendly-grey py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -171,7 +165,7 @@ const SalesReports: React.FC = () => {
             <div className="flex items-center space-x-5">
               <div className="block font-semibold text-xl text-gray-700">
                 <h2 className="leading-relaxed">Sales Report</h2>
-                {filteredProducts && <PerformanceMetricChart products={filteredProducts} />}
+                {filteredProducts && <MetricChartSales products={filteredProducts} />}
               </div>
             </div>
             <div className="divide-y divide-gray-200">

@@ -349,43 +349,7 @@ const SignupPage: React.FC = () => {
                         className="bg-gray-200 rounded hover:shadow-lg px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500" 
                       />
                   </div>
-                  
 
-                  {/*temp  usertype to test null*/}
-                  <li className="flex items-start">
-                    <span className="mt-1 flex items-center text-sm">
-                    userType Temp
-                    </span>
-                  </li>
-                  <div className="relative flex max-w-[600px]">
-                  <input
-                        placeholder="Enter usertype temp"
-                        type="text"
-                        id="userType" 
-                        name="userType" 
-                        value={newProduct.userType || ''} onChange={handleInputChange} 
-                        className="bg-gray-200 rounded hover:shadow-lg px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500" 
-                      />
-                  </div>
-
-                    {/*temp user_id to test null*/}
-                    <li className="flex items-start">
-                    <span className="mt-1 flex items-center text-sm">
-                    user_id Temp
-                    </span>
-                  </li>
-                  <div className="relative flex max-w-[600px]">
-                  <input
-                        placeholder="Enter usertype temp"
-                        type="text"
-                        id="user_id" 
-                        name="user_id" 
-                        value={newProduct.user_id || ''} onChange={handleInputChange} 
-                        className="bg-gray-200 rounded hover:shadow-lg px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500" 
-                      />
-                  </div>
-                  
-                  
                   <div className="flex justify-between text-sm items-center text-friendly-black3 pt-4">
                   <div className="flex items-center">
                     <span>Back to</span>

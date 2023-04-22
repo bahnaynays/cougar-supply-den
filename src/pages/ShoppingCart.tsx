@@ -105,6 +105,7 @@ return (
         ))}
 
       </div>
+      
       <div className="fixed right-64 w-64 bg-white p-4 rounded-2xl shadow-lg">
         <h2 className="text-xl font-bold mb-4">Order Summary</h2>
         <ul>
@@ -119,7 +120,9 @@ return (
           <span>Total Cost:</span>
           <span>${totalCost.toFixed(2)}</span>
         </div>
+
       </div>
+
     </div>
   );
 };

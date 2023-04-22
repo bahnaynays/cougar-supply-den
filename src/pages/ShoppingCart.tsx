@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import React, { useState } from "react";
 import Image from 'next/image';
 import { ShoppingCart } from '../interfaces/CartInterface';
+import { Product } from '../interfaces/ProductInterface';
 
 import { useOnClickOutside } from 'usehooks-ts';
 import axios from 'axios';
@@ -9,17 +10,18 @@ import useSWR, { mutate } from 'swr';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const useProductsHook = () => {
-  const { data, error } = useSWR('/api/carts', fetcher);
+
+const useProductsHookProducts = () => {
+  const { data, error } = useSWR('/api/products', fetcher);
 
   const isLoading = !data && !error;
   const isError = error;
 
-  const updateProduct = async (selectedProduct: ShoppingCart) => {
+  const updateProduct = async (selectedProduct: Product) => {
     try {
-      const response = await axios.put(`/api/carts?cart_id=${selectedProduct.cart_id}`, selectedProduct);
+      const response = await axios.put(`/api/products?ProductID=${selectedProduct.ProductID}`, selectedProduct);
       const updatedProduct = response.data;
-      mutate('/api/carts');
+      mutate('/api/products');
       return updatedProduct;
     } catch (error) {
       console.error('Error updating product:', error);
@@ -28,7 +30,7 @@ const useProductsHook = () => {
   };
 
   const createProduct = async (newProduct) => {
-    await fetch('/api/carts', {
+    await fetch('/api/products', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,15 +38,15 @@ const useProductsHook = () => {
       body: JSON.stringify(newProduct),
     });
 
-    mutate('/api/carts');
+    mutate('/api/products');
   };
 
-  const deleteProduct = async (cart_id) => {
-    await fetch(`/api/carts?cart_id=${cart_id}`, {
+  const deleteProduct = async (productId) => {
+    await fetch(`/api/products?productId=${productId}`, {
       method: 'DELETE',
     });
 
-    mutate('/api/carts');
+    mutate('/api/products');
   };
 
   return {
@@ -57,9 +59,59 @@ const useProductsHook = () => {
   };
 };
 
+const useProductsHookCarts = () => {
+  const { data, error } = useSWR('/api/carts', fetcher);
+
+  const isLoading2 = !data && !error;
+  const isError2 = error;
+
+  const updateCart = async (selectedProduct: ShoppingCart) => {
+    try {
+      const response = await axios.put(`/api/carts?cart_id=${selectedProduct.cart_id}`, selectedProduct);
+      const updatedProduct = response.data;
+      mutate('/api/carts');
+      return updatedProduct;
+    } catch (error) {
+      console.error('Error updating cart:', error);
+      throw error.response.data;
+    }
+  };
+
+  const createCart = async (newProduct) => {
+    await fetch('/api/carts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newProduct),
+    });
+
+    mutate('/api/carts');
+  };
+
+  const deleteCart = async (cart_id) => {
+    await fetch(`/api/carts?cart_id=${cart_id}`, {
+      method: 'DELETE',
+    });
+
+    mutate('/api/carts');
+  };
+
+  return {
+    carts: data,
+    isLoading2,
+    isError2,
+    updateCart,
+    createCart,
+    deleteCart,
+  };
+};
+
 
 const ShoppingCart: NextPage = () => {
-    const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHook();
+    const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHookProducts();
+    const { carts, isLoading2, isError2, updateCart, createCart, deleteCart } = useProductsHookCarts();
+
     const [activeProduct, setActiveProduct] = useState<number | null>(null);
   
     if (isLoading) return <p>Loading...</p>;

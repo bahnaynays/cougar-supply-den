@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
+
 const LoginPage: React.FC = () => {
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());

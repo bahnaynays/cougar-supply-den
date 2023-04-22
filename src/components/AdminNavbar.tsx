@@ -95,9 +95,18 @@ const Navbar = (props: Props) => {
         </div>
       </button>
 
+      <div className="text-cougar-yellow font-bold text-xl py-4 px-6">
+          ADMINISTRATOR TERMINAL
+      </div>
+
+      
+      {/*
+
       <Link href="/TerminalPage" className="text-cougar-yellow font-bold text-xl hover:bg-cougar-dark-red2 py-4 px-6">
           ADMINISTRATOR TERMINAL
       </Link>
+
+      */}
 
       <div className="flex-grow"></div>
 

@@ -61,7 +61,17 @@ useEffect(() => {
           }}
         />
       );
-    }
+  } else {
+    return (
+      <VisitorNavbar
+        onMenuButtonClick={() => setSidebarOpen((prev) => !prev)}
+        open={false}
+        setOpen={function (open: boolean): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
+    );
+  }
   };
 
   return (

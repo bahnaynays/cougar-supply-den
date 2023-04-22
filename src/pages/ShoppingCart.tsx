@@ -1,136 +1,334 @@
 import { NextPage } from "next";
-import React, { useState } from "react";
-import Image from 'next/image';
-import { ShoppingCart } from '../interfaces/CartInterface';
-import { Product } from '../interfaces/ProductInterface';
 
+import React, { useEffect, useState } from "react";
+    
+import Image from 'next/image';
 import { useOnClickOutside } from 'usehooks-ts';
+    
 import axios from 'axios';
 import useSWR, { mutate } from 'swr';
+    
+import { ShoppingCart } from '../interfaces/CartInterface';
+import { Product } from '../interfaces/ProductInterface';
+import { Users } from '../interfaces/UsersInterface';
+    
+import { useAuth } from "../context/AuthContext";
 import router from "next/router";
-
+    
+    
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-
-const useProductsHookProducts = () => {
+    
+const ShoppingCart: NextPage = () => {
+  const auth = useAuth(); 
+    
+  const useProductsHookProducts = () => {
   const { data, error } = useSWR('/api/products', fetcher);
-
+    
   const isLoading = !data && !error;
   const isError = error;
 
-  const updateProduct = async (selectedProduct: Product) => {
-    try {
-      const response = await axios.put(`/api/products?ProductID=${selectedProduct.ProductID}`, selectedProduct);
-      const updatedProduct = response.data;
-      mutate('/api/products');
-      return updatedProduct;
-    } catch (error) {
-      console.error('Error updating product:', error);
-      throw error.response.data;
-    }
-  };
 
-  const createProduct = async (newProduct) => {
-    await fetch('/api/products', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newProduct),
-    });
-
-    mutate('/api/products');
-  };
-
-  const deleteProduct = async (productId) => {
-    await fetch(`/api/products?productId=${productId}`, {
-      method: 'DELETE',
-    });
-
-    mutate('/api/products');
-  };
-
-  return {
-    products: data,
-    isLoading,
-    isError,
-    updateProduct,
-    deleteProduct,
-    createProduct,
-  };
-};
-
-const useProductsHookCarts = () => {
-  const { data, error } = useSWR('/api/carts', fetcher);
-
-  const isLoading2 = !data && !error;
-  const isError2 = error;
-
-  const updateCart = async (selectedProduct: ShoppingCart) => {
-    try {
-      const response = await axios.put(`/api/carts?cart_id=${selectedProduct.cart_id}`, selectedProduct);
-      const updatedProduct = response.data;
-      mutate('/api/carts');
-      return updatedProduct;
-    } catch (error) {
-      console.error('Error updating cart:', error);
-      throw error.response.data;
-    }
-  };
-
-  const createCart = async (newProduct) => {
-    await fetch('/api/carts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newProduct),
-    });
-
-    mutate('/api/carts');
-  };
-
-  const deleteCart = async (cart_id) => {
-    await fetch(`/api/carts?cart_id=${cart_id}`, {
-      method: 'DELETE',
-    });
-
-    mutate('/api/carts');
-  };
-
-  return {
-    carts: data,
-    isLoading2,
-    isError2,
-    updateCart,
-    createCart,
-    deleteCart,
-  };
-};
-
-
-const ShoppingCart: NextPage = () => {
-    const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHookProducts();
-    const { carts, isLoading2, isError2, updateCart, createCart, deleteCart } = useProductsHookCarts();
-
-    const [activeProduct, setActiveProduct] = useState<number | null>(null);
   
-    if (isLoading) return <p>Loading...</p>;
-    if (isError) return <p>Error loading products.</p>;
-
-    if (isLoading2) return <p>Loading...</p>;
-    if (isError2) return <p>Error loading carts.</p>;
     
-    const totalCost = products.reduce((sum, product) => sum + product.quantity * product.quantity, 0);
+        const updateProduct = async (selectedProduct: Product) => {
+          try {
+            const response = await axios.put(`/api/products?ProductID=${selectedProduct.ProductID}`, selectedProduct);
+            const updatedProduct = response.data;
+            mutate('/api/products');
+            return updatedProduct;
+          } catch (error) {
+            console.error('Error updating product:', error);
+            throw error.response.data;
+          }
+        };
+    
+        const createProduct = async (newProduct) => {
+          await fetch('/api/products', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newProduct),
+          });
+    
+          mutate('/api/products');
+        };
+    
+        const deleteProduct = async (productId) => {
+          await fetch(`/api/products?productId=${productId}`, {
+            method: 'DELETE',
+          });
+    
+          mutate('/api/products');
+        };
+    
+        return {
+          products: data,
+          isLoading,
+          isError,
+          updateProduct,
+          deleteProduct,
+          createProduct,
+        };
+      };
+    
+      const useProductsHookCarts = () => {
+        const { data, error } = useSWR('/api/carts', fetcher);
+    
+        const isLoading2 = !data && !error;
+        const isError2 = error;
+    
+        const updateCart = async (selectedCart: ShoppingCart) => {
+          try {
+            const response = await axios.put(`/api/carts?cart_id=${selectedCart.cart_id}`, selectedCart);
+            const updatedCart = response.data;
+            mutate('/api/carts');
+            return updatedCart;
+          } catch (error) {
+            console.error('Error updating cart:', error);
+            throw error.response.data;
+          }
+        };
+    
+        const createCart = async (newCart) => {
+          await fetch('/api/carts', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newCart),
+          });
+    
+          mutate('/api/carts');
+        };
+    
+        const deleteCart = async (cart_id) => {
+          await fetch(`/api/carts?cart_id=${cart_id}`, {
+            method: 'DELETE',
+          });
+    
+          mutate('/api/carts');
+        };
+    
+        return {
+          carts: data,
+          isLoading2,
+          isError2,
+          updateCart,
+          createCart,
+          deleteCart,
+        };
+      };
+    
+      const useProductsHookUsers = () => {
+        const { data, error } = useSWR('/api/users', fetcher);
+    
+        const isLoading3 = !data && !error;
+        const isError3 = error;
+    
+        const updateUser = async (selectedProduct: Users) => {
+          try {
+            const response = await axios.put(`/api/users?user_id=${selectedProduct.user_id}`, selectedProduct);
+            const updatedProduct = response.data;
+            mutate('/api/users');
+            return updatedProduct;
+          } catch (error) {
+            console.error('Error updating product:', error);
+            throw error.response.data;
+          }
+        };
+    
+        const createUser = async (newUser) => {
+          await fetch('/api/users', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newUser),
+          });
+    
+          mutate('/api/users');
+        };
+    
+        //NOTE: The await fetch for this one is kind of sus, since its selectedProduct.user_id instead of user_id
+        const deleteUser = async (user_id) => {
+          await fetch(`/api/users?user_id=${user_id}`, {
+            method: 'DELETE',
+          });
+    
+          mutate('/api/users');
+        };
+    
+        return {
+          users: data,
+          isLoading3,
+          isError3,
+          updateUser,
+          deleteUser,
+          createUser,
+        };
+      };
+    
+    
+    
+    
+      const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHookProducts();
+      const { carts, isLoading2, isError2, updateCart, createCart, deleteCart } = useProductsHookCarts();
+      const { users, isLoading3, isError3, updateUser, createUser, deleteUser } = useProductsHookUsers();
+    
+      const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+      const [selectedCart, setSelectedCart] = useState<ShoppingCart | null>(null);
+    
+      const [activeProduct, setActiveProduct] = useState<number | null>(null);
+      const [activeCart, setActiveCart] = useState<number | null>(null);
+      
+      const [newProduct, setNewProduct] = useState<Partial<Product>>({});
+      const [newCart, setNewCart] = useState<Partial<ShoppingCart>>({});
+    
+      const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+      const [filteredCarts, setFilteredCarts] = useState<ShoppingCart[]>(carts);
+    
+      const [errorMessage, setErrorMessage] = useState<string>("");
+    
+      const [showAddModal, setShowAddModal] = useState(false);
+      const [showModal, setShowModal] = useState(false);
+    
+    
+      if (isLoading) return <p>Loading...</p>;
+      if (isError) return <p>Error loading products.</p>;
+    
+      if (isLoading2) return <p>Loading...</p>;
+      if (isError2) return <p>Error loading carts.</p>;
+    
+      if (isLoading3) return <p>Loading...</p>;
+      if (isError3) return <p>Error loading users.</p>;
+    
+      const totalCost = products.reduce((sum, product) => sum + product.quantity * product.quantity, 0);
+      
+      const formatDate = (dateString: string): string => {
+        if (!dateString) {
+          return 'Unspecified Date'; 
+        }
+    
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+      
+        return `${year}-${month}-${day}`;
+      };
+    
+    
+    
+    
+      const falseClickProduct = (product: Product) => {
+        setSelectedProduct(product);
+      };
+    
+      const handleEditClickProduct = (product: Product) => {
+        setShowModal(true);
+        setSelectedProduct(product);
+      };
+    
+    
+      //creater  of product
+      const handleAddSaveClickProduct = async () => {
+        if (newProduct) {
+          await createProduct(newProduct);
+          setShowAddModal(false);
+          setNewProduct({});
+        }
+      };
+    
+      const handleSaveClickProduct= async () => {
+        if (selectedProduct) {
+    
+          const updatedProduct = await updateProduct(selectedProduct);
+          closeModalProduct();
+          setSelectedProduct(updatedProduct);
+        }
+      };
+    
+      const handleDeleteClickProduct = async (ProductID: string, product: Product) => {
+        setSelectedProduct(product);
+        deleteProduct(ProductID);
+      };
+    
+      const handleAddClickProduct = () => {
+        setShowAddModal(true);
+      };
+    
+      const closeModalProduct = () => {
+        setShowModal(false);
+      };
 
-    const redirectToCart = () => {
-      router.push('/ShoppingCart');
-    };
-  
-  
-    const redirectToCheckout = () => {
-      router.push('/CheckoutPage');
-    };
+    
+      const falseClickCart = (product: Product) => {
+        setSelectedProduct(product);
+      };
+    
+      const handleEditClickCart = (product: Product) => {
+        setShowModal(true);
+        setSelectedProduct(product);
+      };
+    
+      const handleAddSaveClick = async () => {
+        if (newProduct) {
+          await createProduct(newProduct);
+          setShowAddModal(false);
+          setNewProduct({});
+        }
+      };
+    
+      const handleSaveClickCart = async () => {
+        if (selectedProduct) {
+          const updatedProduct = await updateProduct(selectedProduct);
+          closeModalCart();
+          setSelectedProduct(updatedProduct);
+        }
+      };
+    
+
+      const handleDeleteClickCart = async (CartID: number, cart: ShoppingCart) => {
+        setSelectedCart(cart);
+        deleteCart(CartID);
+      };
+    
+      const handleAddClickCart = () => {
+        setShowAddModal(true);
+      };
+    
+      const closeModalCart = () => {
+        setShowModal(false);
+      };
+      
+
+      const redirectToCheckoutNew = async (product: Product) => {
+        if (!auth.user) {
+          console.error("User not authenticated");
+          return;
+        }
+        const totalCost = products.reduce((sum, product) => sum + product.quantity * product.quantity, 0);
+
+        const existingCart = carts.find((cart) => cart.cust_id === auth.user.user_id && cart.Product_id === product.ProductID);
+      
+        if (existingCart) {
+          const updatedCart: ShoppingCart = { ...existingCart, quantity: (existingCart.quantity ?? 0) + 1 };
+          await updateCart(updatedCart);
+        } else {
+          const newCart: ShoppingCart = {
+            cart_id: 0,
+            cust_id: auth.user.user_id,
+            Product_id: product.ProductID,
+            quantity: 1,
+          };
+          await createCart(newCart);
+        }
+
+      };
+      const redirectToCheckout= () => {
+        router.push('/CheckoutPage');
+      };
 
 
 return (
@@ -152,11 +350,17 @@ return (
             <p className="text-gray-600 mx-4">Quantity: {product.quantity}</p>
             <p className="text-gray-600 mx-4 mb-4">Details: xyz</p>
             <div className="flex justify-between mx-4 mb-4">
-              <button
-                className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red"
+                <button
+                  className="bg-cougar-red text-white px-3 rounded font-semibold hover:bg-cougar-dark-red"
+                  onClick={() => {
+                    
+                  if (selectedCart) {
+                    handleDeleteClickCart(selectedCart.cart_id, product);
+                  }
+                }}
               >
                 Remove
-              </button >
+            </button>
               <div className="quantity-select bg-cougar-gold font-semibold text-friendly-black3 pl-3 pr-2 py-1 rounded hover:bg-cougar-gold-dark">
                 <label htmlFor="quantity" className="mr-2">QTY:</label>
                 <select id="quantity" name="quantity" className="quantity-select bg-cougar-gold text-friendly-black3 py-1 rounded hover:bg-white">

@@ -29,14 +29,22 @@ const SignupPage: React.FC = () => {
     };
 
     const createProduct = async (newProduct) => {
+      // Generate user_id based on the user's first and last name
+      const userId = generateUserIdFromName();
+    
+      // Set a default value for userType if it is not provided
+      const userType = newProduct.userType || 'Customer';
+    
+      const newUser = { ...newProduct, user_id: userId, userType: userType };
+    
       await fetch('/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newProduct),
+        body: JSON.stringify(newUser),
       });
-
+    
       mutate('/api/users');
     };
 
@@ -47,6 +55,21 @@ const SignupPage: React.FC = () => {
       });
 
       mutate('/api/users');
+    };
+
+    const generateUserIdFromName = () => {
+      // Generate a random number within a range (for example, between 10000 and 99999)
+      const generateRandomNumber = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      };
+    
+      // Check if there's already a user with the same user_id, if so, generate a new one
+      let userId = generateRandomNumber(10000, 99999).toString();
+      while (products.some((product) => product.user_id === userId)) {
+        userId = generateRandomNumber(10000, 99999).toString();
+      }
+    
+      return userId;
     };
 
     return {
@@ -121,7 +144,6 @@ const SignupPage: React.FC = () => {
 
   const handleSaveClick = async () => {
     if (selectedProduct && validateProduct(selectedProduct)) {
-
       const updatedProduct = await updateProduct(selectedProduct);
       closeModal();
       setSelectedProduct(updatedProduct);
@@ -181,11 +203,17 @@ const SignupPage: React.FC = () => {
     }
   };
 
+
+  const handleInputChangeConvert = async () => {
+    await createProduct(newProduct);
+    setNewProduct({});
+  };
+
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
 
-
+ 
 
 
   return (
@@ -321,6 +349,7 @@ const SignupPage: React.FC = () => {
                         className="bg-gray-200 rounded hover:shadow-lg px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500" 
                       />
                   </div>
+                  
 
                   {/*temp  usertype to test null*/}
                   <li className="flex items-start">
@@ -357,21 +386,22 @@ const SignupPage: React.FC = () => {
                   </div>
                   
                   
-                  <div className="flex justify-between items-center pt-4">
-
+                  <div className="flex justify-between text-sm items-center text-friendly-black3 pt-4">
+                  <div className="flex items-center">
+                    <span>Back to</span>
                     <button
                       onClick={redirectToHomePage}
-                      className="bg-cougar-gold text-friendly-black3 text-sm px-3 py-1 rounded-md font-semibold hover:bg-cougar-gold-dark"
+                      className="ml-1 text-blue-600 text-sm rounded-md font-semibold hover:text-blue-300"
                     >
-                      Cancel
+                      Store
                     </button>
-                    <button
-                      onClick={redirectToSignupSuccessPage}
-
-                      className="bg-cougar-teal text-white px-3 text-sm py-1 rounded-md font-semibold hover:bg-cougar-dark-teal"
-                    >
-                      Sign Up
-                    </button>
+                  </div>
+                  <button
+                    onClick={redirectToSignupSuccessPage}
+                    className="bg-cougar-teal text-white px-3 text-sm py-1 rounded-md font-semibold hover:bg-cougar-dark-teal"
+                  >
+                    Sign Up
+                  </button>
                 </div>
                 </ul>
               </div>

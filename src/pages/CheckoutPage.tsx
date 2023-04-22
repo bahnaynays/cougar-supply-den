@@ -108,12 +108,8 @@ const useProductsHookCarts = () => {
   };
 };
 
-const redirectToOrderHistory = () => {
-    router.push('/OrderHistory');
-  };
 
-
-const CheckoutPage: NextPage = () => {
+const ShoppingCart: NextPage = () => {
     const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHookProducts();
     const { carts, isLoading2, isError2, updateCart, createCart, deleteCart } = useProductsHookCarts();
 
@@ -125,12 +121,21 @@ const CheckoutPage: NextPage = () => {
     if (isLoading2) return <p>Loading...</p>;
     if (isError2) return <p>Error loading carts.</p>;
     
-    const totalCost = products.reduce((sum, product) => sum + product.cost * product.quantity, 0);
+    const totalCost = products.reduce((sum, product) => sum + product.quantity * product.quantity, 0);
+
+    const redirectToCart = () => {
+      router.push('/ShoppingCart');
+    };
+  
+  
+    const redirectToCheckout = () => {
+      router.push('/CheckoutPage');
+    };
 
 
 return (
     <div className="relative container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6">The Checkout Page</h1>
+        <h1 className="text-3xl font-bold mb-6">Checkout.</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
           {products.map((product) => (
             <div key={product.Product_id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
@@ -179,22 +184,23 @@ return (
         <hr className="my-4" />
         <div className="flex justify-between font-bold mb-5">
           <span>Total Cost:</span>
-          <span>${totalCost.toFixed(2)}</span>
+          <div>${totalCost.toFixed(2)}</div>
+          
         </div>
+
         <button
             className="bg-cougar-teal text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-teal"
-            onClick={redirectToOrderHistory}
+            onClick={redirectToCheckout}
             >
 
             Confirm Order
           </button >
-        
       </div>
 
     </div>
   );
 };
 
-export default CheckoutPage;
+export default ShoppingCart;
 
 

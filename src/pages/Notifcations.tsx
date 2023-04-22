@@ -165,16 +165,8 @@ return (
   <h1 className="text-2xl font-semibold mb-10"></h1>
     <div className="relative overflow-x-auto shadow-xl rounded">
       <table className="w-full text-sm text-left text-gray-400">
-        <caption className="p-5 text-lg font-semibold text-left  text-white bg-cougar-dark-red">
+        <caption className="p-5 text-lg font-semibold text-left  text-white bg-friendly-black">
             System Notifcations
-            <div className="px-4  -py-4 absolute text-sm right-0.5">
-            <button
-              className="text-white text-sm px-3 py-1 rounded bg-cougar-teal hover:bg-cougar-dark-teal"
-              onClick={handleAddClick}
-            >
-              + Add New Notification
-            </button>
-          </div>
           <span className="absolute text-sm right-5">
             ({products?.length ?? 0} {products?.length === 1 ? 'row' : 'rows'})
           </span>
@@ -183,7 +175,7 @@ return (
           </div>
         </caption>
         
-        <thead className="table-auto w-full text-xs uppercase bg-cougar-red text-gray-200">
+        <thead className="table-auto w-full text-xs uppercase bg-friendly-black4 text-gray-200">
           <tr>
             <th scope="col" className="px-4 py-2">Message ID</th>
             <th scope="col" className="px-4 py-2">Product ID</th>
@@ -191,9 +183,6 @@ return (
 
             <th scope="col" className="px-4 py-2">Time Stamp</th>
             <th scope="col" className="px-4 py-2">Local Account</th>
-
-            <th scope="col" className="px-4 py-2">Update</th> 
-            <th scope="col" className="px-4 py-2">Delete</th> 
           </tr>
         </thead>
         <tbody>
@@ -206,28 +195,7 @@ return (
               <td className="text-friendly-black px-4 py-2">{formatDate(product.TIMESTAMP)}</td>
               <td className="text-friendly-black px-4 py-2">{product.Loc_acc}</td>
 
-              <td className="px-4 py-2">
-                <button
-                  className="bg-cougar-gold text-friendly-black px-3 font-semibold py-1 rounded hover:bg-cougar-gold-dark"
-                  onClick={() => handleEditClick(product)}
-                >
-                  Update
-                </button>
-              </td>
 
-              <td className="px-4 py-2">
-                <button
-                  className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red"
-                  onClick={() => {
-                    
-                  if (selectedProduct) {
-                    handleDeleteClick(selectedProduct.MessageId.toString(), product);
-                  }
-                }}
-              >
-                Delete
-                </button>
-            </td>
             </tr>
           ))}
           </tbody>

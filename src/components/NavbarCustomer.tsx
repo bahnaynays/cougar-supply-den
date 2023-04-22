@@ -139,7 +139,7 @@ auth.setUser(null);
       <div className="border-t-2 border-hover-white p-4 flex">
         <div className="flex gap-1">
         <Image
-          src="https://i.postimg.cc/1RLDzMft/Fg-Q063-XUUAADf-Zg.png"
+          src="https://i.postimg.cc/Pf6chd82/blank-profile-picture-973460-340.png"
           height={38}
           width={38}
           alt="profile image"
@@ -151,7 +151,7 @@ auth.setUser(null);
         
 
         <div className="flex flex-col">
-          <span className="text-friendly-white text-xs font-boldmy-0">Hello, Dylan Cao</span>
+          <span className="text-friendly-white text-sm font-semi-bold -my-0.5">Hello, {auth.user.f_name} </span>
           <Link href="/UserProfile" className="text-cougar-yellow text-sm font-bold hover:underline hover:text-blue-500">
             Account View
           </Link>

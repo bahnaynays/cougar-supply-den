@@ -330,7 +330,7 @@ const IndexPage: NextPage = () => {
 
 
 
-  const handleAddToCart = async (product: Product) => {
+  const handleAddToCart = async (product: Product, theuser:Users) => {
     if (!auth.user) {
       console.error("User not authenticated");
       return;
@@ -343,7 +343,7 @@ const IndexPage: NextPage = () => {
       await updateCart(updatedCart);
     } else {
       const newCart: ShoppingCart = {
-        cart_id: 0,
+        cart_id: parseInt(auth.user.user_id, 10),
         cust_id: auth.user.user_id,
         Product_id: product.ProductID,
         quantity: 1,
@@ -357,7 +357,7 @@ const IndexPage: NextPage = () => {
 
 
   const redirectToCheckout= () => {
-    router.push('/redirectToCheckout');
+    router.push('/CheckoutPage');
   };
   
   
@@ -381,7 +381,7 @@ const IndexPage: NextPage = () => {
             <p className="text-gray-600 mx-4 mb-4">Details: xyz</p>
             <div className="flex justify-between mx-4 mb-4">
 
-              <button className="bg-cougar-gold text-friendly-black3 px-3 py-1 rounded font-semibold hover:bg-cougar-gold-dark" onClick={(event) => handleAddToCart(product)}
+              <button className="bg-cougar-gold text-friendly-black3 px-3 py-1 rounded font-semibold hover:bg-cougar-gold-dark" onClick={(event) => handleAddToCart(product, users)}
               >
                 Add to Cart
               </button>

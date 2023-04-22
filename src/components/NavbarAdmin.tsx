@@ -154,7 +154,7 @@ const AdminNavbar = (props: Props) => {
         <div className="flex-col">
           <div className="flex flex-col">
             <Link href="/" className="text-cougar-yellow font-bold text-md hover:bg-cougar-dark-red2 py-5 px-6">
-            Store View
+            Store Overview
             </Link>
           </div>
         </div>
@@ -190,7 +190,7 @@ const AdminNavbar = (props: Props) => {
 
 
         <div className="flex flex-col">
-          <span className="text-friendly-white text-xs font-boldmy-0">Hello, Dylan Cao</span>
+          <span className="text-friendly-white text-sm font-semi-bold -my-0.5">Hello, {auth.user.f_name} </span>
           <Link href="/UserProfile" className="text-cougar-yellow text-sm font-bold hover:underline hover:text-blue-500">
             Account View
           </Link>

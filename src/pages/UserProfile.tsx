@@ -223,10 +223,10 @@ const UserProfile: React.FC = () => {
               <div className="flex justify-between ">
             </div>
             <div className="divide-y divide-gray-200 ">
-              <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7 ">
+              <div className="py-4 text-base leading-6 text-gray-700 sm:text-lg sm:leading-7 ">
               </div>
 
-              <ul className="list-disc space-y-2 flex flex-col md:flex-row">
+              <ul className="list-disc flex flex-col md:flex-row">
                 <div className="md:w-1/2 md:pr-4">
                   
                   

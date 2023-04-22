@@ -7,7 +7,7 @@ import useSWR, { mutate } from 'swr';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-
+import Image from "next/image";
 
 const LoginPage: React.FC = () => {
 
@@ -237,7 +237,22 @@ const redirectToHomePageValidUser = async () => {
               
               
               <div className="block font-semibold text-xl text-gray-700">
-                
+
+              <button onClick={redirectToHomePageVisitor} className=" justify-center px-2 -mt-5">
+                <div className="font-bold text-md py-2"></div>
+                <div className="text-sm">
+                  {/* Replace with the 'your-image-url' with the actual image URL */}
+                  <Image
+                  className="max-w-[270px] max-h-[72px] mt-4"
+                  src="https://i.postimg.cc/5tSpr6np/cougar-supply-den-full-logo-alpha2222.png"
+                  alt=""
+                  width={202.5}
+                  height={54}
+                />
+                </div>
+              </button>
+                  <div className="py-2"></div>
+              
                 <h2 className="leading-relaxed">User Login</h2>
               </div>
             </div>

@@ -139,13 +139,13 @@ const SignupPage: React.FC = () => {
       await createProduct(newProduct);
       setShowAddModal(false);
       setNewProduct({});
-      router.push('/');
+      router.push('/LoginPage');
     }
   };
 
   const redirectToHomePage = () => {
 
-    router.push('/LoginPage');
+    router.push('/');
   };
 
 

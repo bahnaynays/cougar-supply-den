@@ -26,16 +26,21 @@ type Props = {
 
 const AdminNavbar = (props: Props) => {
   const router = useRouter();
+  const auth = useAuth(); 
 
   const isLoginPage = router.pathname === "/LoginPage";
   const isSignupPage = router.pathname === "/SignupPage";
+
+  if (isLoginPage || isSignupPage) {
+    return null;
+  }
 
 
   if (isLoginPage || isSignupPage) {
     return null;
   }
 
-  const auth = useAuth();
+
   const handleLogout = () => {
     auth.setUser(null);
     

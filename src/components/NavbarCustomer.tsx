@@ -25,23 +25,24 @@ type Props = {
   
 };
 
-const CustomerNavbar = (props: Props) => {
-  const router = useRouter();
+const CustomerNavbar = (props: Props) => {  
+const auth = useAuth();
+const router = useRouter();
 
-  const isLoginPage = router.pathname === "/LoginPage";
-  const isSignupPage = router.pathname === "/SignupPage";
+const isLoginPage = router.pathname === "/LoginPage";
+const isSignupPage = router.pathname === "/SignupPage";
 
 
-  if (isLoginPage || isSignupPage) {
+if (isLoginPage || isSignupPage) {
     return null;
-  }
-  const auth = useAuth();
-  const handleLogout = () => {
-    auth.setUser(null);
+}
+
+const handleLogout = () => {
+auth.setUser(null);
     
-    // Implement your logout logic here
+// Implement your logout logic here
     console.log("Logging out...");
-  };
+};
 
 
   const navigateToHomePage = () => {
@@ -134,8 +135,6 @@ const CustomerNavbar = (props: Props) => {
           </div>
         </div>
       
-
-
       
       <div className="border-t-2 border-hover-white p-4 flex">
         <div className="flex gap-1">
@@ -147,12 +146,9 @@ const CustomerNavbar = (props: Props) => {
           className="rounded-full max-w-64 max-h-64 object-contain"
       />
 
-
-      <div className="flex flex-col"></div>
-        
+      <div className="flex flex-col"></div>  
       <div className="flex-col">
         
-
 
         <div className="flex flex-col">
           <span className="text-friendly-white text-xs font-boldmy-0">Hello, Dylan Cao</span>

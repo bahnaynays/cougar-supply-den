@@ -12,6 +12,7 @@ import { ShoppingCart } from '../interfaces/CartInterface';
 import { Product } from '../interfaces/ProductInterface';
 
 import { useAuth } from "../context/AuthContext";
+import router from "next/router";
 
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -73,25 +74,25 @@ const IndexPage: NextPage = () => {
     const isLoading2 = !data && !error;
     const isError2 = error;
 
-    const updateCart = async (selectedProduct: ShoppingCart) => {
+    const updateCart = async (selectedCart: ShoppingCart) => {
       try {
-        const response = await axios.put(`/api/carts?cart_id=${selectedProduct.cart_id}`, selectedProduct);
-        const updatedProduct = response.data;
+        const response = await axios.put(`/api/carts?cart_id=${selectedCart.cart_id}`, selectedCart);
+        const updatedCart = response.data;
         mutate('/api/carts');
-        return updatedProduct;
+        return updatedCart;
       } catch (error) {
         console.error('Error updating cart:', error);
         throw error.response.data;
       }
     };
 
-    const createCart = async (newProduct) => {
+    const createCart = async (newCart) => {
       await fetch('/api/carts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newProduct),
+        body: JSON.stringify(newCart),
       });
 
       mutate('/api/carts');
@@ -126,7 +127,7 @@ const IndexPage: NextPage = () => {
   const [activeCart, setActiveCart] = useState<number | null>(null);
   
   const [newProduct, setNewProduct] = useState<Partial<Product>>({});
-  const [newCart, setCart] = useState<Partial<ShoppingCart>>({});
+  const [newCart, setNewCart] = useState<Partial<ShoppingCart>>({});
 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [filteredCarts, setFilteredCarts] = useState<ShoppingCart[]>(carts);
@@ -158,18 +159,7 @@ const IndexPage: NextPage = () => {
   };
 
 
-  const validateProductProduct = (product: Partial<Product>): boolean => {
-    const requiredFields = ["ProductID", "p_name", "Inv_quantity", "prod_type", "date_add", "supp", "cost"];
-    for (const field of requiredFields) {
-      if (!product[field]) {
-        setErrorMessage(`Please fill in the ${field} field.`);
-        return false;
-      }
-    }
-    setErrorMessage("");
-    return true;
-  };
-
+  
 
   const falseClickProduct = (product: Product) => {
     setSelectedProduct(product);
@@ -183,7 +173,7 @@ const IndexPage: NextPage = () => {
 
   //creater  of product
   const handleAddSaveClickProduct = async () => {
-    if (newProduct && validateProductProduct(newProduct)) {
+    if (newProduct) {
       await createProduct(newProduct);
       setShowAddModal(false);
       setNewProduct({});
@@ -191,7 +181,7 @@ const IndexPage: NextPage = () => {
   };
 
   const handleSaveClickProduct= async () => {
-    if (selectedProduct && validateProductProduct(selectedProduct)) {
+    if (selectedProduct) {
 
       const updatedProduct = await updateProduct(selectedProduct);
       closeModalProduct();
@@ -251,18 +241,6 @@ const IndexPage: NextPage = () => {
   };
 
 
-  const validateCartCart = (product: Partial<Product>): boolean => {
-    const requiredFields = ["ProductID", "p_name", "Inv_quantity", "prod_type", "date_add", "supp", "cost"];
-    for (const field of requiredFields) {
-      if (!product[field]) {
-        setErrorMessage(`Please fill in the ${field} field.`);
-        return false;
-      }
-    }
-    setErrorMessage("");
-    return true;
-  };
-
 
   const falseClickCart = (product: Product) => {
     setSelectedProduct(product);
@@ -274,7 +252,7 @@ const IndexPage: NextPage = () => {
   };
 
   const handleAddSaveClick = async () => {
-    if (newProduct && validateCartCart(newProduct)) {
+    if (newProduct) {
       await createProduct(newProduct);
       setShowAddModal(false);
       setNewProduct({});
@@ -282,7 +260,7 @@ const IndexPage: NextPage = () => {
   };
 
   const handleSaveClickCart = async () => {
-    if (selectedProduct && validateCartCart(selectedProduct)) {
+    if (selectedProduct) {
       const updatedProduct = await updateProduct(selectedProduct);
       closeModalCart();
       setSelectedProduct(updatedProduct);
@@ -327,16 +305,17 @@ const IndexPage: NextPage = () => {
   */
 
 
+  const redirectToCart = () => {
+    if (auth.user === carts) {
+
+    }
+    router.push('/ShoppingCart');
+  };
 
 
-
-
-
-
-
-
-
-
+  const redirectToCheckout = () => {
+    router.push('/CheckoutPage');
+  };
 
 
   
@@ -361,11 +340,13 @@ const IndexPage: NextPage = () => {
             <div className="flex justify-between mx-4 mb-4">
               <button
                 className="bg-cougar-gold text-friendly-black3 px-3 py-1 rounded font-semibold hover:bg-cougar-gold-dark"
+                onClick={redirectToCart}
               >
                 Add to Cart
               </button>
               <button
                 className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red"
+                onClick={redirectToCheckout}
               >
                 Buy Now
               </button>

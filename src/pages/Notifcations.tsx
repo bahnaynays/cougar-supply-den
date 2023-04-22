@@ -179,7 +179,7 @@ return (
             ({products?.length ?? 0} {products?.length === 1 ? 'row' : 'rows'})
           </span>
           <div className="mt-1 text-sm font-normal text-white">
-            List of Messages with their Message ID, Product ID, Message Text, Time Steamp, and Local Accounts.
+            List of System Notifications with their Message ID, Product ID, Message Text, Time Steamp, and Local Accounts.
           </div>
         </caption>
         

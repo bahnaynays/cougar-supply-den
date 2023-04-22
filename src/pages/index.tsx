@@ -10,6 +10,7 @@ import useSWR, { mutate } from 'swr';
 
 import { ShoppingCart } from '../interfaces/CartInterface';
 import { Product } from '../interfaces/ProductInterface';
+import { Users } from '../interfaces/UsersInterface';
 
 import { useAuth } from "../context/AuthContext";
 import router from "next/router";
@@ -116,9 +117,61 @@ const IndexPage: NextPage = () => {
     };
   };
 
+  const useProductsHookUsers = () => {
+    const { data, error } = useSWR('/api/users', fetcher);
+
+    const isLoading3 = !data && !error;
+    const isError3 = error;
+
+    const updateUser = async (selectedProduct: Users) => {
+      try {
+        const response = await axios.put(`/api/users?user_id=${selectedProduct.user_id}`, selectedProduct);
+        const updatedProduct = response.data;
+        mutate('/api/users');
+        return updatedProduct;
+      } catch (error) {
+        console.error('Error updating product:', error);
+        throw error.response.data;
+      }
+    };
+
+    const createUser = async (newUser) => {
+      await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newUser),
+      });
+
+      mutate('/api/users');
+    };
+
+    //NOTE: The await fetch for this one is kind of sus, since its selectedProduct.user_id instead of user_id
+    const deleteUser = async (user_id) => {
+      await fetch(`/api/users?user_id=${user_id}`, {
+        method: 'DELETE',
+      });
+
+      mutate('/api/users');
+    };
+
+    return {
+      users: data,
+      isLoading3,
+      isError3,
+      updateUser,
+      deleteUser,
+      createUser,
+    };
+  };
+
+
+
 
   const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHookProducts();
   const { carts, isLoading2, isError2, updateCart, createCart, deleteCart } = useProductsHookCarts();
+  const { users, isLoading3, isError3, updateUser, createUser, deleteUser } = useProductsHookUsers();
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedCart, setSelectedCart] = useState<Product | null>(null);
@@ -143,6 +196,9 @@ const IndexPage: NextPage = () => {
 
   if (isLoading2) return <p>Loading...</p>;
   if (isError2) return <p>Error loading carts.</p>;
+
+  if (isLoading3) return <p>Loading...</p>;
+  if (isError3) return <p>Error loading users.</p>;
 
 
   const formatDate = (dateString: string): string => {
@@ -261,21 +317,49 @@ const IndexPage: NextPage = () => {
   useEffect(() => {
     setFilteredCarts(carts);
   }, [carts]);
-  */
 
 
-  const redirectToCart = () => {
-    if (auth.user === carts) {
 
-    }
+
+  old redirect to cart
+    const redirectToCart= () => {
     router.push('/ShoppingCart');
   };
 
+  */
 
-  const redirectToCheckout = () => {
-    router.push('/CheckoutPage');
+
+
+  const handleAddToCart = async (product: Product) => {
+    if (!auth.user) {
+      console.error("User not authenticated");
+      return;
+    }
+  
+    const existingCart = carts.find((cart) => cart.cust_id === auth.user.user_id && cart.Product_id === product.ProductID);
+  
+    if (existingCart) {
+      const updatedCart: ShoppingCart = { ...existingCart, quantity: (existingCart.quantity ?? 0) + 1 };
+      await updateCart(updatedCart);
+    } else {
+      const newCart: ShoppingCart = {
+        cart_id: 0,
+        cust_id: auth.user.user_id,
+        Product_id: product.ProductID,
+        quantity: 1,
+      };
+      await createCart(newCart);
+    }
+
+    //optional
+    //router.push('/ShoppingCart');
   };
 
+
+  const redirectToCheckout= () => {
+    router.push('/redirectToCheckout');
+  };
+  
   
   return (
     <div className="container mx-auto px-4 py-8">
@@ -296,12 +380,12 @@ const IndexPage: NextPage = () => {
             <p className="text-gray-600 mx-4">Quantity: {product.Inv_quantity}</p>
             <p className="text-gray-600 mx-4 mb-4">Details: xyz</p>
             <div className="flex justify-between mx-4 mb-4">
-              <button
-                className="bg-cougar-gold text-friendly-black3 px-3 py-1 rounded font-semibold hover:bg-cougar-gold-dark"
-                onClick={redirectToCart}
+
+              <button className="bg-cougar-gold text-friendly-black3 px-3 py-1 rounded font-semibold hover:bg-cougar-gold-dark" onClick={(event) => handleAddToCart(product)}
               >
                 Add to Cart
               </button>
+              
               <button
                 className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red"
                 onClick={redirectToCheckout}

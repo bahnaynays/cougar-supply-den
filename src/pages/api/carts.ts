@@ -44,18 +44,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   
   try {
     await pool.request()
-      .input('cart_id', cart_id)
-      .input('cust_id', productData.cust_id)
-      .input('Product_id', productData.Product_id)
-      .input('quantity', productData.quantity)
-      .query(`
-        UPDATE [dbo].[SHOPPING_CART]
-        SET cart_id = @cart_id,
-            cust_id = @cust_id,
-            Product_id = @Product_id,
-            quantity = @quantity,
-        WHERE cart_id = @cart_id
-      `);
+    .input('cart_id', cart_id)
+    .input('cust_id', productData.cust_id)
+    .input('Product_id', productData.Product_id)
+    .input('quantity', productData.quantity)
+    .query(`
+      UPDATE [dbo].[SHOPPING_CART]
+      SET cart_id = @cart_id,
+          cust_id = @cust_id,
+          Product_id = @Product_id,
+          quantity = @quantity
+      WHERE cart_id = @cart_id
+    `);
   
     console.log('PUT response being sent');
     console.log('productData:', productData);

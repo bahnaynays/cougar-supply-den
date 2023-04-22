@@ -23,7 +23,7 @@ type Props = {
   
 };
 
-const Navbar = (props: Props) => {
+const AdminNavbar = (props: Props) => {
   const router = useRouter();
 
   const isLoginPage = router.pathname === "/LoginPage";
@@ -197,4 +197,4 @@ const Navbar = (props: Props) => {
   );
 };
 
-export default Navbar;
+export default AdminNavbar;

@@ -145,7 +145,7 @@ const IndexPage: NextPage = () => {
   if (isError2) return <p>Error loading carts.</p>;
 
 
-  const formatDateProduct = (dateString: string): string => {
+  const formatDate = (dateString: string): string => {
     if (!dateString) {
       return 'Unspecified Date'; 
     }
@@ -159,7 +159,7 @@ const IndexPage: NextPage = () => {
   };
 
 
-  
+
 
   const falseClickProduct = (product: Product) => {
     setSelectedProduct(product);
@@ -207,40 +207,11 @@ const IndexPage: NextPage = () => {
   }, [products]);
   */
   
-  const handleInputChangeProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (showAddModal) {
-      setNewProduct((prevState) => ({ ...prevState, [name]: value }));
-    } else if (showModal && selectedProduct) {
-      setSelectedProduct((prevState) => {
-        if (!prevState) return null;
-        return { ...prevState, [name]: value };
-      });
-    }
-  };
-
   /*
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
   */
-
-
-
-  const formatDateCart = (dateString: string): string => {
-    if (!dateString) {
-      return 'Unspecified Date'; 
-    }
-
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-  
-    return `${year}-${month}-${day}`;
-  };
-
-
 
   const falseClickCart = (product: Product) => {
     setSelectedProduct(product);
@@ -286,18 +257,6 @@ const IndexPage: NextPage = () => {
   }, [carts]);
   */
   
-  const handleInputChangeCart = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (showAddModal) {
-      setNewProduct((prevState) => ({ ...prevState, [name]: value }));
-    } else if (showModal && selectedProduct) {
-      setSelectedProduct((prevState) => {
-        if (!prevState) return null;
-        return { ...prevState, [name]: value };
-      });
-    }
-  };
-
   /*
   useEffect(() => {
     setFilteredCarts(carts);
@@ -316,7 +275,6 @@ const IndexPage: NextPage = () => {
   const redirectToCheckout = () => {
     router.push('/CheckoutPage');
   };
-
 
   
   return (

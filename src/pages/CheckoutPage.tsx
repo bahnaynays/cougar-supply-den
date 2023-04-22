@@ -7,6 +7,7 @@ import { Product } from '../interfaces/ProductInterface';
 import { useOnClickOutside } from 'usehooks-ts';
 import axios from 'axios';
 import useSWR, { mutate } from 'swr';
+import router from "next/router";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -107,6 +108,10 @@ const useProductsHookCarts = () => {
   };
 };
 
+const redirectToOrderHistory = () => {
+    router.push('/OrderHistory');
+  };
+
 
 const CheckoutPage: NextPage = () => {
     const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHookProducts();
@@ -163,6 +168,7 @@ return (
       
       <div className="fixed right-64 w-64 bg-white p-4 rounded-2xl shadow-lg">
         <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+
         <ul>
           {products.map((product) => (
             <li key={product.Product_id} className="mb-2">
@@ -171,11 +177,18 @@ return (
           ))}
         </ul>
         <hr className="my-4" />
-        <div className="flex justify-between font-bold">
+        <div className="flex justify-between font-bold mb-5">
           <span>Total Cost:</span>
           <span>${totalCost.toFixed(2)}</span>
         </div>
+        <button
+            className="bg-cougar-teal text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-teal"
+            onClick={redirectToOrderHistory}
+            >
 
+            Confirm Order
+          </button >
+        
       </div>
 
     </div>

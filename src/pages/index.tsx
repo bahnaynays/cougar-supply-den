@@ -347,7 +347,7 @@ const IndexPage: NextPage = () => {
         {products.map((product) => (
           <div key={product.ProductID} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
             <Image
-              src={'https://via.placeholder.com/150'}
+              src={`${product.url_link}`}
               alt={product.p_name}
               width={300}
               height={200}

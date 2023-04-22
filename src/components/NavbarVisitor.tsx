@@ -71,7 +71,7 @@ const VisitorNavbar = (props: Props) => {
       </button>
 
       <div className="text-cougar-yellow font-bold text-xl py-4 px-6">
-          VISITOR VIEW
+          GUEST VISITOR
       </div>
 
       
@@ -106,14 +106,14 @@ const VisitorNavbar = (props: Props) => {
       <div className="p-4 flex">
  
         <div className="flex justify-end">
-            <button onClick={handleLogout} className="flex items-center bg-cougar-teal hover:bg-cougar-dark-teal rounded p-1 md:p-2 ">
+            <button onClick={handleLogout} className="flex items-center bg-cougar-teal hover:bg-cougar-dark-teal rounded px-2.5">
                 <Link href="/LoginPage" className="text-white font-bold hidden lg:block text-sm md:text-md mx-2">
                     Log In
                 </Link>
             </button>
 
-            <button onClick={handleLogout} className="flex items-center bg-cougar-gold hover:bg-cougar-gold-dark rounded p-1 md:p-2 mx-8">
-                <Link href="/SignupPage" className="text-friendly-black font-bold hidden lg:block text-sm md:text-md mx-2">
+            <button onClick={handleLogout} className="flex items-center bg-cougar-gold hover:bg-cougar-gold-dark rounded p-2 mx-6">
+                <Link href="/SignupPage" className="text-friendly-black font-bold hidden lg:block text-sm md:text-md mx-1">
                     Sign Up
                 </Link>
             </button>

@@ -9,6 +9,8 @@ import { Bars3Icon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
 
+import { useAuth } from "../context/AuthContext";
+
 export type NavItem = {
   label: string;
   href: string;
@@ -33,40 +35,20 @@ const CustomerNavbar = (props: Props) => {
   if (isLoginPage || isSignupPage) {
     return null;
   }
-
+  const auth = useAuth();
   const handleLogout = () => {
+    auth.setUser(null);
+    
     // Implement your logout logic here
     console.log("Logging out...");
   };
+
 
   const navigateToHomePage = () => {
     router.push("/");
   };
 
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedOption = event.target.value;
-  
-    switch (selectedOption) {
-      case "option1":
-        router.push("/ProductList");
-        break;
-      case "option2":
-        router.push("/SupplierList");
-        break;
-      case "option5":
-        router.push("/ManageCarts");
-        break;
-      case "option4":
-        router.push("/ManageOrders");
-        break;
-      case "option3":
-        router.push("/ManageUsers");
-        break;
-      default:
-        break;
-    }
-  };
-  
+
 
   return (
     <nav
@@ -77,9 +59,7 @@ const CustomerNavbar = (props: Props) => {
         "z-50": true, //z plane
       })}
     >
-      <button className="hover:bg-cougar-dark-red2 py-4 px-6" onClick={props.onMenuButtonClick}>
-        <Bars3Icon className="h-7 w-7 " />
-      </button>
+      <div className="px-1"></div>
 
       <button onClick={navigateToHomePage} className=" hover:bg-cougar-dark-red2 py-3.5 px-4">
         <div className="font-bold text-md py-2"></div>
@@ -96,7 +76,7 @@ const CustomerNavbar = (props: Props) => {
       </button>
 
       <div className="text-cougar-yellow font-bold text-xl py-4 px-6">
-          CUSTOMER TERMINAL
+          REGISTERED CUSTOMER
       </div>
 
       
@@ -112,23 +92,13 @@ const CustomerNavbar = (props: Props) => {
 
       <div className="relative ">
       <div className="inline-flex items-stretch max-w-[400px] rounded shadow-lg border-1 border-transparent focus-within:border-blue-500">
-      <select
-          className="text-sm bg-hover-white text-black sm:max-w-[8x] max-w-[128px] px-4 py-2 rounded-l border-transparent appearance-none focus:outline-none focus:border-blue-500 focus:ring-blue-500 focus:underline-none"
-          onChange={handleSelectChange}
-        >
-          <option className="text-sm" value="option1">Product List</option>
-          <option className="text-sm" value="option2">Supplier List</option>
-          <option className="text-sm" value="option3">Manage Users</option>
-          <option className="text-sm" value="option4">Manage Carts</option>
-          <option className="text-sm" value="option5">Manage Orders</option>
 
-        </select>
         <div className="pointer-events-none absolute inset-y-0 right-[calc(84%-2.5rem)] flex items-center px-1.5 text-black"></div>
         
         <input
           type="text"
           placeholder="Search Contents"
-          className="text-black px-4 py-1.5 max-w-[800px] rounded-r border-transparent focus:border-blue-500 focus:ring-0 focus:outline-none"
+          className="text-black px-4 py-1.5 max-w-[800px] rounded border-transparent focus:border-blue-500 focus:ring-0 focus:outline-none"
         />
         <button className="absolute inset-y-0 right-0 flex items-center px-3 rounded-r bg-cougar-gold hover:bg-cougar-gold-dark">
           <MagnifyingGlassIcon className="text-friendly-black fontbold h-6 w-6 " />
@@ -137,7 +107,7 @@ const CustomerNavbar = (props: Props) => {
     </div>
     <div className="flex-grow mx-2"></div>
     <div className="mx-2"></div>
-        {/*notifications*/}
+        {/*Store View*/}
         <div className="flex-col">
           <div className="flex flex-col">
             <Link href="/" className="text-cougar-yellow font-bold text-md hover:bg-cougar-dark-red2 py-5 px-6">
@@ -146,11 +116,11 @@ const CustomerNavbar = (props: Props) => {
           </div>
         </div>
 
-        {/*notifications*/}
+        {/*Shopping Cart*/}
         <div className="flex-col">
           <div className="flex flex-col">
-            <Link href="/Notifcations" className="text-cougar-yellow font-bold text-md hover:bg-cougar-dark-red2 py-5 px-6">
-            Notifcations
+            <Link href="/ShoppingCart" className="text-cougar-yellow font-bold text-md hover:bg-cougar-dark-red2 py-5 px-6">
+            Shopping Cart
             </Link>
           </div>
         </div>
@@ -179,7 +149,7 @@ const CustomerNavbar = (props: Props) => {
         <div className="flex flex-col">
           <span className="text-friendly-white text-xs font-boldmy-0">Hello, Dylan Cao</span>
           <Link href="/UserProfile" className="text-cougar-yellow text-sm font-bold hover:underline hover:text-blue-500">
-            Account & Lists
+            Account View
           </Link>
         </div>
       </div>

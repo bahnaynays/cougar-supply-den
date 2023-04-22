@@ -8,6 +8,7 @@ import { useOnClickOutside } from "usehooks-ts";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
+import { useAuth } from "../context/AuthContext";
 
 export type NavItem = {
   label: string;
@@ -34,11 +35,12 @@ const AdminNavbar = (props: Props) => {
     return null;
   }
 
+  const auth = useAuth();
   const handleLogout = () => {
+    auth.setUser(null);
+    
+    // Implement your logout logic here
     console.log("Logging out...");
-  
-    // Refresh the page
-    location.reload();
   };
 
   const navigateToHomePage = () => {
@@ -185,7 +187,7 @@ const AdminNavbar = (props: Props) => {
         <div className="flex flex-col">
           <span className="text-friendly-white text-xs font-boldmy-0">Hello, Dylan Cao</span>
           <Link href="/UserProfile" className="text-cougar-yellow text-sm font-bold hover:underline hover:text-blue-500">
-            Account & Lists
+            Account View
           </Link>
         </div>
       </div>

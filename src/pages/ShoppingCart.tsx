@@ -71,35 +71,40 @@ const ShoppingCart: NextPage = () => {
       <h1 className="text-3xl font-bold mb-6">Your Shopping Cart.</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
         {products.map((product) => (
-          <div key={product.ProductID} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
+          <div key={product.Product_id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
             <Image
               src={'https://via.placeholder.com/150'}
-              alt={product.p_name}
+              alt={product.Product_id}
               width={300}
               height={200}
               className="rounded-t"
               layout="fixed"
             />
-            <h2 className=" mt-2 text-lg font-bold mx-4">{product.p_name}</h2>
+            <h2 className=" mt-2 text-lg font-bold mx-4">{product.Product_id}</h2>
             <p className="text-gray-600 mx-4">Price: ${product.cost}</p>
-            <p className="text-gray-600 mx-4">Quantity: {product.Inv_quantity}</p>
+            <p className="text-gray-600 mx-4">Quantity: {product.quantity}</p>
             <p className="text-gray-600 mx-4 mb-4">Details: xyz</p>
             <div className="flex justify-between mx-4 mb-4">
             <button
-                className="bg-cougar-gold text-friendly-black3 px-3 py-1 rounded font-semibold hover:bg-cougar-gold-dark"
-              >
-                Add to Cart
-              </button>
-              <button
                 className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red"
               >
-                Buy Now
+                Remove
               </button>
+
+            <button className="bg-cougar-gold text-friendly-black3 px-3 py-1 rounded font-semibold hover:bg-cougar-gold-dark"
+              > 
+                QTY: 
+              </button>
+
+
+
 
             </div>
           </div>
         ))}
+
       </div>
+      
     </div>
   );
 };

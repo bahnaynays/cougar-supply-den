@@ -52,9 +52,7 @@ const VisitorNavbar = (props: Props) => {
         "z-50": true, //z plane
       })}
     >
-      <button className="hover:bg-cougar-dark-red2 py-4 px-6" onClick={props.onMenuButtonClick}>
-        <Bars3Icon className="h-7 w-7 " />
-      </button>
+
 
       <button onClick={navigateToHomePage} className=" hover:bg-cougar-dark-red2 py-3.5 px-4">
         <div className="font-bold text-md py-2"></div>
@@ -70,7 +68,7 @@ const VisitorNavbar = (props: Props) => {
         </div>
       </button>
 
-      <div className="text-cougar-yellow font-bold text-xl py-4 px-6">
+      <div className="text-cougar-yellow font-bold text-xl py-4 px-6 mr-40">
           GUEST VISITOR
       </div>
 
@@ -87,13 +85,11 @@ const VisitorNavbar = (props: Props) => {
 
 <div className="relative flex-1">
   <div className="inline-flex items-stretch max-w-[400px] rounded shadow-lg border-1 border-transparent focus-within:border-blue-500">
- 
         <div className="pointer-events-none absolute inset-y-0 right-[calc(84%-2.5rem)] flex items-center px-1.5 text-black"></div>
-        
         <input
           type="text"
           placeholder="Search Contents"
-          className="text-black px-4 py-1.5 max-w-[800px] rounded-l border-transparent focus:border-blue-500 focus:ring-0 focus:outline-none"
+          className="text-black px-4 py-1.5 max-w-[1000px] rounded-l border-transparent focus:border-blue-500 focus:ring-0 focus:outline-none"
         />
         <button className="inset-y-0 flex items-center px-3 rounded-r bg-cougar-gold hover:bg-cougar-gold-dark">
           <MagnifyingGlassIcon className="text-friendly-black fontbold h-6 w-6 " />

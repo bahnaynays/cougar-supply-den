@@ -125,6 +125,14 @@ const CustomerNavbar = (props: Props) => {
           </div>
         </div>
 
+        {/*Shopping Cart*/}
+        <div className="flex-col">
+          <div className="flex flex-col">
+            <Link href="/OrderHistory" className="text-cougar-yellow font-bold text-md hover:bg-cougar-dark-red2 py-5 px-6">
+            Order History
+            </Link>
+          </div>
+        </div>
       
 
 

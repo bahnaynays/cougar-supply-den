@@ -59,19 +59,18 @@ const useProductsHook = () => {
 
 
 const ShoppingCart: NextPage = () => {
-  const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHook();
-  const [activeProduct, setActiveProduct] = useState<number | null>(null);
-
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error loading products.</p>;
-
-
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Your Shopping Cart.</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
-        {products.map((product) => (
-          <div key={product.Product_id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
+    const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHook();
+    const [activeProduct, setActiveProduct] = useState<number | null>(null);
+  
+    if (isLoading) return <p>Loading...</p>;
+    if (isError) return <p>Error loading products.</p>;
+  
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-6">Your Shopping Cart.</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
+          {products.map((product) => (
+            <div key={product.Product_id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
             <Image
               src={'https://via.placeholder.com/150'}
               alt={product.Product_id}
@@ -85,26 +84,23 @@ const ShoppingCart: NextPage = () => {
             <p className="text-gray-600 mx-4">Quantity: {product.quantity}</p>
             <p className="text-gray-600 mx-4 mb-4">Details: xyz</p>
             <div className="flex justify-between mx-4 mb-4">
-            <button
+              <button
                 className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red"
               >
                 Remove
-              </button>
-
-            <button className="bg-cougar-gold text-friendly-black3 px-3 py-1 rounded font-semibold hover:bg-cougar-gold-dark"
-              > 
-                QTY: 
-              </button>
-
-
-
-
+              </button >
+              <div className="quantity-select bg-cougar-gold font-semibold text-friendly-black3 pl-3 pr-2 py-1 rounded hover:bg-cougar-gold-dark">
+                <label htmlFor="quantity" className="mr-2">QTY:</label>
+                <select id="quantity" name="quantity" className="quantity-select bg-cougar-gold text-friendly-black3 py-1 rounded hover:bg-white">
+                {[...Array(100)].map((_, i) => (
+                    <option key={i} value={i + 1}>{i + 1}</option>
+                ))}
+                </select>
+              </div>
             </div>
           </div>
         ))}
-
       </div>
-      
     </div>
   );
 };

@@ -195,7 +195,7 @@ return (
             <th scope="col" className="px-4 py-2">Cart ID</th>
             <th scope="col" className="px-4 py-2">Customer ID</th>
             <th scope="col" className="px-4 py-2">Product ID</th>
-            <th scope="col" className="px-4 py-2">Quantity</th>
+            <th scope="col" className="px-4 py-2 w-full">Quantity</th>
 
             <th scope="col" className="px-4 py-2">Update</th> 
             <th scope="col" className="px-4 py-2">Delete</th> 

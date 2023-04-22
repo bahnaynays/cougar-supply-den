@@ -193,14 +193,13 @@ return (
     </caption>
 
     <thead className="table-auto w-full text-xs uppercase bg-cougar-red text-gray-200">
-      <tr>
-        <th scope="col" className="px-4 py-2">Supplier ID</th>
-        <th scope="col" className="px-4 py-2 w-full">Supplier Name</th>
-
-        <th scope="col" className="px-4 py-2">Update</th>
-        <th scope="col" className="px-4 py-2">Delete</th>
-      </tr>
-    </thead>
+  <tr>
+    <th scope="col" className="px-4 py-2" style={{ whiteSpace: 'nowrap' }}>Supplier ID</th>
+    <th scope="col" className="px-4 py-2 w-full">Supplier Name</th>
+    <th scope="col" className="px-4 py-2">Update</th>
+    <th scope="col" className="px-4 py-2">Delete</th>
+  </tr>
+</thead>
     <tbody>
   {products &&
     products.map((product: Supplier, index: number) => (

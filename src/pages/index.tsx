@@ -69,7 +69,7 @@ const IndexPage: NextPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Featured Products</h1>
+      <h1 className="text-3xl font-bold mb-6">Featured Products.</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
         {products.map((product) => (
           <div key={product.ProductID} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">

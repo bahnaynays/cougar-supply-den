@@ -172,7 +172,7 @@ return (
               className="text-white text-sm px-3 py-1 rounded bg-cougar-teal hover:bg-cougar-dark-teal"
               onClick={handleAddClick}
             >
-              + Add New Product
+              + Add New Notification
             </button>
           </div>
           <span className="absolute text-sm right-5">

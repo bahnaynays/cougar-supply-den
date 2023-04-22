@@ -166,7 +166,7 @@ const Navbar = (props: Props) => {
           height={38}
           width={38}
           alt="profile image"
-          className="rounded-full max-w-64 max-h-64"
+          className="rounded-full max-w-64 max-h-64 object-contain"
       />
 
 
@@ -186,13 +186,12 @@ const Navbar = (props: Props) => {
         </div>
       </div>
 
-      <button onClick={handleLogout} className="flex items-center bg-cougar-gold hover:bg-cougar-gold-dark rounded p-1 mx-8">
-        <Link href="/LoginPage" className="text-friendly-black font font-bold hidden lg:block text-md mr-1 mx-2">
-            Sign Out
+      <button onClick={handleLogout} className="flex items-center bg-cougar-gold hover:bg-cougar-gold-dark rounded p-1 md:p-2 mx-8">
+        <Link href="/LoginPage" className="text-friendly-black font-bold hidden lg:block text-xs md:text-md mr-1 mx-2">
+          Sign Out
         </Link>
-
-        <ArrowLeftOnRectangleIcon className="h-4 w-4 text-friendly-black mx-1 font-semibold" />
-      </button>
+        
+    </button>
 
     </nav>
   );

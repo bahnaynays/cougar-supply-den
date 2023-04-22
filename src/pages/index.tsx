@@ -1,72 +1,345 @@
 import { NextPage } from "next";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
+
 import Image from 'next/image';
-import { Product } from '../interfaces/ProductInterface';
-
-
 import { useOnClickOutside } from 'usehooks-ts';
+
 import axios from 'axios';
 import useSWR, { mutate } from 'swr';
 
+import { ShoppingCart } from '../interfaces/CartInterface';
+import { Product } from '../interfaces/ProductInterface';
+
+import { useAuth } from "../context/AuthContext";
+
+
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-
-const useProductsHook = () => {
-  const { data, error } = useSWR('/api/products', fetcher);
-
-  const isLoading = !data && !error;
-  const isError = error;
-
-  const updateProduct = async (selectedProduct: Product) => {
-    try {
-      const response = await axios.put(`/api/products?ProductID=${selectedProduct.ProductID}`, selectedProduct);
-      const updatedProduct = response.data;
-      mutate('/api/products');
-      return updatedProduct;
-    } catch (error) {
-      console.error('Error updating product:', error);
-      throw error.response.data;
-    }
-  };
-
-  const createProduct = async (newProduct) => {
-    await fetch('/api/products', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newProduct),
-    });
-
-    mutate('/api/products');
-  };
-
-  const deleteProduct = async (productId) => {
-    await fetch(`/api/products?productId=${productId}`, {
-      method: 'DELETE',
-    });
-
-    mutate('/api/products');
-  };
-  return {
-    products: data,
-    isLoading,
-    isError,
-    updateProduct,
-    deleteProduct,
-    createProduct,
-  };
-};
-
-
 const IndexPage: NextPage = () => {
-  const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHook();
+  const auth = useAuth(); 
+
+  const useProductsHookProducts = () => {
+    const { data, error } = useSWR('/api/products', fetcher);
+
+    const isLoading = !data && !error;
+    const isError = error;
+
+    const updateProduct = async (selectedProduct: Product) => {
+      try {
+        const response = await axios.put(`/api/products?ProductID=${selectedProduct.ProductID}`, selectedProduct);
+        const updatedProduct = response.data;
+        mutate('/api/products');
+        return updatedProduct;
+      } catch (error) {
+        console.error('Error updating product:', error);
+        throw error.response.data;
+      }
+    };
+
+    const createProduct = async (newProduct) => {
+      await fetch('/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newProduct),
+      });
+
+      mutate('/api/products');
+    };
+
+    const deleteProduct = async (productId) => {
+      await fetch(`/api/products?productId=${productId}`, {
+        method: 'DELETE',
+      });
+
+      mutate('/api/products');
+    };
+
+    return {
+      products: data,
+      isLoading,
+      isError,
+      updateProduct,
+      deleteProduct,
+      createProduct,
+    };
+  };
+
+  const useProductsHookCarts = () => {
+    const { data, error } = useSWR('/api/carts', fetcher);
+
+    const isLoading2 = !data && !error;
+    const isError2 = error;
+
+    const updateCart = async (selectedProduct: ShoppingCart) => {
+      try {
+        const response = await axios.put(`/api/carts?cart_id=${selectedProduct.cart_id}`, selectedProduct);
+        const updatedProduct = response.data;
+        mutate('/api/carts');
+        return updatedProduct;
+      } catch (error) {
+        console.error('Error updating cart:', error);
+        throw error.response.data;
+      }
+    };
+
+    const createCart = async (newProduct) => {
+      await fetch('/api/carts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newProduct),
+      });
+
+      mutate('/api/carts');
+    };
+
+    const deleteCart = async (cart_id) => {
+      await fetch(`/api/carts?cart_id=${cart_id}`, {
+        method: 'DELETE',
+      });
+
+      mutate('/api/carts');
+    };
+
+    return {
+      carts: data,
+      isLoading2,
+      isError2,
+      updateCart,
+      createCart,
+      deleteCart,
+    };
+  };
+
+
+  const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHookProducts();
+  const { carts, isLoading2, isError2, updateCart, createCart, deleteCart } = useProductsHookCarts();
+
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedCart, setSelectedCart] = useState<Product | null>(null);
+
   const [activeProduct, setActiveProduct] = useState<number | null>(null);
+  const [activeCart, setActiveCart] = useState<number | null>(null);
+  
+  const [newProduct, setNewProduct] = useState<Partial<Product>>({});
+  const [newCart, setCart] = useState<Partial<ShoppingCart>>({});
+
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const [filteredCarts, setFilteredCarts] = useState<ShoppingCart[]>(carts);
+
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading products.</p>;
 
+  if (isLoading2) return <p>Loading...</p>;
+  if (isError2) return <p>Error loading carts.</p>;
 
+
+  const formatDateProduct = (dateString: string): string => {
+    if (!dateString) {
+      return 'Unspecified Date'; 
+    }
+
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  };
+
+
+  const validateProductProduct = (product: Partial<Product>): boolean => {
+    const requiredFields = ["ProductID", "p_name", "Inv_quantity", "prod_type", "date_add", "supp", "cost"];
+    for (const field of requiredFields) {
+      if (!product[field]) {
+        setErrorMessage(`Please fill in the ${field} field.`);
+        return false;
+      }
+    }
+    setErrorMessage("");
+    return true;
+  };
+
+
+  const falseClickProduct = (product: Product) => {
+    setSelectedProduct(product);
+  };
+
+  const handleEditClickProduct = (product: Product) => {
+    setShowModal(true);
+    setSelectedProduct(product);
+  };
+
+
+  //creater  of product
+  const handleAddSaveClickProduct = async () => {
+    if (newProduct && validateProductProduct(newProduct)) {
+      await createProduct(newProduct);
+      setShowAddModal(false);
+      setNewProduct({});
+    }
+  };
+
+  const handleSaveClickProduct= async () => {
+    if (selectedProduct && validateProductProduct(selectedProduct)) {
+
+      const updatedProduct = await updateProduct(selectedProduct);
+      closeModalProduct();
+      setSelectedProduct(updatedProduct);
+    }
+  };
+
+  const handleDeleteClickProduct = async (ProductID: string, product: Product) => {
+    setSelectedProduct(product);
+    deleteProduct(ProductID);
+  };
+
+  const handleAddClickProduct = () => {
+    setShowAddModal(true);
+  };
+
+  const closeModalProduct = () => {
+    setShowModal(false);
+  };
+  /*
+  useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
+  */
+  
+  const handleInputChangeProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (showAddModal) {
+      setNewProduct((prevState) => ({ ...prevState, [name]: value }));
+    } else if (showModal && selectedProduct) {
+      setSelectedProduct((prevState) => {
+        if (!prevState) return null;
+        return { ...prevState, [name]: value };
+      });
+    }
+  };
+
+  /*
+  useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
+  */
+
+
+
+  const formatDateCart = (dateString: string): string => {
+    if (!dateString) {
+      return 'Unspecified Date'; 
+    }
+
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  };
+
+
+  const validateCartCart = (product: Partial<Product>): boolean => {
+    const requiredFields = ["ProductID", "p_name", "Inv_quantity", "prod_type", "date_add", "supp", "cost"];
+    for (const field of requiredFields) {
+      if (!product[field]) {
+        setErrorMessage(`Please fill in the ${field} field.`);
+        return false;
+      }
+    }
+    setErrorMessage("");
+    return true;
+  };
+
+
+  const falseClickCart = (product: Product) => {
+    setSelectedProduct(product);
+  };
+
+  const handleEditClickCart = (product: Product) => {
+    setShowModal(true);
+    setSelectedProduct(product);
+  };
+
+  const handleAddSaveClick = async () => {
+    if (newProduct && validateCartCart(newProduct)) {
+      await createProduct(newProduct);
+      setShowAddModal(false);
+      setNewProduct({});
+    }
+  };
+
+  const handleSaveClickCart = async () => {
+    if (selectedProduct && validateCartCart(selectedProduct)) {
+      const updatedProduct = await updateProduct(selectedProduct);
+      closeModalCart();
+      setSelectedProduct(updatedProduct);
+    }
+  };
+
+  const handleDeleteClickCart = async (ProductID: string, product: Product) => {
+    setSelectedProduct(product);
+    deleteProduct(ProductID);
+  };
+
+  const handleAddClickCart = () => {
+    setShowAddModal(true);
+  };
+
+  const closeModalCart = () => {
+    setShowModal(false);
+  };
+
+  /*
+  useEffect(() => {
+    setFilteredCarts(carts);
+  }, [carts]);
+  */
+  
+  const handleInputChangeCart = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (showAddModal) {
+      setNewProduct((prevState) => ({ ...prevState, [name]: value }));
+    } else if (showModal && selectedProduct) {
+      setSelectedProduct((prevState) => {
+        if (!prevState) return null;
+        return { ...prevState, [name]: value };
+      });
+    }
+  };
+
+  /*
+  useEffect(() => {
+    setFilteredCarts(carts);
+  }, [carts]);
+  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Featured Products.</h1>
@@ -86,7 +359,7 @@ const IndexPage: NextPage = () => {
             <p className="text-gray-600 mx-4">Quantity: {product.Inv_quantity}</p>
             <p className="text-gray-600 mx-4 mb-4">Details: xyz</p>
             <div className="flex justify-between mx-4 mb-4">
-            <button
+              <button
                 className="bg-cougar-gold text-friendly-black3 px-3 py-1 rounded font-semibold hover:bg-cougar-gold-dark"
               >
                 Add to Cart

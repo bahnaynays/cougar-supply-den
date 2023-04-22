@@ -116,6 +116,9 @@ const ShoppingCart: NextPage = () => {
   
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error loading products.</p>;
+
+    if (isLoading2) return <p>Loading...</p>;
+    if (isError2) return <p>Error loading carts.</p>;
     
     const totalCost = products.reduce((sum, product) => sum + product.cost * product.quantity, 0);
 

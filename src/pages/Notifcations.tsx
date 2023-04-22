@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Product } from '../interfaces/ProductInterface';
+import { Notifications } from '../interfaces/NotifcationInterface';
 import { useOnClickOutside } from 'usehooks-ts';
 import axios from 'axios';
 import useSWR, { mutate } from 'swr';
 
 
-const ProductList: React.FC = () => {
+const Notifcations: React.FC = () => {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
   const useProductsHook = () => {
-    const { data, error } = useSWR('/api/products', fetcher);
+    const { data, error } = useSWR('/api/notifcations', fetcher);
 
     const isLoading = !data && !error;
     const isError = error;
 
-    const updateProduct = async (selectedProduct: Product) => {
+    const updateProduct = async (selectedProduct: Notifications) => {
       try {
-        const response = await axios.put(`/api/products?ProductID=${selectedProduct.ProductID}`, selectedProduct);
+        const response = await axios.put(`/api/notifcations?MessageId=${selectedProduct.MessageId}`, selectedProduct);
         const updatedProduct = response.data;
-        mutate('/api/products');
+        mutate('/api/notifcations');
         return updatedProduct;
       } catch (error) {
         console.error('Error updating product:', error);
@@ -27,7 +27,7 @@ const ProductList: React.FC = () => {
     };
 
     const createProduct = async (newProduct) => {
-      await fetch('/api/products', {
+      await fetch('/api/notifcations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,15 +35,15 @@ const ProductList: React.FC = () => {
         body: JSON.stringify(newProduct),
       });
 
-      mutate('/api/products');
+      mutate('/api/notifcations');
     };
 
-    const deleteProduct = async (productId) => {
-      await fetch(`/api/products?productId=${productId}`, {
+    const deleteProduct = async (MessageId) => {
+      await fetch(`/api/notifcations?MessageId=${MessageId}`, {
         method: 'DELETE',
       });
 
-      mutate('/api/products');
+      mutate('/api/notifcations');
     };
 
     return {
@@ -60,10 +60,10 @@ const ProductList: React.FC = () => {
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [newProduct, setNewProduct] = useState<Partial<Product>>({});
+  const [selectedProduct, setSelectedProduct] = useState<Notifications | null>(null);
+  const [newProduct, setNewProduct] = useState<Partial<Notifications>>({});
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const [filteredProducts, setFilteredProducts] = useState<Notifications[]>(products);
 
   const formatDate = (dateString: string): string => {
     if (!dateString) {
@@ -79,7 +79,7 @@ const ProductList: React.FC = () => {
   };
 
 
-  const validateProduct = (product: Partial<Product>): boolean => {
+  const validateProduct = (product: Partial<Notifications>): boolean => {
     const requiredFields = ["ProductID", "p_name", "Inv_quantity", "prod_type", "date_add", "supp", "cost"];
     for (const field of requiredFields) {
       if (!product[field]) {
@@ -92,13 +92,13 @@ const ProductList: React.FC = () => {
   };
 
 
-  const falseClick = (product: Product) => {
+  const falseClick = (product: Notifications) => {
     setSelectedProduct(product);
 
   };
 
 
-  const handleEditClick = (product: Product) => {
+  const handleEditClick = (product: Notifications) => {
     setShowModal(true);
     setSelectedProduct(product);
   };
@@ -121,7 +121,7 @@ const ProductList: React.FC = () => {
     }
   };
 
-  const handleDeleteClick = async (ProductID: string, product: Product) => {
+  const handleDeleteClick = async (ProductID: string, product: Notifications) => {
     console.log("delete test");
     setSelectedProduct(product);
     deleteProduct(ProductID);
@@ -166,7 +166,7 @@ return (
     <div className="relative overflow-x-auto shadow-xl rounded">
       <table className="w-full text-sm text-left text-gray-400">
         <caption className="p-5 text-lg font-semibold text-left  text-white bg-cougar-dark-red">
-          Product List
+            System Notifcations
             <div className="px-4  -py-4 absolute text-sm right-0.5">
             <button
               className="text-white text-sm px-3 py-1 rounded bg-cougar-teal hover:bg-cougar-dark-teal"
@@ -179,41 +179,33 @@ return (
             ({products?.length ?? 0} {products?.length === 1 ? 'row' : 'rows'})
           </span>
           <div className="mt-1 text-sm font-normal text-white">
-            List of Products with their IDs Names, Types, Quantities, Date Added, Supplier, and their specific Cost.
+            List of Messages with their Message ID, Product ID, Message Text, Time Steamp, and Local Accounts.
           </div>
         </caption>
         
         <thead className="table-auto w-full text-xs uppercase bg-cougar-red text-gray-200">
           <tr>
+            <th scope="col" className="px-4 py-2">Message ID</th>
             <th scope="col" className="px-4 py-2">Product ID</th>
-            <th scope="col" className="px-4 py-2">Name</th>
+            <th scope="col" className="px-4 py-2">Message Text</th>
 
-            <th scope="col" className="px-4 py-2">Type</th>
-            <th scope="col" className="px-4 py-2">Quantity</th>
+            <th scope="col" className="px-4 py-2">Time Stamp</th>
+            <th scope="col" className="px-4 py-2">Local Account</th>
 
-            <th scope="col" className="px-4 py-2">Date Added</th>
-
-            <th scope="col" className="px-4 py-2">Supplier</th>
-            <th scope="col" className="px-4 py-2">Cost</th>
             <th scope="col" className="px-4 py-2">Update</th> 
             <th scope="col" className="px-4 py-2">Delete</th> 
           </tr>
         </thead>
         <tbody>
-        {products && products.map((product: Product, index: number) => (
-          <tr key={product.ProductID} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
+        {products && products.map((product: Notifications, index: number) => (
+          <tr key={product.MessageId} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
 
-              <td className="text-friendly-black px-4 py-2">{product.ProductID}</td>
-              <td className="text-friendly-black px-4 py-2">{product.p_name}</td>
-              <td className="text-friendly-black px-4 py-2">{product.prod_type}</td>
-              <td className="text-friendly-black px-4 py-2">{product.Inv_quantity}</td>
+              <td className="text-friendly-black px-4 py-2">{product.MessageId}</td>
+              <td className="text-friendly-black px-4 py-2">{product.ProductId}</td>
+              <td className="text-friendly-black px-4 py-2">{product.MessageText}</td>
+              <td className="text-friendly-black px-4 py-2">{formatDate(product.TIMESTAMP)}</td>
+              <td className="text-friendly-black px-4 py-2">{product.Loc_acc}</td>
 
-
-              <td className="text-friendly-black px-4 py-2">{formatDate(product.date_add)}</td>
-
-              <td className="text-friendly-black px-4 py-2">{product.supp}</td>
-              <td className="text-friendly-black px-4 py-2">{product.cost}</td>
-             
               <td className="px-4 py-2">
                 <button
                   className="bg-cougar-gold text-friendly-black px-3 font-semibold py-1 rounded hover:bg-cougar-gold-dark"
@@ -229,12 +221,12 @@ return (
                   onClick={() => {
                     
                   if (selectedProduct) {
-                    handleDeleteClick(selectedProduct.ProductID, product);
+                    handleDeleteClick(selectedProduct.MessageId.toString(), product);
                   }
                 }}
               >
                 Delete
-            </button>
+                </button>
             </td>
             </tr>
           ))}
@@ -263,34 +255,25 @@ return (
         </div>
         
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="ProductID">Product ID:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="ProductID" name="ProductID" value={newProduct.ProductID || ''} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="MessageId">Message ID:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="MessageId" name="MessageId" value={newProduct.MessageId || ''} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="p_name">Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="p_name" name="p_name" value={newProduct.p_name || ''} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="ProductId">Product ID:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="ProductId" name="ProductId" value={newProduct.ProductId || ''} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="prod_type">Type:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="prod_type" name="prod_type" value={newProduct.prod_type || ''} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="MessageText">Message Text:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="MessageText" name="MessageText" value={newProduct.MessageText || ''} onChange={handleInputChange} />
+          </div>
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="Inv_quantity">Quantity:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Inv_quantity" name="Inv_quantity" value={newProduct.Inv_quantity || ''} onChange={handleInputChange} />
-          </div>
+            <label className="mt-4 mx-4" htmlFor="TIMESTAMP">Time Stamp:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="TIMESTAMP" name="TIMESTAMP" value={newProduct.TIMESTAMP?.substring(0, 10)} onChange={handleInputChange}/>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="date_add">Date Added:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="date_add" name="date_add" value={newProduct.date_add?.substring(0, 10)} onChange={handleInputChange}/>
+            <label className="mt-4 mx-4" htmlFor="Loc_acc">ocal Account:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Loc_acc" name="Loc_acc" value={newProduct.Loc_acc || ''} onChange={handleInputChange} />
           </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="supp">Supplier:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="supp" name="supp" value={newProduct.supp || ''} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="cost">Cost:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cost" name="cost" value={newProduct.cost || ''} onChange={handleInputChange} step="0.01" />
-          </div>
-          
         <div className='py-3'></div>
       </div>
         {errorMessage && (
@@ -350,32 +333,24 @@ return (
         </div>
 
         <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="ProductID">Product ID:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="ProductID" name="ProductID" defaultValue={selectedProduct.ProductID} onChange={handleInputChange} />
+          <label className="mt-4 mx-4" htmlFor="MessageId">Message ID:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="MessageId" name="MessageId" defaultValue={selectedProduct.MessageId} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="p_name">Name:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="p_name" name="p_name" defaultValue={selectedProduct.p_name} onChange={handleInputChange} />
+          <label className="mt-4 mx-4" htmlFor="ProductId">Product ID:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="ProductId" name="ProductId" defaultValue={selectedProduct.ProductId} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="Inv_quantity">Quantity:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="Inv_quantity" name="Inv_quantity" defaultValue={selectedProduct.Inv_quantity} onChange={handleInputChange} />
+          <label className="mt-4 mx-4" htmlFor="MessageText">Message Text:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="MessageText" name="MessageText" defaultValue={selectedProduct.MessageText} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="prod_type">Type:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="prod_type" name="prod_type" defaultValue={selectedProduct.prod_type} onChange={handleInputChange} />
+          <label className="mt-4 mx-4" htmlFor="TIMESTAMP">Time Stamp:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="TIMESTAMP" name="TIMESTAMP" defaultValue={selectedProduct.TIMESTAMP?.substring(0, 10)} onChange={handleInputChange} />
         </div>
         <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="date_add">Date Added:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="date_add" name="date_add" defaultValue={selectedProduct.date_add?.substring(0, 10)} onChange={handleInputChange} />
-        </div>
-        <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="supp">Supplier:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="supp" name="supp" defaultValue={selectedProduct.supp} onChange={handleInputChange} />
-        </div>
-        <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="cost">Cost:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cost" name="cost" defaultValue={selectedProduct.cost} step="0.01" onChange={handleInputChange} />
+          <label className="mt-4 mx-4" htmlFor="Loc_acc">Local Account:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Loc_acc" name="Loc_acc" defaultValue={selectedProduct.Loc_acc} onChange={handleInputChange} />
         </div>
         
         <div className='py-3'></div>
@@ -405,10 +380,11 @@ return (
 
 
     </div>
+
   </div>
   )}
   </div>
 );
 };
 
-export default ProductList;
+export default Notifcations;

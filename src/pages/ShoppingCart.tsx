@@ -64,9 +64,12 @@ const ShoppingCart: NextPage = () => {
   
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error loading products.</p>;
-  
-    return (
-      <div className="container mx-auto px-4 py-8">
+    
+    const totalCost = products.reduce((sum, product) => sum + product.cost * product.quantity, 0);
+
+
+return (
+    <div className="relative container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6">Your Shopping Cart.</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
           {products.map((product) => (
@@ -80,7 +83,7 @@ const ShoppingCart: NextPage = () => {
               layout="fixed"
             />
             <h2 className=" mt-2 text-lg font-bold mx-4">{product.Product_id}</h2>
-            <p className="text-gray-600 mx-4">Price: ${product.cost}</p>
+            <p className="text-gray-600 mx-4">Price: ${product.quantity}</p>
             <p className="text-gray-600 mx-4">Quantity: {product.quantity}</p>
             <p className="text-gray-600 mx-4 mb-4">Details: xyz</p>
             <div className="flex justify-between mx-4 mb-4">
@@ -100,6 +103,22 @@ const ShoppingCart: NextPage = () => {
             </div>
           </div>
         ))}
+
+      </div>
+      <div className="fixed right-64 w-64 bg-white p-4 rounded-2xl shadow-lg">
+        <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+        <ul>
+          {products.map((product) => (
+            <li key={product.Product_id} className="mb-2">
+              {product.Product_id}: {product.quantity} x ${product.quantity}
+            </li>
+          ))}
+        </ul>
+        <hr className="my-4" />
+        <div className="flex justify-between font-bold">
+          <span>Total Cost:</span>
+          <span>${totalCost.toFixed(2)}</span>
+        </div>
       </div>
     </div>
   );

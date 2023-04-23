@@ -18,25 +18,26 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
   } else if (req.method === 'POST') {
     const productData = req.body;
-
-    
+  
     try {
-    await pool.request()
-    .input('cart_id', productData.cart_id)
-    .input('cust_id', productData.cust_id)
-    .input('Product_id', productData.Product_id)
-    .input('quantity', productData.quantity)
-      .query(`
-        INSERT INTO [dbo].[SHOPPING_CART] (cart_id, cust_id, Product_id, quantity)
-        VALUES (@cart_id, @cust_id, @Product_id, @quantity)
-      `);
-    
-    console.log('POST response being sent');
-    res.status(201).json({ message: 'Product created successfully' });
-  } catch (error) {
-    console.error('Error creating product:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
+      console.log('productData:', productData); // Add this line to log productData
+  
+      await pool.request()
+        .input('cart_id', productData.cart_id)
+        .input('cust_id', productData.cust_id)
+        .input('Product_id', productData.Product_id)
+        .input('quantity', productData.quantity)
+        .query(`
+          INSERT INTO [dbo].[SHOPPING_CART] (cart_id, cust_id, Product_id, quantity)
+          VALUES (@cart_id, @cust_id, @Product_id, @quantity)
+        `);
+  
+      console.log('POST response being sent');
+      res.status(201).json({ message: 'Product created successfully' });
+    } catch (error) {
+      console.error('Error creating product:', error); // Update this line to log the error
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
   
 } else if (req.method === 'PUT') {
   const cart_id = req.query.cart_id;

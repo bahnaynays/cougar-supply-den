@@ -79,14 +79,17 @@ const IndexPage: NextPage = () => {
       try {
         const response = await axios.put(`/api/carts?cart_id=${selectedCart.cart_id}`, selectedCart);
         const updatedCart = response.data;
-        mutate('/api/carts');
+        console.log("Cart updated:", updatedCart);
+        await mutate('/api/carts', async (carts) => {
+          return carts.map((cart) => (cart.cart_id === selectedCart.cart_id ? updatedCart : cart));
+        }, false);
         return updatedCart;
       } catch (error) {
         console.error('Error updating cart:', error);
         throw error.response.data;
       }
     };
-
+    
     const createCart = async (newCart) => {
       await fetch('/api/carts', {
         method: 'POST',
@@ -95,8 +98,11 @@ const IndexPage: NextPage = () => {
         },
         body: JSON.stringify(newCart),
       });
-
-      mutate('/api/carts');
+    
+      console.log("Cart created:", newCart);
+      await mutate('/api/carts', async (carts) => {
+        return [...carts, newCart];
+      }, false);
     };
 
     const deleteCart = async (cart_id) => {
@@ -183,7 +189,8 @@ const IndexPage: NextPage = () => {
   const [newCart, setNewCart] = useState<Partial<ShoppingCart>>({});
 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
-  const [filteredCarts, setFilteredCarts] = useState<ShoppingCart[]>(carts);
+
+  //const [filteredCarts, setFilteredCarts] = useState<ShoppingCart[]>(carts);
 
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -257,17 +264,7 @@ const IndexPage: NextPage = () => {
   const closeModalProduct = () => {
     setShowModal(false);
   };
-  /*
-  useEffect(() => {
-    setFilteredProducts(products);
-  }, [products]);
-  */
-  
-  /*
-  useEffect(() => {
-    setFilteredProducts(products);
-  }, [products]);
-  */
+
 
   const falseClickCart = (product: Product) => {
     setSelectedProduct(product);
@@ -307,53 +304,44 @@ const IndexPage: NextPage = () => {
     setShowModal(false);
   };
 
-  /*
-  useEffect(() => {
-    setFilteredCarts(carts);
-  }, [carts]);
-  */
-  
-  /*
-  useEffect(() => {
-    setFilteredCarts(carts);
-  }, [carts]);
 
-
-
-
-  old redirect to cart
-    const redirectToCart= () => {
-    router.push('/ShoppingCart');
-  };
-
-  */
-
-
-
-  const handleAddToCart = async (product: Product, theuser:Users) => {
+  const handleAddToCart = async (product: Product) => {
     if (!auth.user) {
       console.error("User not authenticated");
       return;
     }
   
-    const existingCart = carts.find((cart) => cart.cust_id === auth.user.user_id && cart.Product_id === product.ProductID);
+    console.log("Product being added to cart:", product);
+  
+    const existingCart = carts.find(
+      (cart) => cart.cust_id === auth.user.user_id && cart.Product_id === product.ProductID
+    );
+  
+    console.log("Existing cart:", existingCart);
   
     if (existingCart) {
-      const updatedCart: ShoppingCart = { ...existingCart, quantity: (existingCart.quantity ?? 0) + 1 };
+      const updatedCart: ShoppingCart = {
+        ...existingCart,
+        quantity: (existingCart.quantity ?? 0) + 1,
+      };
+      console.log("Updated cart:", updatedCart);
       await updateCart(updatedCart);
     } else {
       const newCart: ShoppingCart = {
         cart_id: parseInt(auth.user.user_id, 10),
+        //cart_id: parseInt(existingCart.cart_id, 10),
+        //cart_id: carts.cart_id,
         cust_id: auth.user.user_id,
         Product_id: product.ProductID,
         quantity: 1,
       };
+      console.log("New cart:", newCart);
       await createCart(newCart);
     }
-
-    //optional
-    //router.push('/ShoppingCart');
+  
+    console.log("Carts after adding product:", carts);
   };
+
 
 
   const redirectToCheckout= () => {
@@ -384,7 +372,7 @@ const IndexPage: NextPage = () => {
             <p className="text-gray-600 mx-4 mb-4"></p>
             <div className="flex justify-between mx-4 mb-4">
 
-              <button className="bg-cougar-gold text-friendly-black3 px-3 py-1 rounded font-semibold hover:bg-cougar-gold-dark" onClick={(event) => handleAddToCart(product, users)}
+              <button className="bg-cougar-gold text-friendly-black3 px-3 py-1 rounded font-semibold hover:bg-cougar-gold-dark" onClick={(event) => handleAddToCart(product)}
               >
                 Add to Cart
               </button>

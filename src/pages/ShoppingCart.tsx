@@ -14,6 +14,8 @@ import { Users } from '../interfaces/UsersInterface';
     
 import { useAuth } from "../context/AuthContext";
 import router from "next/router";
+
+import { CosmosClient } from '@azure/cosmos';
     
     
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -71,16 +73,33 @@ const ShoppingCart: NextPage = () => {
           createProduct,
         };
       };
-    
+      
       const useProductsHookCarts = () => {
+        const [carts, setCarts] = useState([]);
         const { data, error } = useSWR('/api/carts', fetcher);
-    
         const isLoading2 = !data && !error;
         const isError2 = error;
-    
-        const updateCart = async (selectedCart: ShoppingCart) => {
+      
+        useEffect(() => {
+          const fetchData = async () => {
+            try {
+              const response = await fetch('/api/carts');
+              const data = await response.json();
+              setCarts(data);
+            } catch (error) {
+              console.error('Error fetching carts:', error);
+            }
+          };
+      
+          const intervalId = setInterval(fetchData, 5000); // Fetch data every 5 seconds (5000 ms)
+      
+          return () => clearInterval(intervalId);
+        }, []);
+        
+        
+        const updateCart = async (selectedProduct: ShoppingCart) => {
           try {
-            const response = await axios.put(`/api/carts?cart_id=${selectedCart.cart_id}`, selectedCart);
+            const response = await axios.put(`/api/carts?cart_id=${selectedProduct.cart_id}`, selectedProduct);
             const updatedCart = response.data;
             mutate('/api/carts');
             return updatedCart;
@@ -89,7 +108,8 @@ const ShoppingCart: NextPage = () => {
             throw error.response.data;
           }
         };
-    
+
+
         const createCart = async (newCart) => {
           await fetch('/api/carts', {
             method: 'POST',
@@ -112,6 +132,7 @@ const ShoppingCart: NextPage = () => {
     
         return {
           carts: data,
+          setCarts,
           isLoading2,
           isError2,
           updateCart,
@@ -173,7 +194,7 @@ const ShoppingCart: NextPage = () => {
     
     
       const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHookProducts();
-      const { carts, isLoading2, isError2, updateCart, createCart, deleteCart } = useProductsHookCarts();
+      const { carts, isLoading2, isError2, updateCart, createCart, deleteCart, setCarts } = useProductsHookCarts();
       const { users, isLoading3, isError3, updateUser, createUser, deleteUser } = useProductsHookUsers();
     
       const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -185,8 +206,8 @@ const ShoppingCart: NextPage = () => {
       const [newProduct, setNewProduct] = useState<Partial<Product>>({});
       const [newCart, setNewCart] = useState<Partial<ShoppingCart>>({});
     
-      const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
-      const [filteredCarts, setFilteredCarts] = useState<ShoppingCart[]>(carts);
+      //const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+      //const [filteredCarts, setFilteredCarts] = useState<ShoppingCart[]>(carts);
     
       const [errorMessage, setErrorMessage] = useState<string>("");
     
@@ -291,7 +312,8 @@ const ShoppingCart: NextPage = () => {
 
       const handleDeleteClickCart = async (CartID: number, cart: ShoppingCart) => {
         setSelectedCart(cart);
-        deleteCart(CartID);
+        await deleteCart(CartID);
+        setCarts(prevCarts => prevCarts.filter(item => item.cart_id !== CartID));
       };
     
       const handleAddClickCart = () => {
@@ -354,10 +376,14 @@ const ShoppingCart: NextPage = () => {
       const handleQuantityChange = async (e, product) => {
         const newQuantity = parseInt(e.target.value, 10);
         const cartItem = carts.find((cart) => cart.Product_id === product.Product_id);
-    
+      
         if (cartItem) {
+          const previousQuantity = cartItem.quantity;
           const updatedCart = { ...cartItem, quantity: newQuantity };
           await updateCart(updatedCart);
+      
+          const inventoryChange = previousQuantity - newQuantity;
+          await decreaseProductQuantity(product.ProductID, inventoryChange);
         } else {
           console.error('No matching cart item found for the selected product');
         }
@@ -391,8 +417,9 @@ return (
                     <button
                       className="bg-cougar-red text-white px-3 rounded font-semibold hover:bg-cougar-dark-red"
                       onClick={() => {
-                        if (selectedCart) {
-                          handleDeleteClickCart(selectedCart.cart_id, product);
+                        const cartItemToDelete = carts.find((cart) => cart.Product_id === product.ProductID);
+                        if (cartItemToDelete) {
+                          handleDeleteClickCart(cartItemToDelete.cart_id, product);
                         }
                       }}
                     >
@@ -400,7 +427,7 @@ return (
                     </button>
                     <div className="quantity-select bg-cougar-gold font-semibold text-friendly-black3 pl-3 pr-2 py-1 rounded hover:bg-cougar-gold-dark">
                       <label htmlFor="quantity" className="mr-2">QTY:</label>
-                      <select id="quantity" name="quantity" className="quantity-select bg-cougar-gold text-friendly-black3 py-1 rounded hover:bg-white">
+                      <select id="quantity" name="quantity" className="quantity-select bg-cougar-gold text-friendly-black3 py-1 rounded hover:bg-white" onChange={(e) => handleQuantityChange(e, product)}>
                       {[...Array(100)].map((_, i) => (
                           <option key={i} value={i + quantity}>{i + quantity}</option>
                       ))}
@@ -419,10 +446,15 @@ return (
       
             <ul>
               {products.map((product) => {
-                const cartItem = carts.find((cart) => cart.Product_id === product.Product_id);
+              const cartItem = carts.find((item) => item.productId === product.id);
+              const quantity = cartItem ? cartItem.quantity : 0;
+
+              
+
                 return (
-                  <li key={product.Product_id} className="mb-2">
-                    {product.Product_id}: {cartItem ? cartItem.quantity : 0} x ${product.cost}
+                  <li key={product.p_name} className="mb-2">
+
+                    {product.p_name}: {cartItem ? cartItem.quantity : 0} x ${product.cost}
                   </li>
                 );
               })}

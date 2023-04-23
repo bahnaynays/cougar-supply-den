@@ -66,4 +66,4 @@ Inside the src folder:
         - contains error, success css files for visual input warning features.
 
 
-    The rest of the files are automatically implemented from frameworks we used, node.js.
+    The rest of the files are automatically implemented from frameworks we used, Node.js.

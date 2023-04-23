@@ -55,7 +55,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       .input('supp', productData.supp)
       .input('cost', productData.cost)
       .input('url_link', productData.url_link)
-      .input('url_link', productData.num_sold)
+      .input('num_sold', productData.num_sold)
       .query(`
         UPDATE [dbo].[PRODUCT]
         SET p_name = @p_name,
@@ -64,7 +64,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             date_add = @date_add,
             supp = @supp,
             cost = @cost,
-            url_link = @url_link
+            url_link = @url_link,
             num_sold = @num_sold
         WHERE ProductID = @ProductID
       `);

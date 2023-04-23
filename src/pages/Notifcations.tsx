@@ -182,7 +182,7 @@ return (
             <th scope="col" className="px-4 py-2">Message Text</th>
 
             <th scope="col" className="px-4 py-2">Time Stamp</th>
-            <th scope="col" className="px-4 py-2">Local Account</th>
+            <th scope="col" className="px-4 py-2">Visibility</th>
           </tr>
         </thead>
         <tbody>
@@ -193,7 +193,9 @@ return (
               <td className="text-friendly-black px-4 py-2">{product.ProductId}</td>
               <td className="text-friendly-black px-4 py-2">{product.MessageText}</td>
               <td className="text-friendly-black px-4 py-2">{formatDate(product.TIMESTAMP)}</td>
-              <td className="text-friendly-black px-4 py-2">{product.Loc_acc}</td>
+              <td className="text-friendly-black px-4 py-2">
+              {product.Loc_acc === 1 ? "Admin" : product.Loc_acc === 2 ? "Customer" : ""}
+            </td>
 
 
             </tr>

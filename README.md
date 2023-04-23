@@ -15,12 +15,10 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 
-## Project Details
-Cougar Supply Den
-COSC 3380 
-Professor Uma Ramamurthy
+## Cougar Supply Den Project Details
+COSC 3380, Professor Uma Ramamurthy
 
-- Group 10:
+Group 10:
 - Dylan Cao
 - Benjamin Shek
 - An Thien Pham

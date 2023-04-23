@@ -83,7 +83,9 @@ const VisitorNavbar = (props: Props) => {
 
   
 
-<div className="relative flex-1">
+  <div className="relative flex-1">
+
+  {/*//the searchbar lol
   <div className="inline-flex items-stretch max-w-[400px] rounded shadow-lg border-1 border-transparent focus-within:border-blue-500">
         <div className="pointer-events-none absolute inset-y-0 right-[calc(84%-2.5rem)] flex items-center px-1.5 text-black"></div>
         <input
@@ -96,6 +98,9 @@ const VisitorNavbar = (props: Props) => {
         </button>
         
       </div>
+    */}
+
+      
     </div>
 
     <div className="mx-2"></div>

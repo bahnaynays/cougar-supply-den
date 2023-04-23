@@ -124,6 +124,7 @@ const AdminNavbar = (props: Props) => {
 
       <div className="relative ">
       <div className="inline-flex items-stretch max-w-[400px] rounded shadow-lg border-1 border-transparent focus-within:border-blue-500">
+        {/* the search bar lmao
       <select
           className="text-sm bg-hover-white text-black sm:max-w-[8x] max-w-[128px] px-4 py-2 rounded-l border-transparent appearance-none focus:outline-none focus:border-blue-500 focus:ring-blue-500 focus:underline-none"
           onChange={handleSelectChange}
@@ -138,6 +139,8 @@ const AdminNavbar = (props: Props) => {
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-[calc(84%-2.5rem)] flex items-center px-1.5 text-black"></div>
         
+
+             
         <input
           type="text"
           placeholder="Search Contents"
@@ -146,6 +149,9 @@ const AdminNavbar = (props: Props) => {
         <button className="absolute inset-y-0 right-0 flex items-center px-3 rounded-r bg-cougar-gold hover:bg-cougar-gold-dark">
           <MagnifyingGlassIcon className="text-friendly-black fontbold h-6 w-6 " />
         </button>
+
+    */}
+
       </div>
     </div>
     <div className="flex-grow mx-2"></div>

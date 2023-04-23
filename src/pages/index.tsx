@@ -375,10 +375,13 @@ const IndexPage: NextPage = () => {
               className="rounded-t"
               layout="fixed"
             />
-            <h2 className=" mt-2 text-lg font-bold mx-4">{product.p_name}</h2>
-            <p className="text-gray-600 mx-4">Price: ${product.cost}</p>
-            <p className="text-gray-600 mx-4">Quantity: {product.Inv_quantity}</p>
-            <p className="text-gray-600 mx-4 mb-4">Details: xyz</p>
+            <h2 className=" mt-2 text-xl font-bold mx-4">{product.p_name}</h2>
+            <p className="text-gray-600 mx-4"> Price: ${product.cost}</p>
+            <p className="text-gray-600 mx-4"> # Stock: {product.Inv_quantity}</p>
+            <p className="text-gray-600 mx-4"> Supplier: {product.supp}</p>
+
+            <p className="text-gray-600 mx-4"> Date Added: {formatDate(product.date_add)}</p>
+            <p className="text-gray-600 mx-4 mb-4"></p>
             <div className="flex justify-between mx-4 mb-4">
 
               <button className="bg-cougar-gold text-friendly-black3 px-3 py-1 rounded font-semibold hover:bg-cougar-gold-dark" onClick={(event) => handleAddToCart(product, users)}

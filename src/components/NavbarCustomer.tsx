@@ -93,8 +93,11 @@ auth.setUser(null);
 
       <div className="relative ">
       <div className="inline-flex items-stretch max-w-[400px] rounded shadow-lg border-1 border-transparent focus-within:border-blue-500">
-
+ 
         <div className="pointer-events-none absolute inset-y-0 right-[calc(84%-2.5rem)] flex items-center px-1.5 text-black"></div>
+
+
+        {/* the search bar lmao
         
         <input
           type="text"
@@ -104,8 +107,15 @@ auth.setUser(null);
         <button className="absolute inset-y-0 right-0 flex items-center px-3 rounded-r bg-cougar-gold hover:bg-cougar-gold-dark">
           <MagnifyingGlassIcon className="text-friendly-black fontbold h-6 w-6 " />
         </button>
+
+        */}
+
       </div>
+      
+
+      
     </div>
+   
     <div className="flex-grow mx-2"></div>
     <div className="mx-2"></div>
         {/*Store View*/}

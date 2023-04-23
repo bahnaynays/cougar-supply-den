@@ -187,14 +187,14 @@ return (
           <tr>
             <th scope="col" className="px-4 py-2">Product ID</th>
             <th scope="col" className="px-4 py-2">Name</th>
-
             <th scope="col" className="px-4 py-2">Type</th>
             <th scope="col" className="px-4 py-2">Quantity</th>
-
             <th scope="col" className="px-4 py-2">Date Added</th>
-
             <th scope="col" className="px-4 py-2">Supplier</th>
             <th scope="col" className="px-4 py-2">Cost</th>
+            <th scope="col" className="px-4 py-2">Url Link</th>
+            <th scope="col" className="px-4 py-2">num_sold</th>
+
             <th scope="col" className="px-4 py-2">Update</th> 
             <th scope="col" className="px-4 py-2">Delete</th> 
           </tr>
@@ -213,6 +213,15 @@ return (
 
               <td className="text-friendly-black px-4 py-2">{product.supp}</td>
               <td className="text-friendly-black px-4 py-2">{product.cost}</td>
+
+              <td className="text-friendly-black px-4 py-2">
+              <a href={product.url_link} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-blue-500">
+                {product.url_link}
+              </a>
+            </td>
+            
+              <td className="text-friendly-black px-4 py-2">{product.num_sold}</td>
+
              
               <td className="px-4 py-2">
                 <button
@@ -290,6 +299,16 @@ return (
             <label className="mt-4 mx-4" htmlFor="cost">Cost:</label>
             <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cost" name="cost" value={newProduct.cost || ''} onChange={handleInputChange} step="0.01" />
           </div>
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="url_link">Url Link:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="url_link" name="url_link" value={newProduct.url_link || ''} onChange={handleInputChange}/>
+          </div>
+
+          <div className="flex justify-end">
+            <label className="mt-4 mx-4" htmlFor="num_sold">Num Sold:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="num_sold" name="num_sold" value={newProduct.num_sold || ''} onChange={handleInputChange} />
+          </div>
+
           
         <div className='py-3'></div>
       </div>
@@ -376,6 +395,16 @@ return (
         <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="cost">Cost:</label>
           <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cost" name="cost" defaultValue={selectedProduct.cost} step="0.01" onChange={handleInputChange} />
+        </div>
+
+        <div className="flex justify-end">
+          <label className="mt-4 mx-4" htmlFor="url_link">Url Link:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="url_link" name="url_link" defaultValue={selectedProduct.url_link} onChange={handleInputChange} />
+        </div>
+
+        <div className="flex justify-end">
+          <label className="mt-4 mx-4" htmlFor="num_sold">Num Sold:</label>
+          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="num_sold" name="num_sold" defaultValue={selectedProduct.num_sold} onChange={handleInputChange} />
         </div>
         
         <div className='py-3'></div>

@@ -309,97 +309,139 @@ const ShoppingCart: NextPage = () => {
           return;
         }
         const totalCost = products.reduce((sum, product) => sum + product.quantity * product.quantity, 0);
-
-        const existingCart = carts.find((cart) => cart.cust_id === auth.user.user_id && cart.Product_id === product.ProductID);
       
+        const existingCart = carts.find((cart) => cart.cust_id === auth.user.user_id && cart.Product_id === product.ProductID);
+        
+        let updatedProductQuantity: number;
         if (existingCart) {
           const updatedCart: ShoppingCart = { ...existingCart, quantity: (existingCart.quantity ?? 0) + 1 };
           await updateCart(updatedCart);
+          updatedProductQuantity = updatedCart.quantity; // Use updated cart quantity
         } else {
           const newCart: ShoppingCart = {
-            cart_id: 0,
+            cart_id: parseInt(auth.user.user_id, 10),
             cust_id: auth.user.user_id,
             Product_id: product.ProductID,
             quantity: 1,
           };
           await createCart(newCart);
+          updatedProductQuantity = newCart.quantity; // Use new cart quantity
         }
-
+      
+        // Update the product quantity in the product table based on the cart quantity
+        const updatedProduct: Product = { ...product, Inv_quantity: product.Inv_quantity - updatedProductQuantity };
+        await updateProduct(updatedProduct);
       };
+      
       const redirectToCheckout= () => {
         router.push('/CheckoutPage');
       };
 
 
-return (
-    <div className="relative container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6">Your Shopping Cart.</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
-          {products.map((product) => (
-            <div key={product.Product_id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
-            <Image
-              src={'https://via.placeholder.com/150'}
-              alt={product.Product_id}
-              width={300}
-              height={200}
-              className="rounded-t"
-              layout="fixed"
-            />
-            <h2 className=" mt-2 text-lg font-bold mx-4">{product.Product_id}</h2>
-            <p className="text-gray-600 mx-4">Price: ${product.quantity}</p>
-            <p className="text-gray-600 mx-4">Quantity: {product.quantity}</p>
-            <p className="text-gray-600 mx-4 mb-4">Details: xyz</p>
-            <div className="flex justify-between mx-4 mb-4">
-                <button
-                  className="bg-cougar-red text-white px-3 rounded font-semibold hover:bg-cougar-dark-red"
-                  onClick={() => {
-                    
-                  if (selectedCart) {
-                    handleDeleteClickCart(selectedCart.cart_id, product);
-                  }
-                }}
-              >
-                Remove
-            </button>
-              <div className="quantity-select bg-cougar-gold font-semibold text-friendly-black3 pl-3 pr-2 py-1 rounded hover:bg-cougar-gold-dark">
-                <label htmlFor="quantity" className="mr-2">QTY:</label>
-                <select id="quantity" name="quantity" className="quantity-select bg-cougar-gold text-friendly-black3 py-1 rounded hover:bg-white">
-                {[...Array(100)].map((_, i) => (
-                    <option key={i} value={i + 1}>{i + 1}</option>
-                ))}
-                </select>
-              </div>
-            </div>
-          </div>
-        ))}
-
-      </div>
+      const decreaseProductQuantity = async (ProductID: string, quantityToDecrease: number) => {
+        const productToUpdate = products.find((product) => product.ProductID === ProductID);
       
-      <div className="fixed right-64 w-64 bg-white p-4 rounded-2xl shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+        if (productToUpdate) {
+          const updatedProduct: Product = {
+            ...productToUpdate,
+            Inv_quantity: productToUpdate.Inv_quantity - quantityToDecrease,
+          };
+      
+          await updateProduct(updatedProduct);
+        }
+      };
 
-        <ul>
-          {products.map((product) => (
-            <li key={product.Product_id} className="mb-2">
-              {product.Product_id}: {product.quantity} x ${product.quantity}
-            </li>
-          ))}
-        </ul>
-        <hr className="my-4" />
-        <div className="flex justify-between font-bold mb-5">
-          <span>Total Cost:</span>
-          <div>${totalCost.toFixed(2)}</div>
+      const handleQuantityChange = async (e, product) => {
+        const newQuantity = parseInt(e.target.value, 10);
+        const cartItem = carts.find((cart) => cart.Product_id === product.Product_id);
+    
+        if (cartItem) {
+          const updatedCart = { ...cartItem, quantity: newQuantity };
+          await updateCart(updatedCart);
+        } else {
+          console.error('No matching cart item found for the selected product');
+        }
+      };
+
+      
+      
+return (
+   <div className="relative container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Your Shopping Cart.</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
+          {products.map((product) => {
+              const cartItem = carts.find((item) => item.productId === product.id);
+              const quantity = cartItem ? cartItem.quantity : 0;
+      
+              return (
+                <div key={product.Product_id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
+                  <Image
+                    src={`${product.url_link}`}
+                    alt={product.Product_id}
+                    width={300}
+                    height={200}
+                    className="rounded-t"
+                    layout="fixed"
+                  />
+                  <h2 className=" mt-2 text-xl font-bold mx-4">{product.p_name}</h2>
+                  <p className="text-gray-600  mx-4">Price: ${product.cost}</p>
+                  <p className="text-gray-600 mx-4">Supplier: {product.supp}</p>
+                  <p className="text-gray-600 mx-4 mb-4"></p>
+                  <div className="flex justify-between mx-4 mb-4">
+                    <button
+                      className="bg-cougar-red text-white px-3 rounded font-semibold hover:bg-cougar-dark-red"
+                      onClick={() => {
+                        if (selectedCart) {
+                          handleDeleteClickCart(selectedCart.cart_id, product);
+                        }
+                      }}
+                    >
+                      Remove
+                    </button>
+                    <div className="quantity-select bg-cougar-gold font-semibold text-friendly-black3 pl-3 pr-2 py-1 rounded hover:bg-cougar-gold-dark">
+                      <label htmlFor="quantity" className="mr-2">QTY:</label>
+                      <select id="quantity" name="quantity" className="quantity-select bg-cougar-gold text-friendly-black3 py-1 rounded hover:bg-white">
+                      {[...Array(100)].map((_, i) => (
+                          <option key={i} value={i + quantity}>{i + quantity}</option>
+                      ))}
+
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+      
+          </div>
           
-        </div>
-
-        <button
-            className="bg-cougar-teal text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-teal"
-            onClick={redirectToCheckout}
-            >
-
-            Proceed to Checkout
-          </button >
-      </div>
+          <div className="fixed right-64 w-64 bg-white p-4 rounded-2xl shadow-lg">
+            <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+      
+            <ul>
+              {products.map((product) => {
+                const cartItem = carts.find((cart) => cart.Product_id === product.Product_id);
+                return (
+                  <li key={product.Product_id} className="mb-2">
+                    {product.Product_id}: {cartItem ? cartItem.quantity : 0} x ${product.cost}
+                  </li>
+                );
+              })}
+            </ul>
+            <hr className="my-4" />
+            <div className="flex justify-between font-bold mb-5">
+              <span>Total Cost:</span>
+              <div>${totalCost.toFixed(2)}</div>
+              
+            </div>
+      
+            <button
+                className="bg-cougar-teal text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-teal"
+                onClick={redirectToCheckout}
+                >
+      
+                Proceed to Checkout
+              </button >
+          </div>
 
     </div>
   );

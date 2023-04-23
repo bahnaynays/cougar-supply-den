@@ -56,7 +56,76 @@ const ProductList: React.FC = () => {
     };
   };
 
-  const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHook();
+  const useProductsHook2 = () => {
+    const { data, error } = useSWR('/api/products', fetcher);
+
+    const isLoading = !data && !error;
+    const isError = error;
+
+    const updateProduct = async (selectedProduct: Product) => {
+      try {
+        const response = await axios.put(`/api/products?ProductID=${selectedProduct.ProductID}`, selectedProduct);
+        const updatedProduct = response.data;
+        mutate('/api/products');
+        return updatedProduct;
+      } catch (error) {
+        console.error('Error updating product:', error);
+        throw error.response.data;
+      }
+    };
+
+    const createProduct = async (newProduct) => {
+      // Generate user_id based on the user's first and last name
+      const productIDgen = generateUserIdFromName();
+      
+      const newProduct2 = { ...newProduct, ProductID: productIDgen};
+
+      await fetch('/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newProduct2),
+      });
+    
+      mutate('/api/products');
+    };
+
+    //NOTE: The await fetch for this one is kind of sus, since its selectedProduct.user_id instead of user_id
+    const deleteProduct = async (newProduct) => {
+      await fetch(`/api/products?productId=${newProduct}`, {
+        method: 'DELETE',
+      });
+
+      mutate('/api/products');
+    };
+
+    const generateUserIdFromName = () => {
+      // Generate a random number within a range (for example, between 10000 and 99999)
+      const generateRandomNumber = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      };
+    
+      // Check if there's already a user with the same user_id, if so, generate a new one
+      let userId = generateRandomNumber(10000, 99999).toString();
+      while (products.some((product) => product.user_id === userId)) {
+        userId = generateRandomNumber(10000, 99999).toString();
+      }
+    
+      return userId;
+    };
+
+    return {
+      products: data,
+      isLoading,
+      isError,
+      updateProduct,
+      deleteProduct,
+      createProduct,
+    };
+  };
+
+  const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHook2();
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -80,7 +149,7 @@ const ProductList: React.FC = () => {
 
 
   const validateProduct = (product: Partial<Product>): boolean => {
-    const requiredFields = ["ProductID", "p_name", "Inv_quantity", "prod_type", "date_add", "supp", "cost", "url_link"];
+    const requiredFields = ["p_name", "Inv_quantity", "prod_type", "date_add", "supp", "cost", ];
     for (const field of requiredFields) {
       if (!product[field]) {
         setErrorMessage(`Please fill in the ${field} field.`);
@@ -271,10 +340,7 @@ return (
       <div className="mb-3">
         </div>
         
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="ProductID">Product ID:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="ProductID" name="ProductID" value={newProduct.ProductID || ''} onChange={handleInputChange} />
-          </div>
+
           <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="p_name">Name:</label>
             <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="p_name" name="p_name" value={newProduct.p_name || ''} onChange={handleInputChange} />

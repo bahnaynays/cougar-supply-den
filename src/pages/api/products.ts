@@ -28,8 +28,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       .input('date_add', productData.date_add)
       .input('supp', productData.supp)
       .input('cost', productData.cost)
-      .input('url_link', productData.url_link)
-      .input('url_link', productData.num_sold)
+      .input('url_link', productData.url_link || 'https://via.placeholder.com/150') 
+      .input('num_sold', productData.num_sold || 0)
       .query(`
         INSERT INTO [dbo].[PRODUCT] (ProductID, p_name, Inv_quantity, prod_type, date_add, supp, cost, url_link, num_sold)
         VALUES (@ProductID, @p_name, @Inv_quantity, @prod_type, @date_add, @supp, @cost, @url_link, @num_sold)

@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 import { useAuth  } from "../context/AuthContext";
 
+
 const UserProfile: React.FC = () => {
   const { user } = useAuth();
   const [editedProduct, setEditedProduct] = useState<Partial<Users>>({});
@@ -172,6 +173,27 @@ const UserProfile: React.FC = () => {
     setShowModal(false);
   };
 
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files[0];
+    if (!file) return;
+  
+    const formData = new FormData();
+    formData.append('file', file);
+  
+    try {
+      const response = await fetch('http://localhost:3001/upload', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      const data = await response.json();
+      const imageUrl = data?.image?.url;
+      console.log(imageUrl);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   
 
   useEffect(() => {
@@ -196,6 +218,8 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
+
+
 
 
   return (
@@ -244,7 +268,7 @@ const UserProfile: React.FC = () => {
                     name="userType"
                     value={selectedProduct?.userType || ''}
                     onChange={handleInputChange}
-                    className="bg-cougar-yellow rounded  px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500"
+                    className="bg-cougar-yellow rounded px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500"
                     readOnly
                   />
                   </div>
@@ -323,6 +347,25 @@ const UserProfile: React.FC = () => {
 
                   </div>
                   <div className="md:w-1/2 md:pl-4">
+
+                  <li className="flex items-start">
+                    <span className="mt-1 flex items-center text-sm">
+                      Profile Picture
+                    </span>
+                  </li>
+
+                  <div className="relative flex max-w-[600px]">
+                  <input
+                    type="file"
+                    id="avatar"
+                    name="avatar"
+                    accept="image/png"
+
+                    onChange={handleFileChange}
+                  />
+                  </div>
+
+
 
                   <li className="flex items-start">
                     <span className="mt-1 flex items-center text-sm">

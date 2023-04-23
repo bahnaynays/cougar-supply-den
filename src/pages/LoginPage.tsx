@@ -303,14 +303,15 @@ const redirectToHomePageValidUser = async () => {
                     </span>
                   </li>
                   <div className="relative flex max-w-[600px]">
-                  <input
-                        placeholder="Enter Password"
-                        type="text"
-                        id="pw" 
-                        name="pw" 
-                        value={newProduct.pw || ''} onChange={handleInputChange} 
-                        className="bg-gray-200 rounded hover:shadow-lg px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500" 
-                      />
+                    <input
+                      placeholder="Enter Password"
+                      type="password"
+                      id="pw" 
+                      name="pw" 
+                      value={newProduct.pw || ''}
+                      onChange={handleInputChange} 
+                      className="bg-gray-200 rounded hover:shadow-lg px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500" 
+                  />
                   </div>
 
 
@@ -335,7 +336,7 @@ const redirectToHomePageValidUser = async () => {
                 </div>
                 <div onClick={redirectToHomePageVisitor} className="flex flex-row items-center mt-3 text-sm">
                   <h1>Return to store as a </h1>
-                    <Link href="/" className="text-blue-500 ml-1 hover:text-blue-300">
+                    <Link href="/" className="text-blue-500 ml-1 hover:text-blue-300 font-semibold">
                       Visitor
                     </Link>
                   <h1>.</h1>

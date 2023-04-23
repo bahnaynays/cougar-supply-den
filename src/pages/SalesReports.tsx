@@ -159,31 +159,33 @@ const SalesReports: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-friendly-grey py-6 flex flex-col justify-center items-center sm:py-12 rounded-2xl">
-      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-        <div className="relative px-4 py-10 bg-white w-screen mx-8 md:mx-0 shadow-xl rounded-1xl sm:p-10">
-        <div className="block font-semibold text-xl text-gray-700">
-                <h2 className="leading-relaxed">Sales Report</h2>
-                {filteredProducts && <MetricChartSales products={filteredProducts} />}
-              </div>
-              <div className="block font-semibold text-xl text-gray-700">
-                <h2 className="leading-relaxed">Sales Report</h2>
-                {filteredProducts && <MetricChartSalesMoney products={filteredProducts} />}
-              </div>
+    <div className="min-h-screen py-6 flex justify-center items-center -mt-20">
+      <div className="w-full max-w-4xl">
+        <div className="bg-white shadow-xl rounded-2xl p-8 mx-auto">
+          <h2 className="text-4xl font-bold text-gray-700 mb-10">
+            Sales Reports
+          </h2>
+          <div className="text-gray-700 mb-4 text-2xl">
+              
+          <div className="block font-semibold text-2xl text-gray-700" style={{ textAlign: "center" }}>
+            Number Sold Chart
+            {filteredProducts && <MetricChartSales products={filteredProducts} />}
+          </div>
+          <div className="block font-semibold text-2xl text-gray-700" style={{ textAlign: "center" }}>
+            Revenue Chart
+            {filteredProducts && <MetricChartSalesMoney products={filteredProducts} />}
+          </div>
+
+          </div>
           <div className="max-w-md mx-auto">
-            
             <div className="flex justify-content-start items-center space-x-5">
-              
+              {/* Add any additional content here */}
             </div>
-            
             <div className="divide-y divide-gray-200">
-              
               <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-                
                 <ul className="list-disc space-y-2">
                   <li className="flex items-start">
                     <span className="h-6 flex items-center sm:h-7">
-                      
                       Sales Reports and such will go here.
                     </span>
                   </li>
@@ -195,9 +197,9 @@ const SalesReports: React.FC = () => {
       </div>
     </div>
   );
-}
-export default SalesReports;
+};
 
+export default SalesReports;
 
 
 

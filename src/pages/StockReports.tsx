@@ -158,15 +158,21 @@ const StocklReports: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-friendly-grey py-6 flex flex-col justify-center sm:py-12">
-      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-        <div className="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow-xl rounded-2xl sm:p-10">
+    <div className="min-h-screen py-6 flex justify-center items-center">
+      <div className="w-full max-w-4xl">
+        <div className="bg-white shadow-xl rounded-2xl p-8 mx-auto">
+          <h2 className="text-4xl font-bold text-gray-700 mb-4">
+            Stock Reports
+          </h2>
+          <div className="text-gray-700 mb-4 text-2xl">
+          <div className="block font-semibold text-2xl text-gray-700" style={{ textAlign: "center" }}>
+              Inventory Stock Chart
+              {filteredProducts && <MetricChartStock products={filteredProducts} />}
+            </div>
+          </div>
           <div className="max-w-md mx-auto">
-            <div className="flex items-center space-x-5">
-              <div className="block font-semibold text-xl text-gray-700">
-                <h2 className="leading-relaxed">Stock Report</h2>
-                {filteredProducts && <MetricChartStock products={filteredProducts} />}
-              </div>
+            <div className="flex justify-content-start items-center space-x-5">
+              {/* Add any additional content here */}
             </div>
             <div className="divide-y divide-gray-200">
               <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">

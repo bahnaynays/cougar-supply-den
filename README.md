@@ -20,12 +20,12 @@ Cougar Supply Den
 COSC 3380 
 Professor Uma Ramamurthy
 
-Group 10:
-Dylan Cao
-Benjamin Shek
-An Thien Pham
-Damian Barriga
-Sai Prashanth Harihar
+- Group 10:
+- Dylan Cao
+- Benjamin Shek
+- An Thien Pham
+- Damian Barriga
+- Sai Prashanth Harihar
 
 # Project Description:
 This is a full stack Point Of Sales System web appliaction. The appliaction is 
@@ -38,13 +38,13 @@ tables in the database.
 ----------------------------------------------------------------------------------
 
 # Libraries Used:
-npm install recharts
-npm install swr
-npm install -D tailwindcss
-npm install next.js
-npm install flowbite
-npm install uuidv4
-npm install mssql
+- npm install recharts
+- npm install swr
+- npm install -D tailwindcss
+- npm install next.js
+- npm install flowbite
+- npm install uuidv4
+- npm install mssql
 
 ----------------------------------------------------------------------------------
 

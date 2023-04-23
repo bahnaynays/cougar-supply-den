@@ -30,7 +30,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         .input('phone_num', userData.phone_num)
         .input('pw', userData.pw)
         .input('userType', userData.userType)
-        .input('url_link', userData.url_link)
+        .input('url_link', userData.url_link || 'https://i.postimg.cc/Pf6chd82/blank-profile-picture-973460-340.png')
         .query(`
           INSERT INTO [dbo].[USERS] (user_id, f_name, l_name, dob, email, phone_num, pw, userType, url_link)
           VALUES (@user_id, @f_name, @l_name, @dob, @email, @phone_num, @pw, @userType, @url_link)
@@ -58,7 +58,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         .input('phone_num', userData.phone_num)
         .input('pw', userData.pw)
         .input('userType', userData.userType)
-        .input('url_link', userData.url_link)
+        .input('url_link', userData.url_link || 'https://i.postimg.cc/Pf6chd82/blank-profile-picture-973460-340.png')
         .query(`
           UPDATE [dbo].[USERS]
           SET f_name = @f_name,

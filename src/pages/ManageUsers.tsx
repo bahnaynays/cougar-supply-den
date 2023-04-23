@@ -28,14 +28,22 @@ const ManageUsers: React.FC = () => {
     };
 
     const createProduct = async (newProduct) => {
+      // Generate user_id based on the user's first and last name
+      const userId = generateUserIdFromName();
+    
+      // Set a default value for userType if it is not provided
+      const userType = newProduct.userType || 'Customer';
+    
+      const newUser = { ...newProduct, user_id: userId, userType: userType };
+    
       await fetch('/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newProduct),
+        body: JSON.stringify(newUser),
       });
-
+    
       mutate('/api/users');
     };
 
@@ -46,6 +54,21 @@ const ManageUsers: React.FC = () => {
       });
 
       mutate('/api/users');
+    };
+
+    const generateUserIdFromName = () => {
+      // Generate a random number within a range (for example, between 10000 and 99999)
+      const generateRandomNumber = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      };
+    
+      // Check if there's already a user with the same user_id, if so, generate a new one
+      let userId = generateRandomNumber(10000, 99999).toString();
+      while (products.some((product) => product.user_id === userId)) {
+        userId = generateRandomNumber(10000, 99999).toString();
+      }
+    
+      return userId;
     };
 
     return {
@@ -84,7 +107,7 @@ const ManageUsers: React.FC = () => {
   const validateProduct = (product: Partial<Users>): boolean => {
 
     
-    const requiredFields = ["user_id", "f_name", "l_name", "dob", "email", "phone_num", "pw", "userType", "url_link"];
+    const requiredFields = ["f_name", "l_name", "dob", "email", "phone_num", "pw", "userType"];
     for (const field of requiredFields) {
       if (!product[field]) {
         setErrorMessage(`Please fill in the ${field} field.`);
@@ -226,7 +249,11 @@ return (
               <td className="text-friendly-black px-4 py-2">{product.phone_num}</td>
               <td className="text-friendly-black px-4 py-2">{product.pw}</td>
               <td className="text-friendly-black px-4 py-2">{product.userType}</td>
-              <td className="text-friendly-black px-4 py-2">{product.url_link}</td>
+              <td className="text-friendly-black px-4 py-2">
+              <a href={product.url_link} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-blue-500">
+                {product.url_link}
+              </a>
+            </td>
              
               <td className="px-4 py-2">
                 <button
@@ -276,10 +303,6 @@ return (
       <div className="mb-3">
         </div>
         
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="user_id">User ID:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="user_id" name="user_id" value={newProduct.user_id || ''} onChange={handleInputChange} />
-          </div>
           <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="f_name">First Name:</label>
             <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="f_name" name="f_name" value={newProduct.f_name || ''} onChange={handleInputChange} />
@@ -373,10 +396,7 @@ return (
       <div className="mb-3">
         </div>
 
-        <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="user_id">User ID:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="user_id" name="user_id" value={selectedProduct.user_id} onChange={handleInputChange} />
-          </div>
+
           <div className="flex justify-end">
             <label className="mt-4 mx-4" htmlFor="f_name">First Name:</label>
             <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="f_name" name="f_name" value={selectedProduct.f_name} onChange={handleInputChange} />

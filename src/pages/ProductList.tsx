@@ -260,7 +260,7 @@ return (
             <th scope="col" className="px-4 py-2">Quantity</th>
             <th scope="col" className="px-4 py-2">Date Added</th>
             <th scope="col" className="px-4 py-2">Supplier</th>
-            <th scope="col" className="px-4 py-2">Cost</th>
+            <th scope="col" className="px-4 py-2">Cost ($)</th>
             <th scope="col" className="px-4 py-2">Url Link</th>
             <th scope="col" className="px-4 py-2">num_sold</th>
 
@@ -431,10 +431,6 @@ return (
         <div className="mb-3">
         </div>
 
-        <div className="flex justify-end">
-          <label className="mt-4 mx-4" htmlFor="ProductID">Product ID:</label>
-          <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="ProductID" name="ProductID" defaultValue={selectedProduct.ProductID} onChange={handleInputChange} />
-        </div>
         <div className="flex justify-end">
           <label className="mt-4 mx-4" htmlFor="p_name">Name:</label>
           <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="p_name" name="p_name" defaultValue={selectedProduct.p_name} onChange={handleInputChange} />

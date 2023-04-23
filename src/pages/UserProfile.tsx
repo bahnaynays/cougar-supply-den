@@ -355,7 +355,8 @@ const UserProfile: React.FC = () => {
                   </li>
 
                   <div className="relative flex max-w-[600px]">
-                  <input
+                    {/*
+                                      <input
                     type="file"
                     id="avatar"
                     name="avatar"
@@ -363,6 +364,16 @@ const UserProfile: React.FC = () => {
 
                     onChange={handleFileChange}
                   />
+                    
+                    */}
+                    <input
+                      placeholder="Enter URL"
+                      type="text"
+                      id="url_link" 
+                      name="url_link" 
+                      value={selectedProduct?.url_link || ''} onChange={handleInputChange} 
+                      className="bg-gray-200 rounded hover:shadow-lg px-4 py-1 border-2 focus:outline-none border-transparent focus:border-blue-500" 
+                    />
                   </div>
 
 

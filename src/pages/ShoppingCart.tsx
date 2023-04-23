@@ -360,16 +360,16 @@ const ShoppingCart: NextPage = () => {
 
       
       
-return (
-   <div className="relative container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Your Shopping Cart.</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
-          {products.map((product) => {
+      return (
+        <div className="relative container mx-auto px-4 py-8">
+          <h1 className="text-3xl font-bold mb-6">Your Shopping Cart.</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
+            {products.map((product) => {
               const cartItem = carts.find((item) => item.productId === product.id);
               const quantity = cartItem ? cartItem.quantity : 0;
       
               return (
-                <div key={product.Product_id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
+                <div key={product.id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
                   <Image
                     src={`${product.url_link}`}
                     alt={product.Product_id}
@@ -386,7 +386,7 @@ return (
                     <button
                       className="bg-cougar-red text-white px-3 rounded font-semibold hover:bg-cougar-dark-red"
                       onClick={() => {
-                        const cartItemToDelete = carts.find((cart) => cart.Product_id === product.ProductID);
+                        const cartItemToDelete = carts.find((cart) => cart.productId === product.id);
                         if (cartItemToDelete) {
                           handleDeleteClickCart(cartItemToDelete.cart_id, product);
                         }

@@ -364,10 +364,12 @@ const ShoppingCart: NextPage = () => {
         <div className="relative container mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-6">Your Shopping Cart.</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
-            {products.map((product) => {
-              const cartItem = carts.find((item) => item.productId === product.id);
+          {carts.map((cartItem) => {
+              const product = products.find((item) => item.id === cartItem.productId);
               const quantity = cartItem ? cartItem.quantity : 0;
-      
+
+              if (!product) return null;
+
               return (
                 <div key={product.id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
                   <Image
@@ -420,21 +422,20 @@ const ShoppingCart: NextPage = () => {
             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
       
             <ul>
-              {products.map((product) => {
-              const cartItem = carts.find((item) => item.productId === product.id);
-              const quantity = cartItem ? cartItem.quantity : 0;
+              {carts.map((cartItem) => {
+                const product = products.find((item) => item.id === cartItem.productId);
+                const quantity = cartItem ? cartItem.quantity : 0;
 
-              
+                if (!product) return null;
 
                 return (
                   <li key={product.p_name} className="mb-2">
-
-                    {product.p_name}: {cartItem ? cartItem.quantity : 0} x ${product.cost}
+                    {product.p_name}: {quantity} x ${product.cost}
                   </li>
                 );
               })}
             </ul>
-            <hr className="my-4" />
+                        <hr className="my-4" />
             <div className="flex justify-between font-bold mb-5">
               <span>Total Cost:</span>
               <div>${totalCost.toFixed(2)}</div>

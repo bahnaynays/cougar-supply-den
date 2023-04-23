@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Users } from '../interfaces/UsersInterface';
+import { Order } from '../interfaces/OrderInterface';
+
 import { useOnClickOutside } from 'usehooks-ts';
 import axios from 'axios';
 import useSWR, { mutate } from 'swr';
@@ -10,16 +11,16 @@ const ManageOrders: React.FC = () => {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
   const useProductsHook = () => {
-    const { data, error } = useSWR('/api/users', fetcher);
+    const { data, error } = useSWR('/api/orders', fetcher);
 
     const isLoading = !data && !error;
     const isError = error;
 
-    const updateProduct = async (selectedProduct: Users) => {
+    const updateProduct = async (selectedProduct: Order) => {
       try {
-        const response = await axios.put(`/api/users?user_id=${selectedProduct.user_id}`, selectedProduct);
+        const response = await axios.put(`/api/orders?cart_id=${selectedProduct.cart_id}`, selectedProduct);
         const updatedProduct = response.data;
-        mutate('/api/users');
+        mutate('/api/orders');
         return updatedProduct;
       } catch (error) {
         console.error('Error updating product:', error);
@@ -28,7 +29,7 @@ const ManageOrders: React.FC = () => {
     };
 
     const createProduct = async (newProduct) => {
-      await fetch('/api/users', {
+      await fetch('/api/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,16 +37,16 @@ const ManageOrders: React.FC = () => {
         body: JSON.stringify(newProduct),
       });
 
-      mutate('/api/users');
+      mutate('/api/orders');
     };
 
     //NOTE: The await fetch for this one is kind of sus, since its selectedProduct.user_id instead of user_id
-    const deleteProduct = async (user_id) => {
-      await fetch(`/api/users?user_id=${user_id}`, {
+    const deleteProduct = async (cart_id) => {
+      await fetch(`/api/orders?cart_id=${cart_id}`, {
         method: 'DELETE',
       });
 
-      mutate('/api/users');
+      mutate('/api/orders');
     };
 
     return {
@@ -59,13 +60,13 @@ const ManageOrders: React.FC = () => {
   };
 
   const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHook();
-
   const [showAddModal, setShowAddModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Users | null>(null);
-  const [newProduct, setNewProduct] = useState<Partial<Users>>({});
+  const [selectedProduct, setSelectedProduct] = useState<Order | null>(null);
+  const [newProduct, setNewProduct] = useState<Partial<Order>>({});
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [filteredProducts, setFilteredProducts] = useState<Users[]>(products);
+  const [filteredProducts, setFilteredProducts] = useState<Order[]>(products);
+
 
   const formatDate = (dateString: string): string => {
     if (!dateString) {
@@ -80,11 +81,9 @@ const ManageOrders: React.FC = () => {
     return `${year}-${month}-${day}`;
   };
 
+  const validateProduct = (product: Partial<Order>): boolean => {
 
-  const validateProduct = (product: Partial<Users>): boolean => {
-
-    
-    const requiredFields = ["user_id", "f_name", "l_name", "dob", "email", "phone_num", "pw", "userType", "url_link"];
+    const requiredFields = ["cart_id", "cust_id", "Product_id", "quantity"];
     for (const field of requiredFields) {
       if (!product[field]) {
         setErrorMessage(`Please fill in the ${field} field.`);
@@ -96,13 +95,13 @@ const ManageOrders: React.FC = () => {
   };
 
 
-  const falseClick = (product: Users) => {
+  const falseClick = (product: Order) => {
     setSelectedProduct(product);
 
   };
 
 
-  const handleEditClick = (product: Users) => {
+  const handleEditClick = (product: Order) => {
     setShowModal(true);
     setSelectedProduct(product);
   };
@@ -127,10 +126,9 @@ const ManageOrders: React.FC = () => {
   };
 
 
-
-  const handleDeleteClick = async (userId: string, product: Users) => {
+  const handleDeleteClick = async (cart_id: number, product: Order) => {
     setSelectedProduct(product);
-    deleteProduct(userId);
+    deleteProduct(cart_id);
   };
   
   const handleAddClick = () => {
@@ -171,63 +169,51 @@ return (
   <div className="container mx-auto px-4 mb-4">
     
     {isLoading && <div>Loading...</div>}
-    {isError && <div>Error loading users</div>}
+    {isError && <div>Error loading Orders</div>}
      
   <h1 className="text-2xl font-semibold mb-10"></h1>
     <div className="relative overflow-x-auto shadow-xl rounded">
       <table className="w-full text-sm text-left text-gray-400">
         <caption className="p-5 text-lg font-semibold text-left  text-white bg-cougar-dark-red">
-          Manage Orders (this is a copy of manage users, WIP)
+          Manage Orders
             <div className="px-4  -py-4 absolute text-sm right-0.5">
             <button
               className="text-white text-sm px-3 py-1 rounded bg-cougar-teal hover:bg-cougar-dark-teal"
               onClick={handleAddClick}
             >
-              + Add New User
+              + Add New Order
             </button>
           </div>
           <span className="absolute text-sm right-5">
             ({products?.length ?? 0} {products?.length === 1 ? 'row' : 'rows'})
           </span>
           <div className="mt-1 text-sm font-normal text-white">
-            List of Users with their Full Name, Last Name, Date of Birth, Email Adress, Phone Number, Password, userType, and Picture URLs.
+            List of Orders with their Cart ID, Customer ID, Product ID, Quantity.
           </div>
         </caption>
         
         <thead className="table-auto w-full text-xs uppercase bg-cougar-red text-gray-200">
           <tr>
-            <th scope="col" className="px-4 py-2">User ID</th>
-            <th scope="col" className="px-4 py-2">First Name</th>
-            <th scope="col" className="px-4 py-2">Last Name</th>
-            <th scope="col" className="px-4 py-2">Date of Birth</th>
-            <th scope="col" className="px-4 py-2">Email Address</th>
-            <th scope="col" className="px-4 py-2">Phone Number</th>
-            <th scope="col" className="px-4 py-2">Password</th>
-            <th scope="col" className="px-4 py-2">User Type</th>
-            <th scope="col" className="px-4 py-2">Url Link</th> 
+            <th scope="col" className="px-4 py-2">Order ID</th>
+            <th scope="col" className="px-4 py-2">Customer ID</th>
+            <th scope="col" className="px-4 py-2">Product ID</th>
+            <th scope="col" className="px-4 py-2 w-full">Quantity</th>
 
             <th scope="col" className="px-4 py-2">Update</th> 
             <th scope="col" className="px-4 py-2">Delete</th> 
 
           </tr>
         </thead>
+
         <tbody>
-        {products && products.map((product: Users, index: number) => (
-          <tr key={product.user_id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
+        {products && products.map((product: Order, index: number) => (
+          <tr key={product.cart_id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
 
-              <td className="text-friendly-black px-4 py-2">{product.user_id}</td>
-              <td className="text-friendly-black px-4 py-2">{product.f_name}</td>
-              <td className="text-friendly-black px-4 py-2">{product.l_name}</td>
+              <td className="text-friendly-black px-4 py-2">{product.cart_id}</td>
+              <td className="text-friendly-black px-4 py-2">{product.cust_id}</td>
+              <td className="text-friendly-black px-4 py-2">{product.Product_id}</td>
+              <td className="text-friendly-black px-4 py-2">{product.quantity}</td>
 
-
-              <td className="text-friendly-black px-4 py-2">{formatDate(product.dob)}</td>
-              <td className="text-friendly-black px-4 py-2">{product.email}</td>
-
-              <td className="text-friendly-black px-4 py-2">{product.phone_num}</td>
-              <td className="text-friendly-black px-4 py-2">{product.pw}</td>
-              <td className="text-friendly-black px-4 py-2">{product.userType}</td>
-              <td className="text-friendly-black px-4 py-2">{product.url_link}</td>
-             
               <td className="px-4 py-2">
                 <button
                   className="bg-cougar-gold text-friendly-black px-3 font-semibold py-1 rounded hover:bg-cougar-gold-dark"
@@ -243,7 +229,8 @@ return (
                   onClick={() => {
                     
                   if (selectedProduct) {
-                    handleDeleteClick(selectedProduct.user_id, product);
+                    //sus tostring
+                    handleDeleteClick(selectedProduct.cart_id, product);
                   }
                 }}
               >
@@ -268,51 +255,29 @@ return (
         <div className='rounded-b'>
         <div className="flex items-center justify-between bg-friendly-black3 rounded-t p-2">
         <div className="px-4 text-lg font-semibold text-left text-white rounded">
-          Add New User
+          Add New Cart
         </div>
 
-        
       </div>
       <div className="mb-3">
         </div>
         
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="user_id">User ID:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="user_id" name="user_id" value={newProduct.user_id || ''} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="cart_id">Cart ID:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cart_id" name="cart_id" value={newProduct.cart_id || ''} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="f_name">First Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="f_name" name="f_name" value={newProduct.f_name || ''} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="cust_id">Customer ID:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="cust_id" name="cust_id" value={newProduct.cust_id || ''} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="l_name">Last Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="l_name" name="l_name" value={newProduct.l_name || ''} onChange={handleInputChange} />
-          </div>
-
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="dob">Date of Birth:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="dob" name="dob" value={newProduct.dob?.substring(0, 10)} onChange={handleInputChange}/>
+            <label className="mt-4 mx-4" htmlFor="Product_id">Product ID:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Product_id" name="Product_id" value={newProduct.Product_id || ''} onChange={handleInputChange} />
           </div>
 
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="email">Email:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="email" name="email" value={newProduct.email || ''} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="phone_num">Phone Number:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="phone_num" name="phone_num" value={newProduct.phone_num || ''} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="pw">Password:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="pw" name="pw" value={newProduct.pw || ''} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="userType">User Type:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="userType" name="userType" value={newProduct.userType || ''} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="url_link">Url Link:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="url_link" name="url_link" value={newProduct.url_link || ''} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="quantity">Quantity:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="quantity" name="quantity" value={newProduct.quantity || ''} onChange={handleInputChange} />
           </div>
           
         <div className='py-3'></div>
@@ -344,9 +309,6 @@ return (
           </button>
         </div>
 
-        
-
-
       </div>
       </div>
     </div>
@@ -367,48 +329,27 @@ return (
           Edit User
           </div>
 
-
-
         </div>
       <div className="mb-3">
         </div>
 
         <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="user_id">User ID:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="user_id" name="user_id" value={selectedProduct.user_id} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="cart_id">Cart ID:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="cart_id" name="cart_id" value={selectedProduct.cart_id} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="f_name">First Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="f_name" name="f_name" value={selectedProduct.f_name} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="cust_id">Customer ID:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="cust_id" name="cust_id" value={selectedProduct.cust_id} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="l_name">Last Name:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="l_name" name="l_name" value={selectedProduct.l_name} onChange={handleInputChange} />
+            <label className="mt-4 mx-4" htmlFor="Product_id">Product ID:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="Product_id" name="Product_id" value={selectedProduct.Product_id} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="dob">Date of Birth:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="date" id="dob" name="dob" value={selectedProduct.dob?.substring(0, 10)} onChange={handleInputChange}/>
+            <label className="mt-4 mx-4" htmlFor="quantity">Quantity:</label>
+            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="quantity" name="quantity" value={selectedProduct.quantity} onChange={handleInputChange} />
           </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="email">Email:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="email" name="email" value={selectedProduct.email} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="phone_num">Phone Number:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="phone_num" name="phone_num" value={selectedProduct.phone_num} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="pw">Password:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="pw" name="pw" value={selectedProduct.pw} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="userType">User Type:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="userType" name="userType" value={selectedProduct.userType} onChange={handleInputChange} />
-          </div>
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="url_link">Url Link:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="url_link" name="url_link" value={selectedProduct.url_link} onChange={handleInputChange} />
-          </div>
+
         
         <div className='py-3'></div>
       </div>

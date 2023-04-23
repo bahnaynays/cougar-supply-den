@@ -378,11 +378,14 @@ const IndexPage: NextPage = () => {
               layout="fixed"
             />
             <h2 className=" mt-2 text-xl font-bold mx-4">{product.p_name}</h2>
-            <p className="text-gray-600 mx-4"> Price: ${product.cost}</p>
-            <p className="text-gray-600 mx-4"> # Stock: {product.Inv_quantity}</p>
+            <p className="text-gray-600 mx-4"> Product ID: {product.ProductID}</p>
+            <p className="text-gray-600 mx-4"> In-Stock: {product.Inv_quantity}</p>
             <p className="text-gray-600 mx-4"> Supplier: {product.supp}</p>
+            
 
-            <p className="text-gray-600 mx-4"> Date Added: {formatDate(product.date_add)}</p>
+            <p className="text-gray-600 mx-4 text-sm"> Date Added: {formatDate(product.date_add)}</p>
+
+            <p className="text-friendly-black3 mx-4 font-bold"> Price: ${product.cost}</p>
             <p className="text-gray-600 mx-4 mb-4"></p>
             <div className="flex justify-between mx-4 mb-4">
 

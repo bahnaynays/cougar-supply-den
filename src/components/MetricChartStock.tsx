@@ -19,35 +19,46 @@ const PerformanceMetricChart: React.FC<MetricChartStock> = ({
   products = [],
 }) => {
 
+  // Calculate the maximum inventory value
+  const maxInventory = products.reduce((max, product) => {
+    return product.Inv_quantity > max ? product.Inv_quantity : max;
+  }, 0);
+
   // Process the products data for the chart here
   // For examples, you can create an array containing the number of products per product type
 
   const productTypeCounts = products.reduce((acc, product) => {
-    if (!acc[product.Inv_quantity]) {
-      acc[product.Inv_quantity] = 1;
+    const invQuantity = product.Inv_quantity;
+    if (!acc[invQuantity]) {
+      acc[invQuantity] = 1;
     } else {
-      acc[product.Inv_quantity] += 1;
+      acc[invQuantity] += 1;
     }
     return acc;
   }, {});
-
+  
   const chartData = Object.entries(productTypeCounts).map(([key, value]) => ({
-    Inv_quantity: key,
+    Inv_quantity: Number(key),
     count: value,
   }));
-
+  
+  const updatedChartData = chartData.map((data: {Inv_quantity: number, count: number}) => ({
+    Inv_quantity: data.Inv_quantity,
+    Stock: data.Inv_quantity * data.count, // Calculate the inventory quantity by multiplying Inv_quantity with count
+  }));
+  
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <BarChart data={chartData}>
+    <ResponsiveContainer width={800} height={400}>
+      <BarChart data={updatedChartData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="Inv_quantity" />
-        <YAxis />
+        <YAxis domain={[0, maxInventory]} />
         <Tooltip />
         <Legend />
-        <Bar dataKey="count" fill="#05b48c" />
+        <Bar dataKey="Stock" fill="#05b48c" />
       </BarChart>
     </ResponsiveContainer>
   );
-};
+}
 
 export default PerformanceMetricChart;

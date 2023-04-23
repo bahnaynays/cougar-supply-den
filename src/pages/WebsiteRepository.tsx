@@ -7,9 +7,9 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons';
 const WebsiteRepository: React.FC = () => {
   return (
     <>
-      <div className="min-h-screen bg-friendly-grey flex justify-center items-center">
+      <div className="min-h-screen bg-friendly-grey flex justify-center  items-center">
         <div className="py-6 w-full max-w-2xl px-4 sm:px-6">
-          <div className="bg-white shadow-xl rounded-1xl p-10">
+          <div className="bg-white shadow-xl rounded-2xl p-10">
             <div className="text-xl font-semibold mb-6">Website Repository</div>
             <div className="divide-y divide-gray-200">
               <div className="py-4 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">

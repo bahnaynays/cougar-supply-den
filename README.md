@@ -26,12 +26,14 @@ Group 10:
 - Sai Prashanth Harihar
 
 # Project Description:
-This is a full stack Point Of Sales System web appliaction. The appliaction is 
+This is a full stack Point Of Sales System web application. This application is 
 hosted on Vercel and connected to a MSSQL database on Microsoft Azure. The web 
-application demonstrates customer interaction by allowing them to add/edit/delete
-items in their shopping cart through API calls and queries. Administrative actions 
-include add/edit/delete queries to the [dbo].Product, [dbo].Supplier, [dbo].User
-tables in the database.
+application demonstrates customer interaction by allowing them add products to cart, 
+purchase products, and view order histories. This application also allows Admins to 
+add/edit/delete items in their shopping cart through API calls and queries. 
+Administrative actions  include add/edit/delete queries to the [dbo].Product, 
+[dbo].Supplier, [dbo].User, [dbo].Notifications  and [dbo].SHOPPING_CART in the
+database.
 
 ----------------------------------------------------------------------------------
 

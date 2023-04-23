@@ -19,11 +19,11 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 COSC 3380, Professor Uma Ramamurthy
 
 Group 10:
-- Dylan Cao
+- Dylan Hoang Cao
 - Benjamin Shek
 - An Thien Pham
 - Damian Barriga
-- Sai Prashanth Harihar
+- Sai P. Harihar
 
 # Project Description:
 This is a full stack Point Of Sales System web application. This application is 

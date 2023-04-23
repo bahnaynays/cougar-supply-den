@@ -324,37 +324,6 @@ const ShoppingCart: NextPage = () => {
         setShowModal(false);
       };
       
-
-      const redirectToCheckoutNew = async (product: Product) => {
-        if (!auth.user) {
-          console.error("User not authenticated");
-          return;
-        }
-        const totalCost = products.reduce((sum, product) => sum + product.quantity * product.quantity, 0);
-      
-        const existingCart = carts.find((cart) => cart.cust_id === auth.user.user_id && cart.Product_id === product.ProductID);
-        
-        let updatedProductQuantity: number;
-        if (existingCart) {
-          const updatedCart: ShoppingCart = { ...existingCart, quantity: (existingCart.quantity ?? 0) + 1 };
-          await updateCart(updatedCart);
-          updatedProductQuantity = updatedCart.quantity; // Use updated cart quantity
-        } else {
-          const newCart: ShoppingCart = {
-            cart_id: parseInt(auth.user.user_id, 10),
-            cust_id: auth.user.user_id,
-            Product_id: product.ProductID,
-            quantity: 1,
-          };
-          await createCart(newCart);
-          updatedProductQuantity = newCart.quantity; // Use new cart quantity
-        }
-      
-        // Update the product quantity in the product table based on the cart quantity
-        const updatedProduct: Product = { ...product, Inv_quantity: product.Inv_quantity - updatedProductQuantity };
-        await updateProduct(updatedProduct);
-      };
-      
       const redirectToCheckout= () => {
         router.push('/CheckoutPage');
       };
@@ -427,9 +396,15 @@ return (
                     </button>
                     <div className="quantity-select bg-cougar-gold font-semibold text-friendly-black3 pl-3 pr-2 py-1 rounded hover:bg-cougar-gold-dark">
                       <label htmlFor="quantity" className="mr-2">QTY:</label>
-                      <select id="quantity" name="quantity" className="quantity-select bg-cougar-gold text-friendly-black3 py-1 rounded hover:bg-white" onChange={(e) => handleQuantityChange(e, product)}>
+                      <select
+                        id="quantity"
+                        name="quantity"
+                        value={quantity} // Add this attribute
+                        className="quantity-select bg-cougar-gold text-friendly-black3 py-1 rounded hover:bg-white"
+                        onChange={(e) => handleQuantityChange(e, product)}
+                      >
                       {[...Array(100)].map((_, i) => (
-                          <option key={i} value={i + quantity}>{i + quantity}</option>
+                        <option key={i} value={i}>{i}</option>
                       ))}
 
                       </select>

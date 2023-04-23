@@ -124,7 +124,7 @@ const ManageCarts: React.FC = () => {
   };
 
 
-  const handleDeleteClick = async (cart_id: string, product: ShoppingCart) => {
+  const handleDeleteClick = async (cart_id: number, product: ShoppingCart) => {
     setSelectedProduct(product);
     deleteProduct(cart_id);
   };
@@ -228,7 +228,7 @@ return (
                     
                   if (selectedProduct) {
                     //sus tostring
-                    handleDeleteClick(selectedProduct.cart_id.toString(), product);
+                    handleDeleteClick(selectedProduct.cart_id, product);
                   }
                 }}
               >

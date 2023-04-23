@@ -80,7 +80,7 @@ const ProductList: React.FC = () => {
 
 
   const validateProduct = (product: Partial<Product>): boolean => {
-    const requiredFields = ["ProductID", "p_name", "Inv_quantity", "prod_type", "date_add", "supp", "cost"];
+    const requiredFields = ["ProductID", "p_name", "Inv_quantity", "prod_type", "date_add", "supp", "cost", "url_link"];
     for (const field of requiredFields) {
       if (!product[field]) {
         setErrorMessage(`Please fill in the ${field} field.`);
@@ -304,10 +304,7 @@ return (
             <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="text" id="url_link" name="url_link" value={newProduct.url_link || ''} onChange={handleInputChange}/>
           </div>
 
-          <div className="flex justify-end">
-            <label className="mt-4 mx-4" htmlFor="num_sold">Num Sold:</label>
-            <input className="bg-gray-200 border-0 rounded hover:shadow-lg my-2 mx-4" type="number" id="num_sold" name="num_sold" value={newProduct.num_sold || ''} onChange={handleInputChange} />
-          </div>
+
 
           
         <div className='py-3'></div>

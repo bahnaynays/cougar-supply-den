@@ -22,15 +22,26 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       console.log('productData:', productData); // Add this line to log productData
   
-      await pool.request()
-        .input('cart_id', productData.cart_id)
-        .input('cust_id', productData.cust_id)
-        .input('Product_id', productData.Product_id)
-        .input('quantity', productData.quantity)
-        .query(`
-          INSERT INTO [dbo].[SHOPPING_CART] (cart_id, cust_id, Product_id, quantity)
-          VALUES (@cart_id, @cust_id, @Product_id, @quantity)
-        `);
+      if (productData.cart_id) {
+        await pool.request()
+          .input('cart_id', productData.cart_id)
+          .input('cust_id', productData.cust_id)
+          .input('Product_id', productData.Product_id)
+          .input('quantity', productData.quantity)
+          .query(`
+            INSERT INTO [dbo].[SHOPPING_CART] (cart_id, cust_id, Product_id, quantity)
+            VALUES (@cart_id, @cust_id, @Product_id, @quantity)
+          `);
+      } else {
+        await pool.request()
+          .input('cust_id', productData.cust_id)
+          .input('Product_id', productData.Product_id)
+          .input('quantity', productData.quantity)
+          .query(`
+            INSERT INTO [dbo].[SHOPPING_CART] (cust_id, Product_id, quantity)
+            VALUES (@cust_id, @Product_id, @quantity)
+          `);
+      }
   
       console.log('POST response being sent');
       res.status(201).json({ message: 'Product created successfully' });

@@ -80,7 +80,7 @@ const IndexPage: NextPage = () => {
         const response = await axios.put(`/api/carts?cart_id=${selectedCart.cart_id}`, selectedCart);
         const updatedCart = response.data;
         console.log("Cart updated:", updatedCart);
-        await mutate('/api/carts', async (carts) => {
+        mutate('/api/carts', (carts) => {
           return carts.map((cart) => (cart.cart_id === selectedCart.cart_id ? updatedCart : cart));
         }, false);
         return updatedCart;
@@ -91,13 +91,18 @@ const IndexPage: NextPage = () => {
     };
     
     const createCart = async (newCart) => {
-      await fetch('/api/carts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newCart),
-      });
+      try {
+        const response = await axios.post('/api/carts', newCart);
+        const createdCart = response.data;
+        console.log("Cart created:", createdCart);
+        mutate('/api/carts', (carts) => {
+          return [...carts, createdCart];
+        }, false);
+      } catch (error) {
+        console.error('Error creating cart:', error);
+        throw error.response.data;
+      }
+    
     
       console.log("Cart created:", newCart);
       await mutate('/api/carts', async (carts) => {
@@ -305,6 +310,17 @@ const IndexPage: NextPage = () => {
   };
 
 
+  const generateCartID = (cust_id: string, Product_id: string) => {
+    const input = cust_id + Product_id;
+    let hash = 0;
+    for (let i = 0; i < input.length; i++) {
+      const char = input.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+      hash = hash & hash; 
+    }
+    return Math.abs(hash);
+  };
+
   const handleAddToCart = async (product: Product) => {
     if (!auth.user) {
       console.error("User not authenticated");
@@ -328,9 +344,7 @@ const IndexPage: NextPage = () => {
       await updateCart(updatedCart);
     } else {
       const newCart: ShoppingCart = {
-        cart_id: parseInt(auth.user.user_id, 10),
-        //cart_id: parseInt(existingCart.cart_id, 10),
-        //cart_id: carts.cart_id,
+        cart_id: generateCartID(auth.user.user_id, product.ProductID),
         cust_id: auth.user.user_id,
         Product_id: product.ProductID,
         quantity: 1,

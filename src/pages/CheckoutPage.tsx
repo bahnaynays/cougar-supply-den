@@ -20,7 +20,10 @@ import { CosmosClient } from '@azure/cosmos';
     
     
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
-    
+  
+
+
+
 const CheckoutPage: NextPage = () => {
   const auth = useAuth(); 
     
@@ -29,9 +32,9 @@ const CheckoutPage: NextPage = () => {
     
   const isLoading = !data && !error;
   const isError = error;
-        
 
-        
+
+  
     
         const updateProduct = async (selectedProduct: Product) => {
           try {
@@ -325,6 +328,13 @@ const CheckoutPage: NextPage = () => {
     
       const [showAddModal, setShowAddModal] = useState(false);
       const [showModal, setShowModal] = useState(false);
+
+      const totalCost = (carts || []).reduce((sum, carts) => {
+        const product = products.find((item) => item.id === carts.ProductId);
+        if (!product) return sum;
+        return sum + (product.cost * carts.quantity);
+      }, 0);
+    
     
     
       if (isLoading) return <p>Loading...</p>;
@@ -336,7 +346,7 @@ const CheckoutPage: NextPage = () => {
       if (isLoading3) return <p>Loading...</p>;
       if (isError3) return <p>Error loading users.</p>;
     
-      const totalCost = products.reduce((sum, product) => sum + product.quantity * product.quantity, 0);
+   
       
       const formatDate = (dateString: string): string => {
         if (!dateString) {
@@ -382,7 +392,8 @@ const CheckoutPage: NextPage = () => {
 
         console.log("order after adding product:", order);
 
-        router.push('/OrderHistory');
+        router.push('/');
+        
       };
 
       const handleAddToCart = async (product: Product) => {
@@ -545,15 +556,18 @@ const CheckoutPage: NextPage = () => {
       
       return (
         <div className="relative container mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-6">Checkout.</h1>
+          <h1 className="text-3xl font-bold mb-6">Your Shopping Cart.</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
+
             {carts.map((cartItem) => {
-              const product = products.find((item) => item.id === cartItem.productId);
-              const quantity = cartItem ? cartItem.quantity : 0;
-      
-              if (!product) return null;
-      
-              return (
+            const product = products.find(
+              (item) => item.ProductID === cartItem.Product_id
+            );
+            const quantity = cartItem ? cartItem.quantity : 0;
+
+            if (!product) return null;
+
+            return (
                 <div key={cartItem.cart_id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
                   <Image
                     src={`${product.url_link}`}
@@ -585,16 +599,26 @@ const CheckoutPage: NextPage = () => {
                 </div>
               );
             })}
+
+
+            
           </div>
           <div className="fixed right-64 w-64 bg-white p-4 rounded-2xl shadow-lg">
             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
             <ul>
-              {carts.map((cartItem) => {
-                const product = products.find((item) => item.id === cartItem.productId);
+            {carts.map((cartItem) => {
+                const product = products.find(
+                  (item) => item.ProductID === cartItem.Product_id
+                );
                 const quantity = cartItem ? cartItem.quantity : 0;
-      
+                
+                console.log('cartItem:', cartItem);
+                console.log('product:', product);
+                console.log('quantity:', quantity);
+                
                 if (!product) return null;
-      
+
+
                 return (
                   <li key={cartItem.cart_id} className="mb-2">
                     {product.p_name}: {quantity} x ${product.cost}
@@ -604,35 +628,35 @@ const CheckoutPage: NextPage = () => {
             </ul>
             <hr className="my-4" />
 
-
             <div className="flex justify-between font-bold mb-5">
+
               <span>Total Cost:</span>
+              <div className="">
               ${(totalCost ? totalCost.toFixed(2) : 0)}
-              
             </div>
 
 
             
 
-            <button
+
+
+
+
+
+          </div>
+          <button
                 className="bg-cougar-red text-white px-3 py-1 rounded mr-2 font-semibold  hover:bg-cougar-dark-red"
                 onClick={redirectToHome}
                 >
       
                 Back
               </button >
-
-            <button
-                className="bg-cougar-teal text-white px-3 py-1 rounded ml-5 font-semibold "
-                onClick={redirectToCheckout}
-                >
-      
+              <button
+                className="bg-cougar-teal text-white px-3 py-1 rounded ml-5 font-semibold"
+                onClick={() => handleCheckout(products)}
+              >
                 Confirm Order
-              </button >
-
-
-
-
+              </button>
           </div>
 
     </div>

@@ -30,9 +30,15 @@ const OrderHistory: NextPage = () => {
   const isLoading = !data && !error;
   const isError = error;
 
-
-  
+  const [isLoading22, setIsLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500); // Change the delay time here to make the page load slower or faster
+    return () => clearTimeout(timer);
+  }, []);
     
+
         const updateProduct = async (selectedProduct: Product) => {
           try {
             const response = await axios.put(`/api/products?ProductID=${selectedProduct.ProductID}`, selectedProduct);
@@ -243,7 +249,8 @@ const OrderHistory: NextPage = () => {
       };
     
       const groupOrdersByProduct = (orders: Order[]): Record<string, number> => {
-        if (!orders) {
+        if (orders.length === 0) {
+
           return {};
         }
       
@@ -290,7 +297,7 @@ const OrderHistory: NextPage = () => {
       if (isError3) return <p>Error loading users.</p>;
     
       const totalCost = (orders || []).reduce((sum, order) => {
-        const product = products.find((item) => item.id === order.productId);
+        const product = products.find((item) => item.id === order.ProductId);
         if (!product) return sum;
         return sum + (product.cost * order.quantity);
       }, 0);
@@ -436,8 +443,21 @@ const OrderHistory: NextPage = () => {
       const closeModalCart = () => {
         setShowModal(false);
       };
-      
+
+
+      const deleteAllCartItems = async () => {
+        for (const cartItem of carts) {
+          await deleteCart(cartItem.cart_id);
+        }
+        setCarts([]);
+      };
+
+      const handlePlaceOrder = async () => {
+
+        await deleteAllCartItems();
+      };
       const redirectToCheckout= () => {
+        handlePlaceOrder();
         router.push('/CheckoutPage');
       };
 
@@ -516,7 +536,9 @@ const OrderHistory: NextPage = () => {
             <h2 className="text-xl font-bold mb-4">Order History</h2>
             <ul>
               {carts.map((cartItem) => {
-                const product = products.find((item) => item.id === cartItem.productId);
+                const product = products.find(
+                  (item) => item.ProductID === cartItem.Product_id
+                );
                 const quantity = cartItem ? cartItem.quantity : 0;
       
                 if (!product) return null;
@@ -532,6 +554,7 @@ const OrderHistory: NextPage = () => {
             <div className="flex justify-between font-bold mb-5">
               <span>Total Purchases:</span>
               <div className="">
+                
               ${(totalCost ? totalCost.toFixed(2) : 0)}
             </div>
               

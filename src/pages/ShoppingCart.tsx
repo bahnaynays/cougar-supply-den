@@ -232,10 +232,14 @@ const ShoppingCart: NextPage = () => {
     
       if (isLoading3) return <p>Loading...</p>;
       if (isError3) return <p>Error loading users.</p>;
+
+      const totalCost = (carts || []).reduce((sum, carts) => {
+        const product = products.find((item) => item.id === carts.ProductId);
+        if (!product) return sum;
+        return sum + (product.cost * carts.quantity);
+      }, 0);
     
-      const totalCost = products.reduce((sum, product) => sum + products.cost * carts.quantity, 0);
-  
-      
+
       const formatDate = (dateString: string): string => {
         if (!dateString) {
           return 'Unspecified Date'; 
@@ -259,6 +263,22 @@ const ShoppingCart: NextPage = () => {
         }
         return Math.abs(hash);
       };
+
+      const deleteAllCartItems = async () => {
+        for (const cartItem of carts) {
+          await deleteCart(cartItem.cart_id);
+        }
+        setCarts([]);
+      };
+
+      const handlePlaceOrder = async () => {
+
+        await deleteAllCartItems();
+      };
+
+
+
+
     
       const handleAddToCart = async (product: Product) => {
         if (!auth.user) {
@@ -377,7 +397,7 @@ const ShoppingCart: NextPage = () => {
         setShowModal(false);
       };
       
-      const redirectToCheckout= () => {
+      const redirectToCheckout = () => {
         router.push('/CheckoutPage');
       };
 
@@ -470,7 +490,9 @@ const ShoppingCart: NextPage = () => {
             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
             <ul>
             {carts.map((cartItem) => {
-                const product = products.find((item) => item.id === cartItem.productId);
+                const product = products.find(
+                  (item) => item.ProductID === cartItem.Product_id
+                );
                 const quantity = cartItem ? cartItem.quantity : 0;
                 
                 console.log('cartItem:', cartItem);

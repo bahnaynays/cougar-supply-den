@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Order } from '../interfaces/OrderInterface';
+import { Product } from '../interfaces/ProductInterface';
 
 import { useOnClickOutside } from 'usehooks-ts';
 import axios from 'axios';
@@ -8,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 const ManageOrders: React.FC = () => {
+
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
   const useProductsHook = () => {
@@ -15,6 +17,11 @@ const ManageOrders: React.FC = () => {
 
     const isLoading = !data && !error;
     const isError = error;
+
+    
+    const isLoading2 = !data && !error;
+    const isError2 = error;
+
 
     const updateProduct = async (selectedProduct: Order) => {
       try {
@@ -59,7 +66,79 @@ const ManageOrders: React.FC = () => {
     };
   };
 
+  const useProductsHook2 = () => {
+    const { data, error } = useSWR('/api/products', fetcher);
+
+    const isLoading = !data && !error;
+    const isError = error;
+
+    const updateProduct2 = async (selectedProduct: Product) => {
+      try {
+        const response = await axios.put(`/api/products?ProductID=${selectedProduct.ProductID}`, selectedProduct);
+        const updatedProduct = response.data;
+        mutate('/api/products');
+        return updatedProduct;
+      } catch (error) {
+        console.error('Error updating product:', error);
+        throw error.response.data;
+      }
+    };
+
+    const createProduct2 = async (newProduct) => {
+      // Generate user_id based on the user's first and last name
+      const productIDgen = generateUserIdFromName();
+      
+      const newProduct2 = { ...newProduct, ProductID: productIDgen};
+
+      await fetch('/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newProduct2),
+      });
+    
+      mutate('/api/products');
+    };
+
+    //NOTE: The await fetch for this one is kind of sus, since its selectedProduct.user_id instead of user_id
+    const deleteProduct2 = async (newProduct) => {
+      await fetch(`/api/products?productId=${newProduct}`, {
+        method: 'DELETE',
+      });
+
+      mutate('/api/products');
+    };
+
+    const generateUserIdFromName = () => {
+      // Generate a random number within a range (for example, between 10000 and 99999)
+      const generateRandomNumber = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      };
+    
+      // Check if there's already a user with the same user_id, if so, generate a new one
+      let userId = generateRandomNumber(10000, 99999).toString();
+      while (products.some((product) => product.user_id === userId)) {
+        userId = generateRandomNumber(10000, 99999).toString();
+      }
+    
+      return userId;
+    };
+
+    return {
+      products2: data,
+      isLoading2,
+      isError2,
+      updateProduct2,
+      deleteProduct2,
+      createProduct2,
+    };
+  };
+
   const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHook();
+  const { products2, isLoading2, isError2, createProduct2, updateProduct2, deleteProduct2 } = useProductsHook2();
+
+
   const [showAddModal, setShowAddModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Order | null>(null);
@@ -170,6 +249,10 @@ return (
     
     {isLoading && <div>Loading...</div>}
     {isError && <div>Error loading Orders</div>}
+
+    {isLoading2 && <div>Loading...</div>}
+  {isError2 && <div>Error loading Orders</div>}
+
      
   <h1 className="text-2xl font-semibold mb-10"></h1>
     <div className="relative overflow-x-auto shadow-xl rounded">

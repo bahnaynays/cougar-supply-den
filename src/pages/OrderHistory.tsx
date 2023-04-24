@@ -11,6 +11,7 @@ import useSWR, { mutate } from 'swr';
 import { ShoppingCart } from '../interfaces/CartInterface';
 import { Product } from '../interfaces/ProductInterface';
 import { Users } from '../interfaces/UsersInterface';
+import { Order } from '../interfaces/OrderInterface';
     
 import { useAuth } from "../context/AuthContext";
 import router from "next/router";
@@ -189,13 +190,77 @@ const OrderHistory: NextPage = () => {
           createUser,
         };
       };
+      const useProductsHookOrders = () => {
+        const { data, error } = useSWR('/api/orders', fetcher);
+    
+        const isLoading4 = !data && !error;
+        const isError4 = error;
     
     
     
+    
+        const updateOrder = async (selectedProduct: Order) => {
+          try {
+            const response = await axios.put(`/api/orders?cart_id=${selectedProduct.cart_id}`, selectedProduct);
+            const updatedProduct = response.data;
+            mutate('/api/orders');
+            return updatedProduct;
+          } catch (error) {
+            console.error('Error updating product:', error);
+            throw error.response.data;
+          }
+        };
+    
+        const createOrder = async (newProduct) => {
+          await fetch('/api/orders', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newProduct),
+          });
+    
+          mutate('/api/orders');
+        };
+    
+        //NOTE: The await fetch for this one is kind of sus, since its selectedProduct.user_id instead of user_id
+        const deleteOrder = async (cart_id) => {
+          await fetch(`/api/orders?cart_id=${cart_id}`, {
+            method: 'DELETE',
+          });
+    
+          mutate('/api/orders');
+        };
+    
+        return {
+          orders: data,
+          isLoading4,
+          isError4,
+          updateOrder,
+          createOrder,
+          deleteOrder,
+        };
+      };
+    
+      const groupOrdersByProduct = (orders: Order[]): Record<string, number> => {
+        if (!orders) {
+          return {};
+        }
+      
+        return orders.reduce((acc, order) => {
+          if (!acc[order.Product_id]) {
+            acc[order.Product_id] = order.quantity;
+          } else {
+            acc[order.Product_id] += order.quantity;
+          }
+          return acc;
+        }, {});
+      };
     
       const { products, isLoading, isError, createProduct, updateProduct, deleteProduct } = useProductsHookProducts();
       const { carts, isLoading2, isError2, updateCart, createCart, deleteCart, setCarts } = useProductsHookCarts();
       const { users, isLoading3, isError3, updateUser, createUser, deleteUser } = useProductsHookUsers();
+      const { orders, isLoading4, isError4, updateOrder, createOrder, deleteOrder } = useProductsHookOrders();
     
       const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
       const [selectedCart, setSelectedCart] = useState<ShoppingCart | null>(null);
@@ -224,7 +289,11 @@ const OrderHistory: NextPage = () => {
       if (isLoading3) return <p>Loading...</p>;
       if (isError3) return <p>Error loading users.</p>;
     
-      const totalCost = products.reduce((sum, product) => sum + products.cost * carts.quantity, 0);
+      const totalCost = (orders || []).reduce((sum, order) => {
+        const product = products.find((item) => item.id === order.productId);
+        if (!product) return sum;
+        return sum + (product.cost * order.quantity);
+      }, 0);
   
       
       const formatDate = (dateString: string): string => {
@@ -406,21 +475,21 @@ const OrderHistory: NextPage = () => {
         }
       };
 
-      
+      const groupedOrders = groupOrdersByProduct(orders);
       
       return (
         <div className="relative container mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-6">Your Order History.</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
 
-            {carts.map((cartItem) => {
-              const product = products.find((item) => item.id === cartItem.productId);
-              const quantity = cartItem ? cartItem.quantity : 0;
+          {orders.map((orderItem) => {
+              const product = products.find((item) => item.id === orderItem.productId);
+              const quantity = orderItem ? orderItem.quantity : 0;
       
               if (!product) return null;
       
               return (
-                <div key={cartItem.cart_id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
+                <div key={orderItem.order_id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
                   <Image
                     src={`${product.url_link}`}
                     alt={product.Product_id}
@@ -434,19 +503,7 @@ const OrderHistory: NextPage = () => {
                   <p className="text-gray-600 mx-4">Supplier: {product.supp}</p>
                   <p className="text-gray-600 mx-4 mb-4"></p>
                   <div className="flex justify-between mx-4 mb-4">
-                    <button
-                      className="bg-cougar-red text-white px-3 rounded font-semibold hover:bg-cougar-dark-red"
-                      onClick={() => {
-                        handleDeleteClickCart(cartItem.cart_id, product);
-                      }}
-                    >
-                      Remove
-                    </button>
-                    <div className="quantity-select bg-cougar-gold font-semibold text-friendly-black3 pl-3 pr-2 py-1 rounded hover:bg-cougar-gold-dark">
-                      <button onClick={(event) => handleAddToCart(product)}>
-                        <label htmlFor="quantity" className="mr-2">QTY: {quantity}</label>
-                      </button>
-                    </div>
+
                   </div>
                 </div>
               );
@@ -486,17 +543,6 @@ const OrderHistory: NextPage = () => {
     </div>
   );
 };
-
-
-
-
-/*
-
-
-
-*/
-
-
 
 
 export default OrderHistory;

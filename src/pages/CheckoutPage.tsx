@@ -8,7 +8,7 @@ import { useOnClickOutside } from 'usehooks-ts';
 import axios from 'axios';
 import useSWR, { mutate } from 'swr';
     
-import { ShoppingCart } from '../interfaces/CartInterface';
+
 import { Product } from '../interfaces/ProductInterface';
 import { Users } from '../interfaces/UsersInterface';
 import { Order } from '../interfaces/OrderInterface';
@@ -98,7 +98,7 @@ const CheckoutPage: NextPage = () => {
         }, []);
         
         
-        const updateCart = async (selectedProduct: ShoppingCart) => {
+        const updateCart = async (selectedProduct: Order) => {
           try {
             const response = await axios.put(`/api/carts?cart_id=${selectedProduct.cart_id}`, selectedProduct);
             const updatedCart = response.data;
@@ -139,6 +139,60 @@ const CheckoutPage: NextPage = () => {
           updateCart,
           createCart,
           deleteCart,
+        };
+      };
+
+      const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+      const useProductsHook = () => {
+        const { data, error } = useSWR('/api/orders', fetcher);
+    
+        const isLoading = !data && !error;
+        const isError = error;
+    
+    
+    
+    
+        const updateProduct = async (selectedProduct: Order) => {
+          try {
+            const response = await axios.put(`/api/orders?cart_id=${selectedProduct.cart_id}`, selectedProduct);
+            const updatedProduct = response.data;
+            mutate('/api/orders');
+            return updatedProduct;
+          } catch (error) {
+            console.error('Error updating product:', error);
+            throw error.response.data;
+          }
+        };
+    
+        const createProduct = async (newProduct) => {
+          await fetch('/api/orders', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newProduct),
+          });
+    
+          mutate('/api/orders');
+        };
+    
+        //NOTE: The await fetch for this one is kind of sus, since its selectedProduct.user_id instead of user_id
+        const deleteProduct = async (cart_id) => {
+          await fetch(`/api/orders?cart_id=${cart_id}`, {
+            method: 'DELETE',
+          });
+    
+          mutate('/api/orders');
+        };
+    
+        return {
+          products: data,
+          isLoading,
+          isError,
+          updateProduct,
+          deleteProduct,
+          createProduct,
         };
       };
 
@@ -256,16 +310,16 @@ const CheckoutPage: NextPage = () => {
       const { order, isLoading4, isError4, updateOrder, createOrder, deleteOrder} = useProductsHookOrders();
     
       const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-      const [selectedCart, setSelectedCart] = useState<ShoppingCart | null>(null);
+      const [selectedCart, setSelectedCart] = useState<Order | null>(null);
     
       const [activeProduct, setActiveProduct] = useState<number | null>(null);
       const [activeCart, setActiveCart] = useState<number | null>(null);
       
       const [newProduct, setNewProduct] = useState<Partial<Product>>({});
-      const [newCart, setNewCart] = useState<Partial<ShoppingCart>>({});
+      const [newCart, setNewCart] = useState<Partial<Order>>({});
     
       //const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
-      //const [filteredCarts, setFilteredCarts] = useState<ShoppingCart[]>(carts);
+      //const [filteredCarts, setFilteredCarts] = useState<Order[]>(carts);
     
       const [errorMessage, setErrorMessage] = useState<string>("");
     
@@ -331,8 +385,6 @@ const CheckoutPage: NextPage = () => {
         router.push('/OrderHistory');
       };
 
-
-
       const handleAddToCart = async (product: Product) => {
         if (!auth.user) {
           console.error("User not authenticated");
@@ -348,14 +400,14 @@ const CheckoutPage: NextPage = () => {
         console.log("Existing cart:", existingCart);
       
         if (existingCart) {
-          const updatedCart: ShoppingCart = {
+          const updatedCart: Order = {
             ...existingCart,
             quantity: (existingCart.quantity ?? 0) + 1,
           };
           console.log("Updated cart:", updatedCart);
           await updateCart(updatedCart);
         } else {
-          const newCart: ShoppingCart = {
+          const newCart: Order = {
             cart_id: generateCartID(auth.user.user_id, product.ProductID),
             cust_id: auth.user.user_id,
             Product_id: product.ProductID,
@@ -440,7 +492,7 @@ const CheckoutPage: NextPage = () => {
       };
     
 
-      const handleDeleteClickCart = async (CartID: number, cart: ShoppingCart) => {
+      const handleDeleteClickCart = async (CartID: number, cart: Order) => {
         setSelectedCart(cart);
         await deleteCart(CartID);
         setCarts(prevCarts => prevCarts.filter(item => item.cart_id !== CartID));
@@ -455,7 +507,8 @@ const CheckoutPage: NextPage = () => {
       };
       
       const redirectToCheckout= () => {
-        router.push('/OrderHistory');
+
+        router.push('/');
       };
 
 
@@ -562,7 +615,7 @@ const CheckoutPage: NextPage = () => {
             
 
             <button
-                className="bg-cougar-red text-white px-3 py-1 rounded mr-2 font-semibold hover:bg-cougar-dark-teal"
+                className="bg-cougar-red text-white px-3 py-1 rounded mr-2 font-semibold  hover:bg-cougar-dark-red"
                 onClick={redirectToHome}
                 >
       
@@ -570,7 +623,7 @@ const CheckoutPage: NextPage = () => {
               </button >
 
             <button
-                className="bg-cougar-teal text-white px-3 py-1 rounded ml-5 font-semibold hover:bg-cougar-dark-red "
+                className="bg-cougar-teal text-white px-3 py-1 rounded ml-5 font-semibold "
                 onClick={redirectToCheckout}
                 >
       
@@ -586,14 +639,6 @@ const CheckoutPage: NextPage = () => {
   );
 };
 
-
-
-
-/*
-
-
-
-*/
 
 
 

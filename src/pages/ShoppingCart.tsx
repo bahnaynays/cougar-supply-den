@@ -19,7 +19,16 @@ import { CosmosClient } from '@azure/cosmos';
     
     
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
-    
+  
+const CartItem = ({ product, quantity }) => {
+  return (
+    <li className="mb-2">
+      {product.p_name}: {quantity} x ${product.cost}
+    </li>
+  );
+};
+
+
 const ShoppingCart: NextPage = () => {
   const auth = useAuth(); 
     
@@ -369,7 +378,7 @@ const ShoppingCart: NextPage = () => {
       };
       
       const redirectToCheckout= () => {
-        router.push('/');
+        router.push('/CheckoutPage');
       };
 
       const redirectToHome= () => {
@@ -414,12 +423,14 @@ const ShoppingCart: NextPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
 
             {carts.map((cartItem) => {
-              const product = products.find((item) => item.id === cartItem.productId);
-              const quantity = cartItem ? cartItem.quantity : 0;
-      
-              if (!product) return null;
-      
-              return (
+            const product = products.find(
+              (item) => item.ProductID === cartItem.Product_id
+            );
+            const quantity = cartItem ? cartItem.quantity : 0;
+
+            if (!product) return null;
+
+            return (
                 <div key={cartItem.cart_id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
                   <Image
                     src={`${product.url_link}`}
@@ -458,12 +469,17 @@ const ShoppingCart: NextPage = () => {
           <div className="fixed right-64 w-64 bg-white p-4 rounded-2xl shadow-lg">
             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
             <ul>
-              {carts.map((cartItem) => {
+            {carts.map((cartItem) => {
                 const product = products.find((item) => item.id === cartItem.productId);
                 const quantity = cartItem ? cartItem.quantity : 0;
-      
+                
+                console.log('cartItem:', cartItem);
+                console.log('product:', product);
+                console.log('quantity:', quantity);
+                
                 if (!product) return null;
-      
+
+
                 return (
                   <li key={cartItem.cart_id} className="mb-2">
                     {product.p_name}: {quantity} x ${product.cost}
@@ -502,18 +518,6 @@ const ShoppingCart: NextPage = () => {
     </div>
   );
 };
-
-
-
-
-/*
-
-
-
-*/
-
-
-
 
 export default ShoppingCart;
 

@@ -324,8 +324,10 @@ const IndexPage: NextPage = () => {
   const handleAddToCart = async (product: Product) => {
     if (!auth.user) {
       console.error("User not authenticated");
+      router.push('/LoginPage');
       return;
     }
+
   
     console.log("Product being added to cart:", product);
   
@@ -356,17 +358,30 @@ const IndexPage: NextPage = () => {
     console.log("Carts after adding product:", carts);
   };
 
-
+  function formatCurrency(amount: number): string {
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    });
+    return formatter.format(amount);
+  }
 
   const redirectToCheckout= () => {
+    if (!auth.user) {
+      console.error("User not authenticated");
+      router.push('/LoginPage');
+      return;
+    }
     router.push('/CheckoutPage');
   };
-  
-  
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Featured Products.</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
+
+
         {products.map((product) => (
           <div key={product.ProductID} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
             <Image
@@ -378,29 +393,31 @@ const IndexPage: NextPage = () => {
               layout="fixed"
             />
             <h2 className=" mt-2 text-xl font-bold mx-4">{product.p_name}</h2>
-            <p className="text-gray-600 mx-4"> Product ID: {product.ProductID}</p>
-            <p className="text-gray-600 mx-4"> In-Stock: {product.Inv_quantity}</p>
-            <p className="text-gray-600 mx-4"> Supplier: {product.supp}</p>
-            
 
-            <p className="text-gray-600 mx-4 text-sm"> Date Added: {formatDate(product.date_add)}</p>
+            <p className="divide">
+              <hr className="border-gray-300 border-1 mt-1 mb-2  px-4" />
+            </p>
 
-            <p className="text-friendly-black3 mx-4 font-bold"> Price: ${product.cost}</p>
+            <p className="text-gray-600 mx-4 flex justify-end text-sm "> Product ID: {product.ProductID}</p>
+            <p className="text-gray-600 mx-4 flex justify-end text-sm "> Supplier: {product.supp}</p>
+
+            <p className="flex justify-end text-gray-600 mx-4 text-sm mb-3 "> Date Added: {formatDate(product.date_add)}</p>
+
+            <div className="flex justify-start   bg-cougar-yellow">
+            <p className="text-gray-600 mx-4 font-semibold pr-4">Stock: {product.Inv_quantity}</p>
+              <p className="text-gray-600 text-md font-semibold">Price:</p>
+              <p className="text-gray-600 mx-2 mr-4 text-lg font-bold">{formatCurrency(product.cost)}</p>
+            </div>
+
+
             <p className="text-gray-600 mx-4 mb-4"></p>
             <div className="flex justify-between mx-4 mb-4">
-
-              <button className="bg-cougar-gold text-friendly-black3 px-3 py-1 rounded font-semibold hover:bg-cougar-gold-dark" onClick={(event) => handleAddToCart(product)}
-              >
+              <button className="bg-cougar-gold text-friendly-black3 px-3 py-1 rounded font-semibold hover:bg-cougar-gold-dark" onClick={(event) => handleAddToCart(product)}>
                 Add to Cart
               </button>
-              
-              <button
-                className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red"
-                onClick={redirectToCheckout}
-              >
+              <button className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red" onClick={redirectToCheckout}>
                 Buy Now
               </button>
-
             </div>
           </div>
         ))}

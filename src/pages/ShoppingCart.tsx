@@ -224,7 +224,8 @@ const ShoppingCart: NextPage = () => {
       if (isLoading3) return <p>Loading...</p>;
       if (isError3) return <p>Error loading users.</p>;
     
-      const totalCost = products.reduce((sum, product) => sum + product.quantity * product.quantity, 0);
+      const totalCost = products.reduce((sum, product) => sum + products.cost * carts.quantity, 0);
+  
       
       const formatDate = (dateString: string): string => {
         if (!dateString) {
@@ -239,9 +240,52 @@ const ShoppingCart: NextPage = () => {
         return `${year}-${month}-${day}`;
       };
     
+      const generateCartID = (cust_id: string, Product_id: string) => {
+        const input = cust_id + Product_id;
+        let hash = 0;
+        for (let i = 0; i < input.length; i++) {
+          const char = input.charCodeAt(i);
+          hash = (hash << 5) - hash + char;
+          hash = hash & hash; 
+        }
+        return Math.abs(hash);
+      };
     
-    
-    
+      const handleAddToCart = async (product: Product) => {
+        if (!auth.user) {
+          console.error("User not authenticated");
+          return;
+        }
+      
+        console.log("Product being added to cart:", product);
+      
+        const existingCart = carts.find(
+          (cart) => cart.cust_id === auth.user.user_id && cart.Product_id === product.ProductID
+        );
+      
+        console.log("Existing cart:", existingCart);
+      
+        if (existingCart) {
+          const updatedCart: ShoppingCart = {
+            ...existingCart,
+            quantity: (existingCart.quantity ?? 0) + 1,
+          };
+          console.log("Updated cart:", updatedCart);
+          await updateCart(updatedCart);
+        } else {
+          const newCart: ShoppingCart = {
+            cart_id: generateCartID(auth.user.user_id, product.ProductID),
+            cust_id: auth.user.user_id,
+            Product_id: product.ProductID,
+            quantity: 1,
+          };
+          console.log("New cart:", newCart);
+          await createCart(newCart);
+        }
+      
+        console.log("Carts after adding product:", carts);
+      };
+
       const falseClickProduct = (product: Product) => {
         setSelectedProduct(product);
       };
@@ -328,6 +372,10 @@ const ShoppingCart: NextPage = () => {
         router.push('/CheckoutPage');
       };
 
+      const redirectToHome= () => {
+        router.push('/');
+      };
+
 
       const decreaseProductQuantity = async (ProductID: string, quantityToDecrease: number) => {
         const productToUpdate = products.find((product) => product.ProductID === ProductID);
@@ -364,14 +412,15 @@ const ShoppingCart: NextPage = () => {
         <div className="relative container mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-6">Your Shopping Cart.</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
-          {carts.map((cartItem) => {
+
+            {carts.map((cartItem) => {
               const product = products.find((item) => item.id === cartItem.productId);
               const quantity = cartItem ? cartItem.quantity : 0;
-
+      
               if (!product) return null;
-
+      
               return (
-                <div key={product.id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
+                <div key={cartItem.cart_id} className="bg-white p-0 rounded outline-hover-white shadow-lg hover:shadow-2xl">
                   <Image
                     src={`${product.url_link}`}
                     alt={product.Product_id}
@@ -380,80 +429,89 @@ const ShoppingCart: NextPage = () => {
                     className="rounded-t"
                     layout="fixed"
                   />
-                  <h2 className=" mt-2 text-xl font-bold mx-4">{product.p_name}</h2>
-                  <p className="text-gray-600  mx-4">Price: ${product.cost}</p>
+                  <h2 className="mt-2 text-xl font-bold mx-4">{product.p_name}</h2>
+                  <p className="text-gray-600 mx-4">Price: ${product.cost}</p>
                   <p className="text-gray-600 mx-4">Supplier: {product.supp}</p>
                   <p className="text-gray-600 mx-4 mb-4"></p>
                   <div className="flex justify-between mx-4 mb-4">
                     <button
                       className="bg-cougar-red text-white px-3 rounded font-semibold hover:bg-cougar-dark-red"
                       onClick={() => {
-                        const cartItemToDelete = carts.find((cart) => cart.productId === product.id);
-                        if (cartItemToDelete) {
-                          handleDeleteClickCart(cartItemToDelete.cart_id, product);
-                        }
+                        handleDeleteClickCart(cartItem.cart_id, product);
                       }}
                     >
                       Remove
                     </button>
                     <div className="quantity-select bg-cougar-gold font-semibold text-friendly-black3 pl-3 pr-2 py-1 rounded hover:bg-cougar-gold-dark">
-                      <label htmlFor="quantity" className="mr-2">QTY:</label>
-                      <select
-                        id="quantity"
-                        name="quantity"
-                        value={quantity} // Add this attribute
-                        className="quantity-select bg-cougar-gold text-friendly-black3 py-1 rounded hover:bg-white"
-                        onChange={(e) => handleQuantityChange(e, product)}
-                      >
-                      {[...Array(100)].map((_, i) => (
-                        <option key={i} value={i}>{i}</option>
-                      ))}
-
-                      </select>
+                      <button onClick={(event) => handleAddToCart(product)}>
+                        <label htmlFor="quantity" className="mr-2">QTY: {quantity}</label>
+                      </button>
                     </div>
                   </div>
                 </div>
               );
             })}
-      
+
+
+            
           </div>
-          
           <div className="fixed right-64 w-64 bg-white p-4 rounded-2xl shadow-lg">
             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
-      
             <ul>
               {carts.map((cartItem) => {
                 const product = products.find((item) => item.id === cartItem.productId);
                 const quantity = cartItem ? cartItem.quantity : 0;
-
+      
                 if (!product) return null;
-
+      
                 return (
-                  <li key={product.p_name} className="mb-2">
+                  <li key={cartItem.cart_id} className="mb-2">
                     {product.p_name}: {quantity} x ${product.cost}
                   </li>
                 );
               })}
             </ul>
-                        <hr className="my-4" />
+            <hr className="my-4" />
             <div className="flex justify-between font-bold mb-5">
               <span>Total Cost:</span>
-              <div>${totalCost.toFixed(2)}</div>
-              
+              <div className="">
+              ${(totalCost ? totalCost.toFixed(2) : 0)}
             </div>
+              
+            </div >
       
             <button
-                className="bg-cougar-teal text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-teal"
+                className="bg-cougar-teal text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-teal mb-3"
                 onClick={redirectToCheckout}
                 >
       
                 Proceed to Checkout
+              </button >
+
+              <button
+                className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-teal"
+                onClick={redirectToHome}
+                >
+      
+                Back
               </button >
           </div>
 
     </div>
   );
 };
+
+
+
+
+/*
+
+
+
+*/
+
+
+
 
 export default ShoppingCart;
 

@@ -18,9 +18,7 @@ const ManageOrders: React.FC = () => {
     const isLoading = !data && !error;
     const isError = error;
 
-    
-    const isLoading2 = !data && !error;
-    const isError2 = error;
+
 
 
     const updateProduct = async (selectedProduct: Order) => {
@@ -69,8 +67,8 @@ const ManageOrders: React.FC = () => {
   const useProductsHook2 = () => {
     const { data, error } = useSWR('/api/products', fetcher);
 
-    const isLoading = !data && !error;
-    const isError = error;
+    const isLoading2 = !data && !error;
+    const isError2 = error;
 
     const updateProduct2 = async (selectedProduct: Product) => {
       try {

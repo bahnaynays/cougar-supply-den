@@ -472,7 +472,9 @@ const ShoppingCart: NextPage = () => {
               })}
             </ul>
             <hr className="my-4" />
+
             <div className="flex justify-between font-bold mb-5">
+
               <span>Total Cost:</span>
               <div className="">
               ${(totalCost ? totalCost.toFixed(2) : 0)}
@@ -489,7 +491,7 @@ const ShoppingCart: NextPage = () => {
               </button >
 
               <button
-                className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-teal"
+                className="bg-cougar-red text-white px-3 py-1 rounded font-semibold hover:bg-cougar-dark-red"
                 onClick={redirectToHome}
                 >
       

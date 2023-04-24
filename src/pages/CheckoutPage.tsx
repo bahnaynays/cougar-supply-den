@@ -550,11 +550,16 @@ const CheckoutPage: NextPage = () => {
               })}
             </ul>
             <hr className="my-4" />
+
+
             <div className="flex justify-between font-bold mb-5">
               <span>Total Cost:</span>
-              <div>${totalCost.toFixed(2)}</div>
+              ${(totalCost ? totalCost.toFixed(2) : 0)}
               
             </div>
+
+
+            
 
             <button
                 className="bg-cougar-red text-white px-3 py-1 rounded mr-2 font-semibold hover:bg-cougar-dark-teal"
@@ -565,7 +570,7 @@ const CheckoutPage: NextPage = () => {
               </button >
 
             <button
-                className="bg-cougar-teal text-white px-3 py-1 rounded ml-5 font-semibold hover:bg-cougar-dark-teal "
+                className="bg-cougar-teal text-white px-3 py-1 rounded ml-5 font-semibold hover:bg-cougar-dark-red "
                 onClick={redirectToCheckout}
                 >
       

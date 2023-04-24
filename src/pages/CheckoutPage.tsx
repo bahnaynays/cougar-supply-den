@@ -329,10 +329,10 @@ const CheckoutPage: NextPage = () => {
       const [showAddModal, setShowAddModal] = useState(false);
       const [showModal, setShowModal] = useState(false);
 
-      const totalCost = (carts || []).reduce((sum, carts) => {
-        const product = products.find((item) => item.id === carts.ProductId);
+      const totalCost = (order || []).reduce((sum, order) => {
+        const product = products.find((item) => item.id === order.ProductId);
         if (!product) return sum;
-        return sum + (product.cost * carts.quantity);
+        return sum + (product.cost * order.quantity);
       }, 0);
     
     

@@ -46,7 +46,7 @@ database.
 
 ----------------------------------------------------------------------------------
 
-Inside the src folder:
+# Inside the src folder:
     - components folder: consists of UI Typescript files for sale and stock rports,
         sidebar interfaces, Admin and Customer interfaces.
 
@@ -67,3 +67,13 @@ Inside the src folder:
 
 
     The rest of the files are automatically implemented from frameworks we used, Node.js.
+    
+    ----------------------------------------------------------------------------------
+    
+    #Accessing Accounts:
+    Username: Admin 
+    Password: Admin 
+    
+    Username: Customer 
+    Password: Customer 
+    

@@ -185,8 +185,9 @@ const SalesReports: React.FC = () => {
               <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                 <ul className="list-disc space-y-2">
                   <li className="flex items-start">
-                    <span className="h-6 flex items-center sm:h-7">
-                      Sales Reports and such will go here.
+                    <span className="h-6 flex items-center text-sm sm:h-7">
+                    Product revenue bar graph comparisons data is extracted from the [dbo].PRODUCT and [dbo].SHOPPING_CART tables for calculations. 
+                    The calculation is made up of Product_id and quantity elements for each unique Product_id from [dbo].SHOPPING_CART with similar selling price from [dbo].PRODUCT and multiplies the quantity with the selling price
                     </span>
                   </li>
                 </ul>

@@ -369,7 +369,7 @@ const ShoppingCart: NextPage = () => {
       };
       
       const redirectToCheckout= () => {
-        router.push('/CheckoutPage');
+        router.push('/');
       };
 
       const redirectToHome= () => {

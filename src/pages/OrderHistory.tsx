@@ -34,7 +34,7 @@ const OrderHistory: NextPage = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1500); // Change the delay time here to make the page load slower or faster
+    }, 1200); // Change the delay time here to make the page load slower or faster
     return () => clearTimeout(timer);
   }, []);
     
